@@ -1,7 +1,7 @@
 ---
 title: "030 - Plastic hinging"
 description: Plastic hinging in a fix-fix girder under a point load is simulated using J2 plasticity.
-draft: false
+draft: true
 ---
 
 ![](img/e0030.png)

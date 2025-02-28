@@ -1,7 +1,7 @@
 ---
 title: "014 - Axial-torsional buckling"
 description: Simply supported channel, free to warp
-draft: false
+draft: true
 Downloads:
   Python: ["e0014.py"]
 ---

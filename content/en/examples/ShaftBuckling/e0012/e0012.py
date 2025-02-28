@@ -38,27 +38,23 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
 
     if "fiber" in section.lower():
         print(f"Section = Fiber; ", center)
-        if center == "C":
-            center = "centroid"
-        elif center == "V":
-            center = "shear-center-b"
-        elif center == "O":
-            center = None
-        else:
-            raise ValueError(f"Unknown {center = }")
 
         model.section("ShearFiber", sec, GJ=0)
 
-        for fiber in shape.fibers(warp=center):
+        for fiber in shape.fibers(center=center):
             y, z = fiber.location
             model.fiber(y, z, fiber.area, mat, fiber.warp[0], section=sec) #fiber.warp[1], section=sec)
 
     else:
         print("Section = Elastic")
-        cmm = shape.torsion.cmm()
+        shape.torsion._solution = shape.translate(center).torsion.solution()
         cnn = shape.torsion.cnn()
-        cnv = shape.torsion.cnv()
         cnm = shape.torsion.cnm()
+#       cnw = shape.torsion.cnw()
+        cnv = shape.torsion.cnv()
+        cmm = shape.torsion.cmm()
+        cww = shape.torsion.cww()
+        cmv = shape.torsion.cmv()
         cmw = shape.torsion.cmw()
         A = cnn[0,0]
         model.section("ElasticFrame", sec,
@@ -71,11 +67,15 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
                         Qz=cnm[2,0],
                         Iy=cmm[1,1],
                         Iz=cmm[2,2],
+                        Iyz=cmm[1,2],
                         J =shape.torsion.torsion_constant(),
+                        Cw= cww[0,0],
+#                       Rw= 0, #cnw[0,0], # this is pretty much always 0.0
                         Ry= cnv[1,0],
-                        Rz=-cnv[2,0],
+                        Rz= cnv[2,0],
+                        Sa= cmv[0,0],
                         Sy= cmw[1,0],
-                        Sz=-cmw[2,0]
+                        Sz= cmw[2,0]
         )
 
 
@@ -86,6 +86,8 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
         model.node(i, (x,0,0))
 
     model.fix(0,  (1,1,1,  1,1,1, int(warp_base in "pr")))
+    if warp_base == "r":
+        model.fix(nmn-1,  (0,0,0,  0,0,0, 1))
 
     for i in range(ne):
         start = i * (nen - 1)
@@ -95,20 +97,33 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
 
     return model, shape
 
-def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, render=False):
+def analyze(element, section, pattern="D", nen=2, warp_base="n", cpoint=None, render=False):
     ne = 20
     en = ne*(nen-1)
     if pattern in {"D", "node"}:
         # Top
         offset = ( 0,    15)
-    elif pattern == "C":
-        # Centroid
-        offset = ( 2.449, 0)
     elif pattern == "A":
         # Shear center
         offset = (-3.571, 0)
-    else:
+    elif pattern == "B":
         offset = (     0, 0)
+    elif pattern == "C":
+        # Centroid
+        offset = ( 2.449, 0)
+
+    o = np.array(offset)
+    if cpoint in {"D", "node"}:
+        # Top
+        center = ( 0,    15) - o
+    elif cpoint == "A":
+        # Shear center
+        center = (-3.571, 0) - o
+    elif cpoint == "B":
+        center = (     0, 0) - o
+    elif cpoint == "C":
+        # Centroid
+        center = ( 2.449, 0) - o
 
     model,shape = create_cantilever(ne, offset,
                                     center=center,
@@ -146,9 +161,9 @@ def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, re
                       elements=[ne]
         )
 
-    model.system('Umfpack')
-    model.integrator("LoadControl", Pmax/500)#, 8, Pmax/500, Pmax/2)
-    model.test("NormDispIncr", 1e-10, 50, 2)
+    model.system('BandGen')
+    model.integrator("LoadControl", Pmax/100, 5, Pmax/500, Pmax/10)
+    model.test("NormDispIncr", 1e-11, 50, 0)
 #   model.test('NormUnbalance',1e-6,10,1)
     model.algorithm("Newton")
     model.analysis("Static")
@@ -160,7 +175,7 @@ def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, re
     P = []
     i = 0
     x = [model.nodeCoord(node, 1) for node in model.getNodeTags()]
-    while model.getTime() < Pmax:
+    while model.getTime() <= Pmax:
         i += 1
         if render:
             motion.advance(time=model.getTime()*speed)
@@ -173,12 +188,14 @@ def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, re
 
         status = model.analyze(1)
 
-        if not i%100 or status != 0:
+        if not i%50 or status != 0 or model.getTime() >= Pmax:
             if warp_base != "n":
                 ampl = [model.nodeDisp(node,7) for node in model.getNodeTags()]
             else:
                 twist = [model.nodeDisp(node,4) for node in model.getNodeTags()]
                 ampl = np.gradient(twist, x)
+
+#           ampl[np.isclose(ampl, 0, atol=1e-8)] = 0.0
             ax_warp.plot(x, ampl)
 
 
@@ -191,7 +208,7 @@ def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, re
         fig, ax = plt.subplots()
         ax.set_xlabel(r"Displ, $v$")
         ax.set_ylabel("Load, $P$")
-        ax.set_xlim([None, 280])
+        ax.set_xlim([-100, 280])
         ax.set_ylim([0,   Pmax])
         ax.axvline(0, color='black', linestyle='-', linewidth=1)
         ax.axhline(0, color='black', linestyle='-', linewidth=1)
@@ -200,12 +217,13 @@ def analyze(element, section, pattern="D", nen=2, warp_base="n", center=None, re
         ax.plot(w, P, label="$w$")
         ax.legend()
 
-        name = f"{element[:5].lower()}-{pattern}-{center}-{warp_base}"
+        name = f"{pattern}-{cpoint}-{warp_base}-{section}-{element[:5].lower()}"
         fig.savefig(f"img/{name}-displacements.png")
 
+        ax_warp.set_xlim([0,  900])
+#       ax_warp.set_ylim([-0.009,  0.009])
         ax_warp.axvline(0, color='black', linestyle='-', linewidth=1)
         ax_warp.axhline(0, color='black', linestyle='-', linewidth=1)
-        ax_warp.set_xlim([0,  None])
         fg_warp.savefig(f"img/{name}-warping.png")
 
         if render:
@@ -218,8 +236,9 @@ if __name__ == "__main__":
     analyze(pattern = os.environ.get("Pattern", "D"),
             element = os.environ.get("Element", "ExactFrame"),
             section = os.environ.get("Section", "ShearFiber"),
-            nen=3,
-            center  = os.environ.get("Center", None),
+            nen=2,
+            render=False,
+            cpoint  = os.environ.get("Center", None),
             warp_base=os.environ.get("Warping", "n") # "f", "r", "n"
             )
 

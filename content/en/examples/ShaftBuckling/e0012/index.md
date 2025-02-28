@@ -1,6 +1,6 @@
 ---
 title: "012 - Asymmetric Section: Linear warping"
-draft: false
+draft: true
 bibliography: references.json
 description: |
   A transverse load induces twisting of a cantilever with an asymmetric channel section.

@@ -1,10 +1,11 @@
 ---
 title: "020 - Follower loading"
 bibliography: references.json
+description: This example demonstrates the simulation of follower loading applied to frame elements.
 downloads:
   Python: ["e0020.py"]
 render: e0020.glb
-draft: false
+draft: true
 ---
 
 This example demonstrates the simulation of *follower loading* applied to frame elements.
