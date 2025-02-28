@@ -11,14 +11,6 @@ downloads:
   Python: ["Example8.py", "render.py"]
 ---
 
-![alt text](image.png)
-
-In this example a simple problem in solid dynamics is considered. The
-structure is a cantilever beam modelled with three dimensional solid
-elements.
-
-For three dimensional analysis, a typical solid element is defined as a
-volume in three dimensional space. 
 Each node of the analysis has three displacement degrees of freedom. 
 Thus the model is defined with `ndm = 3` and `ndf = 3`.
 
@@ -37,13 +29,15 @@ model = ops.Model(ndm=3, ndf=3)
 {{% /tab %}}
 {{< /tabs >}}
 
-The finite element mesh is generated using the `block3D` command. The
-number of nodes in the local $x$-direction of the block is `nx`, the
-number of nodes in the local $y$-direction of the block is `ny` and the
-number of nodes in the local $z$-direction of the block is `nz`. The
-`block3D` generation nodes `{1,2,3,4,5,6,7,8}` are prescribed to define the
-three dimensional domain of the beam, which is of size
-$2 \times 2 \times 10$.
+The finite element mesh is generated using the `block3D` command. 
+The first three arguments, `nx`, `ny`, and `nz` specify the number of
+nodes to be generated in the $x$, $y$, and $z$ directions.
+For this example a mesh of $2 \times 2 \times 10$ elements is produced.
+The next two arguments specify from where to begin generating element and node tags.
+The sixth argument `element` is a string which selects the type of element to be generated,
+and the seventh argument `eleArgs` is a [tuple](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences) 
+of arguments to be passed to each element that is created.
+The final argument of the `block3D` command is a block specifying the location of up to 8 reference nodes.
 
 {{< tabs tabTotal="2" >}}
 {{% tab name="Tcl" %}}
@@ -89,13 +83,16 @@ all the nodes whose $z$-coordiate is $0.0$ have the boundary condition
 
 A solution algorithm of type Newton is used for the problem. The
 solution algorithm uses a ConvergenceTest which tests convergence on the
-norm of the energy increment vector. Five static load steps are
-performed.
+norm of the energy increment vector. 
+Five static load steps are performed.
 
-Subsequent to the static analysis, the wipeAnalysis and remove
-loadPatern commands are used to remove the nodal loads and create a new
-analysis. The nodal displacements have not changed. However, with the
-external loads removed the structure is no longer in static equilibrium.
+## Dynamics
+
+Following the static analysis, the `wipeAnalysis` and `remove` commands 
+are used to remove the nodal loads and create a new
+analysis. 
+The nodal displacements have not changed. 
+However, with the external loads removed the structure is no longer in static equilibrium.
 
 The integrator for the dynamic analysis if of type GeneralizedMidpoint
 with \(\alpha = 0.5\). This choice is uconditionally stable and energy
