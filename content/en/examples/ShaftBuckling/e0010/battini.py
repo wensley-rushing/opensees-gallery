@@ -2,7 +2,7 @@ import os
 import sys
 import veux
 import pandas as pd
-from steel import WideFlange
+from shapes import WideFlange
 import opensees.openseespy as ops_
 
 def render_null(model):
@@ -95,7 +95,6 @@ if __name__ == "__main__":
     ops.algorithm("Newton")
 
     ops.analysis('Static') #,'-noWarnings')
-    ops.print(json="model.json")
     if ops.analyze(1) != 0:
         print(f"Failed initial loading, time is {ops.getTime()}")
         render_null(ops)
