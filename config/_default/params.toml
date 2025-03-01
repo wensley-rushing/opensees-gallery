@@ -150,7 +150,7 @@
         width = 50
         vertical = false
     [sections.features]
-        title = "The bleeding edge of finite element modeling"
+        title = "Features"
         layout = "list"
         sort = "weight"
         reverse = false
