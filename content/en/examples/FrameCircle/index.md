@@ -65,6 +65,12 @@ $$\begin{array}{lcr}
 \end{array}
 $$
 
+Using the [`ElasticFrame`](file:///Users/claudio/online/OpenSeesDocumentation/build/html/user/manual/section/ElasticFrame.html) section this is defined as follows:
+
+```python
+model.section("ElasticFrame", tag, E=1e4, G=1e4, A=1, Iy=1e-2, Iz=1e-2, J=1e-2)
+```
+
 The analytic solution of the governing boundary value problem is given by: 
 
 $$\left\{
