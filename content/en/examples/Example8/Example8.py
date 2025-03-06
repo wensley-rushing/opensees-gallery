@@ -12,9 +12,6 @@
 # - free vibration analysis starting from static deflection
 #
 # Units: kips, in, sec
-#
-# Written: Andreas Schellenberg (andreas.schellenberg@gmail.com)
-# Date: September 2017
 
 # import the OpenSees Python module
 import opensees.openseespy as ops
@@ -84,8 +81,8 @@ model.load(nn, p, p, 0.0, pattern=1)
 # ------------------------
 
 # Load control with variable load steps
-#                            init  Jd  min   max
-model.integrator("LoadControl", 1.0, 1)
+#                              init
+model.integrator("LoadControl", 1.0)
 
 # Convergence test
 #                     tolerance maxIter displayCode
@@ -127,11 +124,6 @@ model.recorder("Node", "disp",
 
 model.recorder("Element", ("material", 1, "strains"),
                file="out/Elem2.out", time=True, eleRange=(1, 10))
-
-
-# --------------------------
-# End of recorder generation
-# --------------------------
 
 
 # ---------------------------------------
