@@ -373,8 +373,8 @@ loadConst -time 0.0
 Mass terms are added to nodes 3 and 4. A new uniform
 excitation load pattern is created. The excitation acts in the
 horizontal direction and reads the acceleration record and time interval
-from the file `ARL360.g3`. The file `ARL360.g3` is created from the PEER
-Strong Motion Database (http://peer.berkeley.edu/smcat/) record
+from the file `ARL360.g3`. The file `ARL360.g3` is created from the 
+[PEER Strong Motion Database](https://ngawest2.berkeley.edu/) record
 `ARL360.at2` using the Tcl procedure `ReadSMDFile` contained in the file
 `ReadSMDFile.tcl`.
 
