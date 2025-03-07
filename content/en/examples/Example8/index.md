@@ -29,7 +29,7 @@ model = ops.Model(ndm=3, ndf=3)
 {{% /tab %}}
 {{< /tabs >}}
 
-The finite element mesh is generated using the `block3D` command. 
+The finite element mesh is generated using the [`block3D`](https://opensees.stairlab.io/user/manual/meshing/block3D.html) method. 
 The first three arguments, `nx`, `ny`, and `nz` specify the number of
 nodes to be generated in the $x$, $y$, and $z$ directions.
 For this example a mesh of $2 \times 2 \times 10$ elements is produced.
@@ -71,8 +71,8 @@ model.block3D(nx, ny, nz, 1, 1, Brick, 1, {
 {{< /tabs >}}
 
 Two possible brick elements can be used for the analysis. These may be
-created using the terms `StdBrick` or `BbarBrick`. An elastic isotropic
-material is used.
+created using either `StdBrick` or `BbarBrick`. 
+An elastic isotropic material is used.
 
 For initial gravity load analysis, a single load pattern with a linear
 time series and a single nodal loads is used.
@@ -89,8 +89,7 @@ Five static load steps are performed.
 ## Dynamics
 
 Following the static analysis, the `wipeAnalysis` and `remove` commands 
-are used to remove the nodal loads and create a new
-analysis. 
+are used to remove the nodal loads and create a new analysis. 
 The nodal displacements have not changed. 
 However, with the external loads removed the structure is no longer in static equilibrium.
 
