@@ -1,7 +1,7 @@
 ---
 title: Structural Matrices
 description: This example illustrates how to construct a stiffness matrix from OpenSees
-draft: false
+draft: true
 ---
 
 ![Cantilever beam with lumped mass](image.png)
@@ -11,7 +11,7 @@ A massless cantilever beam of length $L$ supports two lumped masses $m L / 2$ an
 
 The beam consists of two beam elements and three nodes. The left node is constrained and each of the other two nodes has two DOFs (Fig. E9.4b). Thus, the displacement vector $\mathbf{u}=\left\langle\begin{array}{llll}u_1 & u_2 & u_3 & u_4\end{array}\right\rangle^T$.
 
-{{< fold single_span.py python >}}
+{{< fold "single_span.py" python >}}
 
 ### Determine the mass matrix. 
 With the DOFs defined at the locations of the lumped masses, the diagonal mass matrix is given by Eq. (9.2.10):
@@ -66,9 +66,13 @@ $$
 \mathbf{m}_{t t}=\left[\begin{array}{ll}
 m L / 4 & \\
 & m L / 2
-\end{array}\right] \quad \mathbf{p}_t(t)=\left\langle\begin{array}{ll}
-p_1(t) & \left.p_2(t)\right\rangle^T
-\end{array}\right.
+\end{array}\right] 
+\quad 
+\text{ and }
+\quad
+\bm{p}_t(t)=\left(\begin{array}{ll}
+p_1(t) & p_2(t)
+\end{array}\right)^T
 $$
 
 
