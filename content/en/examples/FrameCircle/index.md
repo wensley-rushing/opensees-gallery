@@ -50,7 +50,8 @@ $$
 
 where the reference magnitude $M = \lambda 2 \pi EI/L$ varies with $\lambda=1/8, \ 1$, and $2$ for
 different cases causing the cantilever to loop over itself $\lambda$
-times. The following parameters are used: 
+times. 
+The following parameters are used: 
 
 $$\begin{array}{lcr}
     L  &=&    10\hphantom{..}    \\ % ,& A  &= 1 \\
@@ -65,7 +66,7 @@ $$\begin{array}{lcr}
 \end{array}
 $$
 
-Using the [`ElasticFrame`](file:///Users/claudio/online/OpenSeesDocumentation/build/html/user/manual/section/ElasticFrame.html) section this is defined as follows:
+Using the [`ElasticFrame`](https://opensees.stairlab.io/user/manual/section/ElasticFrame.html) section this is defined as follows:
 
 ```python
 model.section("ElasticFrame", tag, E=1e4, G=1e4, A=1, Iy=1e-2, Iz=1e-2, J=1e-2)
