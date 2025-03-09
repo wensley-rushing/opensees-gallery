@@ -14,10 +14,9 @@ downloads:
 
 ![Shallow arch](img/ClarkeHancock.png)
 
-The files for this example are:
-- [`arch.py`](./arch.py) - This file contains the function `arch_model` which is used construct the model
-- [`IncrementalAnalysis.ipynb`](IncrementalAnalysis.ipynb) - This is the current Jupyter notebook file
+{{% ipynb "IncrementalAnalysis.ipynb" %}}
+
+The source code for creating the arch structure is given below:
 
 {{< fold arch.py >}}
 
-{{% ipynb "IncrementalAnalysis.ipynb" %}}
