@@ -66,7 +66,7 @@ $$\begin{array}{lcr}
 \end{array}
 $$
 
-Using the [`ElasticFrame`](https://opensees.stairlab.io/user/manual/section/ElasticFrame.html) section this is defined as follows:
+Using the [`ElasticFrame`](https://xara.so/user/manual/section/ElasticFrame.html) section this is defined as follows:
 
 ```python
 model.section("ElasticFrame", tag, E=1e4, G=1e4, A=1, Iy=1e-2, Iz=1e-2, J=1e-2)
@@ -137,8 +137,8 @@ analysis uses both 2-node and 4-node elements. For the sake of brevity,
 the results are reported only for the variants using the same
 parameterization as the wrapped element's interpolation.
 
-In order to simulate this problem with OpenSees the [`ExactFrame`](https://opensees.stairlab.io/user/manual/model/elements/frame/ExactFrame.html) element
-formulation is used. This element requires a shear-deformable section, like [`ShearFiber`](https://opensees.stairlab.io/user/manual/section/ShearFiber.html).
+In order to simulate this problem with OpenSees the [`ExactFrame`](https://xara.so/user/manual/model/elements/frame/ExactFrame.html) element
+formulation is used. This element requires a shear-deformable section, like [`ShearFiber`](https://xara.so/user/manual/section/ShearFiber.html).
 
 ## References
 

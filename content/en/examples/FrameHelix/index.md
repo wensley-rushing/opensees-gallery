@@ -29,7 +29,7 @@ Three common variations of this problem are considered with the following proper
 \end{array}
 \]
 
-The [`ExactFrame`](https://opensees.stairlab.io/user/manual/model/elements/frame/ExactFrame.html) element formulation from OpenSees is employed.
+The [`ExactFrame`](https://xara.so/user/manual/model/elements/frame/ExactFrame.html) element formulation from OpenSees is employed.
 
 ### Simple Perturbation
 

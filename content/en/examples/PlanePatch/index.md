@@ -36,7 +36,7 @@ $$
 \sigma_{\alpha \beta}&=\frac{E}{(1+\nu)}\left(\epsilon_{\alpha \beta}+\frac{\nu}{(1-2 \nu)}\left(\epsilon_{\gamma \gamma}\right) \delta_{\alpha \beta}\right) \\
 \end{aligned}
 $$
-This condition is enforced by the [PlaneStrain](https://opensees.stairlab.io/user/manual/section/PlaneStrain.html) section:
+This condition is enforced by the [PlaneStrain](https://xara.so/user/manual/section/PlaneStrain.html) section:
 {{< tabs tabTotal="2" >}}
 {{% tab name="Tcl" %}}
 ```tcl

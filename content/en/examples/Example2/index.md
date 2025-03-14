@@ -126,7 +126,7 @@ is performed for the axial load, then the integrator is changed to
 DisplacementControl to impose nodal displacements, which map directly to
 section deformations. 
 A reference moment of `1.0` is defined in a `Linear` time series. 
-For this reference moment, the [`DisplacementControl`](https://opensees.stairlab.io/user/manual/analysis/integrator/DisplacementControl.html)
+For this reference moment, the [`DisplacementControl`](https://xara.so/user/manual/analysis/integrator/DisplacementControl.html)
 integrator will determine the load factor needed to apply the imposed
 displacement.
 

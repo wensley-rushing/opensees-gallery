@@ -28,7 +28,7 @@ model -ndm 2 -ndf 2
 {{% /tab %}}
 {{< /tabs >}}
 
-As with the example of a [tapered beam](../planetaper/), the [ElasticIsotropic](https://opensees.stairlab.io/user/manual/material/ndMaterials/ElasticIsotropic.html) material model is employed.
+As with the example of a [tapered beam](../planetaper/), the [ElasticIsotropic](https://xara.so/user/manual/material/ndMaterials/ElasticIsotropic.html) material model is employed.
 
 ```python
 E = 4e3

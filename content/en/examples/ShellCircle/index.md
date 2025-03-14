@@ -27,7 +27,7 @@ model -ndm 3 -ndf 6
 {{% /tab %}}
 {{< /tabs >}}
 
-Next we create an [`ElasticShell`](https://opensees.stairlab.io/user/manual/section/ElasticShell.html) section.
+Next we create an [`ElasticShell`](https://xara.so/user/manual/section/ElasticShell.html) section.
 
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python (RT)" %}}
@@ -57,7 +57,7 @@ artist.draw_surfaces()
 artist.draw_outlines()
 ```
 
-Now we proceed to [`analyze`](https://opensees.stairlab.io/user/manual/analysis/analyze.html):
+Now we proceed to [`analyze`](https://xara.so/user/manual/analysis/analyze.html):
 ```python
 u = []
 load = []

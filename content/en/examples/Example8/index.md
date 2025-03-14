@@ -29,7 +29,7 @@ model = ops.Model(ndm=3, ndf=3)
 {{% /tab %}}
 {{< /tabs >}}
 
-The finite element mesh is generated using the [`block3D`](https://opensees.stairlab.io/user/manual/meshing/block3D.html) method. 
+The finite element mesh is generated using the [`block3D`](https://xara.so/user/manual/meshing/block3D.html) method. 
 The first three arguments, `nx`, `ny`, and `nz` specify the number of
 nodes to be generated in the $x$, $y$, and $z$ directions.
 For this example a mesh of $2 \times 2 \times 10$ elements is produced.

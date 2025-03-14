@@ -42,7 +42,7 @@ model = ops.Model(ndm=3, ndf=6)
 
 The shell element is constructed using the `ShellMITC4` formulation. 
 An elastic membrane-plate material section model is constructed using the `section`
-command and the [`"ElasticShell"`](https://opensees.stairlab.io/user/manual/section/ElasticShell.html) formulation. 
+command and the [`"ElasticShell"`](https://xara.so/user/manual/section/ElasticShell.html) formulation. 
 In this case, the elastic modulus $E = 3.0e3$, Poisson's ratio $\nu =  0.25$, the thickness $h = 1.175$
 and the mass density per unit volume $\rho = 1.27$
 
@@ -61,7 +61,7 @@ section ElasticShell  1   3.0e3  0.25  1.175  1.27
 {{% /tab %}}
 {{< /tabs >}}
 
-A mesh is generated using the [`surface()`](https://opensees.stairlab.io) function. The
+A mesh is generated using the [`surface()`](https://xara.so) function. The
 number of nodes in the local $x$-direction of the block is `nx` and the
 number of nodes in the local $y$-direction of the block is `ny`. 
 
@@ -101,7 +101,7 @@ surface = model.surface((nx, ny),
 The `surface` function generates nodes with tags `{1,2,3,4, 5,7,9}`.
 
 
-Boundary conditions are applied using the [`fixZ`](https://opensees.stairlab.io/user/manual/model/sp_constraint/fixX.html) command. In this case,
+Boundary conditions are applied using the [`fixZ`](https://xara.so/user/manual/model/sp_constraint/fixX.html) command. In this case,
 all the nodes whose $z$-coordiate is $0.0$ have the boundary condition
 `{1,1,1, 0,1,1}`: all degrees-of-freedom are fixed except rotation about
 the x-axis, which is free. 

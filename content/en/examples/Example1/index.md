@@ -77,7 +77,7 @@ node 4  72.0 96.0;
 
 The restraints are now defined at the nodes with reactions (ie, nodes `1`, `2`, and `3`).
 The restraints at the nodes with reactions (ie, nodes `1`, `2`, and `3`)
-are then defined. This is done with the [`fix`](https://opensees.stairlab.io/user/manual/model/nodes/fix.html)  method, whose first argument
+are then defined. This is done with the [`fix`](https://xara.so/user/manual/model/nodes/fix.html)  method, whose first argument
 is an integer node tag and second argument a tuple containing a `1` or `0`
 for degree of freedom at the node. 
 
@@ -174,7 +174,7 @@ set loads {4 100 -50}
 {{% /tab %}}
 {{< /tabs >}}
 
-We then add a [`"Plain"`](https://opensees.stairlab.io/user/manual/model/pattern/plainPattern.html) load pattern to the model with these loads, 
+We then add a [`"Plain"`](https://xara.so/user/manual/model/pattern/plainPattern.html) load pattern to the model with these loads, 
 and use the `"Linear"` option
 to specify that it should be increased linearly with each new load step.
 {{< tabs tabTotal="2" >}}
@@ -217,7 +217,7 @@ pattern Plain 1 "Linear" {
 ## Analysis
 
 Next we configure that analysis procedure.
-The model is linear, so we use the [`Linear` algorithm](https://opensees.stairlab.io/user/manual/analysis/algorithm/LinearAlgorithm.html). 
+The model is linear, so we use the [`Linear` algorithm](https://xara.so/user/manual/analysis/algorithm/LinearAlgorithm.html). 
 
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}
@@ -234,7 +234,7 @@ algorithm Linear;
 
 Even though the solution is linear, we have to select a procedure for
 applying the load, which is called an `Integrator`. 
-For this problem, the [`LoadControl` integrator](https://opensees.stairlab.io/user/manual/analysis/integrator/LoadControl.html) is selected, which
+For this problem, the [`LoadControl` integrator](https://xara.so/user/manual/analysis/integrator/LoadControl.html) is selected, which
 advances the solution by incrementing the load factor by `1.0` each time the `analyze` command is called.
 
 {{< tabs tabTotal="2" >}}
@@ -273,7 +273,7 @@ analysis Static;
 {{% /tab %}}
 {{< /tabs >}}
 
-Finally, one analysis step is performed by invoking [`analyze`](https://opensees.stairlab.io/user/manual/analysis/analyze.html):
+Finally, one analysis step is performed by invoking [`analyze`](https://xara.so/user/manual/analysis/analyze.html):
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}
 ```python
@@ -287,7 +287,7 @@ analyze 1
 {{% /tab %}}
 {{< /tabs >}}
 
-When the analysis is complete the state of node `4` obtained using [`nodeDisp`](https://opensees.stairlab.io/user/manual/output/nodeDisp.html) and printed to the screen:
+When the analysis is complete the state of node `4` obtained using [`nodeDisp`](https://xara.so/user/manual/output/nodeDisp.html) and printed to the screen:
 
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}

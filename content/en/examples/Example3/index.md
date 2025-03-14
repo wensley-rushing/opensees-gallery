@@ -311,7 +311,7 @@ held constant.
 A new load pattern with a linear time series and horizontal loads acting at nodes `3` and `4` is then added to the model.
 
 The static analysis used to perform the gravity load analysis is 
-modified to use the [`DisplacementControl`](https://opensees.stairlab.io/user/manual/analysis/integrator/DisplacementControl.html) integrator. 
+modified to use the [`DisplacementControl`](https://xara.so/user/manual/analysis/integrator/DisplacementControl.html) integrator. 
 At each new step
 in the analysis the integrator will determine the load increment necessary to increment the horizontal displacement at node `3` by `0.1` inches. 
 `60` analysis steps are performed in this new analysis.
