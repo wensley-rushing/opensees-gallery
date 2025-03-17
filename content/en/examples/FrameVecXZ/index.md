@@ -1,5 +1,5 @@
 ---
-title: Frame orientations
+title: Orienting frames in 3D
 description: This example demonstrates how to orient beam elements in 3D. 
 thumbnail: img/examples/vecxz.png
 downloads:

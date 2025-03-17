@@ -201,7 +201,8 @@ analysis Static
 analyze 10
 
 # Print out the state of nodes 3 and 4
-#print node 3 4
+print -node 3 4
 
 # Print out the state of element 1
 # print ele 1 2 3
+#
