@@ -13,6 +13,7 @@ The objective of this example is to demonstrate how to orient beam elements in 3
 The model we'll build is a simple 3-element portal frame with wide-flange sections. 
 Only certain relevant pieces of code will be shown in detail, but the full example script can
 be downloaded from the link above.
+In order to cover a wide range of cases, we'll orient the first column, element `1`, such that the strong axis of it's section bends *outside* the plane of the portal, the strong axis of the second column, element `3`, will resist bending *inside* the portal plane (See the image above).
 We'll build two variations of the model; one where the 2nd coordinate is vertical, and another
 with the 3rd coordinate vertical.
 For the first case with \(X_2\) vertical we have:
@@ -37,8 +38,9 @@ model.geomTransf("Linear", 1, (1, 0, 0))
 model.geomTransf("Linear", 2, (0, 0, 1))
 model.geomTransf("Linear", 3, (0,-1, 0))
 ```
+
 Everything else is identical for both cases. The material is a simple
-*ElasticIsotropic* model and for the section we'll use the `shps` package
+*ElasticIsotropic* formulation and for the section we'll use the `shps` package
 to build a fiber discretization of a wide-flange:
 
 ```python

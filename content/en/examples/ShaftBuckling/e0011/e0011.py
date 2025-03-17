@@ -1,5 +1,5 @@
 # Test of the warping DOF
-#
+# Linear 7-DOF analysis of a cantilever subjected to a torque
 import os
 import sys
 
@@ -24,7 +24,7 @@ def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
 
     L  = 240
     ne =  5 # 20
-    nen = 3
+    nen = 2
     nn = ne*(nen-1)+1
 
     model = ops.Model(ndm=3, ndf=7)
@@ -68,7 +68,7 @@ def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
         model.section("ShearFiber", 1, GJ=0)
         for fiber in shape.fibers():
             y, z = fiber.location
-            model.fiber(y, z, fiber.area, mat, fiber.warp[0], [0,0,0], [0,0,0], section=1)
+            model.fiber(y, z, fiber.area, warp=[fiber.warp[0], [0,0,0], [0,0,0]], material=mat, section=1)
 
 
     model.geomTransf("Linear", 1, (0,0,1))
@@ -101,13 +101,16 @@ if __name__ == "__main__":
         end = len(model.getNodeTags()) - 1
 
         # Render
-        if case == "c":
-            artist = veux.create_artist(model,model_config=dict(
-                                        extrude_outline=shape,
-                                        section_warping=shape.torsion.model.create_handle(shape.torsion.solution())
-                                        ))
-            artist.draw_surfaces()
-            artist.draw_outlines()
+        if case == "b":
+            artist = veux.create_artist(model,
+                                        model_config=dict(
+                                            extrude_outline=shape,
+                                            section_warping=shape.torsion.model.create_handle(shape.torsion.solution())
+                                        )
+                                        )
+            # artist.draw_surfaces()
+            # artist.draw_sections()
+            # artist.draw_outlines()
             motion = Motion(artist)
         else:
             motion = None
@@ -151,6 +154,13 @@ if __name__ == "__main__":
                 label=case
         )
 
+        if motion is not None:
+            motion.add_to(artist.canvas)
+            if len(sys.argv) > 1:
+                artist.save(sys.argv[1])
+            else:
+                veux.serve(artist)
+
     G = 11.2e3
     E = 29e3
     J = shape.torsion.torsion_constant()
@@ -176,19 +186,8 @@ if __name__ == "__main__":
     ax.legend()
     ax2.legend()
 
+    fig.savefig("img/e0011.png")
     plt.show()
-
-    plt.show()
-    plt.savefig("img/e0011.png")
-
-    if motion is not None:
-        motion.add_to(artist.canvas)
-        if len(sys.argv) > 1:
-            artist.save(sys.argv[1])
-        else:
-            veux.serve(artist)
-
-
 
     # artist.draw_outlines(state=model.nodeDisp)
 #   veux.serve(artist)

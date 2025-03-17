@@ -31,7 +31,8 @@ def create_girder(element, shape, fy):
     model.section("ShearFiber", 1, GJ=0)
     for fiber in shape.fibers():
         y, z = fiber.location
-        model.fiber(y, z, fiber.area, mat, fiber.warp[0], [0,0,0], [0,0,0],  section=1)
+        # TODO: Remove warping for simplicity
+        model.fiber(y, z, fiber.area, material=mat, warp=[fiber.warp[0], [0,0,0], [0,0,0]],  section=1)
 
     model.geomTransf("Linear", 1, (0,0,1))
     model.element(element, 1, (10,20), section=1, transform=1)

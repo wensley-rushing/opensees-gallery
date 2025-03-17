@@ -58,8 +58,7 @@ def create_cantilever(element, section):
         model.section("ShearFiber", 1, GJ=0)
         for fiber in shape.fibers():
             y, z = fiber.location
-            model.fiber(y, z, fiber.area, mat, fiber.warp[0], [0,0,0], [0,0,0], section=1)
-
+            model.fiber(y, z, fiber.area, material=mat, warp=[fiber.warp[0], [0,0,0], [0,0,0]], section=1)
 
     model.geomTransf("Linear", 1, (0,0,1))
 

@@ -14,6 +14,8 @@ The cantilever beam depicted above is investigated; first under the
 action of a point moment $\boldsymbol{M}$, then a point force $F \, \mathbf{E}_3$ at its free end $\xi=L$. 
 The reference curve of the reference configuration is given by $\boldsymbol{x}_0(\xi) = \xi\,\mathbf{E}_1$. 
 
+In order to simulate this problem with OpenSees the [`ExactFrame`](https://xara.so/user/manual/model/elements/frame/ExactFrame.html) element
+formulation is used. This element requires a shear-deformable section, like [`ShearFiber`](https://xara.so/user/manual/section/ShearFiber.html).
 
 ## End Moment
 
@@ -66,7 +68,7 @@ $$\begin{array}{lcr}
 \end{array}
 $$
 
-Using the [`ElasticFrame`](https://xara.so/user/manual/section/ElasticFrame.html) section this is defined as follows:
+Using the [`ElasticFrame`](https://xara.so/user/manual/section/ElasticFrame.html) section this is added to a [`Model`](https://xara.so/user/manual/model/model_class.html) as follows:
 
 ```python
 model.section("ElasticFrame", tag, E=1e4, G=1e4, A=1, Iy=1e-2, Iz=1e-2, J=1e-2)
@@ -103,7 +105,7 @@ For $n=3$-node elements, the results match the analytic solution up to the repor
 </figure>
 <figcaption>Deformed configuration of cantilever beam under two moment magnitudes.</figcaption>
 
-![](img/displacement.png)
+![Tip displacements](img/displacement.png)
 
 ## End Force
 
@@ -136,9 +138,6 @@ functions and accounting for flexural and shear deformations. The
 analysis uses both 2-node and 4-node elements. For the sake of brevity,
 the results are reported only for the variants using the same
 parameterization as the wrapped element's interpolation.
-
-In order to simulate this problem with OpenSees the [`ExactFrame`](https://xara.so/user/manual/model/elements/frame/ExactFrame.html) element
-formulation is used. This element requires a shear-deformable section, like [`ShearFiber`](https://xara.so/user/manual/section/ShearFiber.html).
 
 ## References
 
