@@ -96,8 +96,8 @@ def create_column(boundary="pin-pin", elem_data=None, ndm=2):
 
     elem_type  = elem_data.get("type",      "forceBeamColumnCBDI")
     geom_type  = elem_data.get("transform", "Corotational")
-    use_shear  = elem_data.get("shear", False)
-    kinematics = elem_data.get("order", 0)
+    use_shear  = elem_data.get("shear",     False)
+    kinematics = elem_data.get("order",     0)
 
     E  = 29000.0
     G =  11200.0
@@ -164,7 +164,8 @@ def create_column(boundary="pin-pin", elem_data=None, ndm=2):
         model.element(elem_type, i, (i, i+1),
                       section=sec_tag,
                       transform=geo_tag,
-                      order=kinematics)
+                      order=kinematics,
+                      shear=int(use_shear))
 
 
     # Define loads
