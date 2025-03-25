@@ -1,6 +1,6 @@
 ---
 title: Compiling
-description: Compiling your own version of OpenSees.
+description: Compiling your own version of xara.
 date: 2024-08-14
 aliases:
   - "/docs/getting-started/compiling/"
@@ -11,11 +11,10 @@ layout: docs
 
 ## Dependencies
 
-Compiling OpenSees requires the following software to be installed on your local machine:
-
+The first step for compiling *xara* is to download some basic dependencies.
 The primary system dependencies required for compiling are LAPACK/BLAS and Tcl.
 Packages providing these libraries are listed below for various package
-management ecosystems.
+management ecosystems. Anaconda is recommended for those that are not familiar with compiling.
 
 > [!NOTE]
 > When building in an Anaconda environment, you should install 
@@ -78,19 +77,19 @@ conda install -c conda-forge fortran-compiler cxx-compiler c-compiler openblas o
 1. Clone the package repository:
 
    {{< command >}}
-   git clone https://github.com/claudioperez/OpenSeesRT
+   git clone https://github.com/peer-open-source/xara
    {{< /command >}}
 
 2. install *run-time* dependencies. These are the libraries that will be needed 
    in order to use OpenSees. To install these, run:
 
    {{< command >}}
-   python -m pip install opensees
+   python -m pip install xara
    {{< /command >}}
 
 
 2. Install *compile-time* dependencies; see **Dependencies** below. These dependencies are only
-   needed for the compilinf process.
+   needed for the compiling process.
 
 {{< button collapse="collapse-1" outline=true color="secondary" icon="fab windows" order="first" size="sm" class="mb-4" >}}
     Windows installation notes
