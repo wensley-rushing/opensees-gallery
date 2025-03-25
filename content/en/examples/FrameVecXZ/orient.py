@@ -1,12 +1,10 @@
 import xara
 from opensees.units.fps import foot, inch
 import veux
-from shps.shapes import WideFlange, Angle
-from veux.utility.alpha_shape import alpha_shape
+from shps.shapes import WideFlange
 
-def create_angle(vertical = 2):
+def create_portal(vertical = 2):
 
-    # shape = WideFlange(d=8*inch, b=6.5*inch, t=0.28*inch)
     shape = WideFlange(d=8*inch, b=6.5*inch, tw=0.5*inch, tf=0.5*inch)
 
     height = 6*foot
@@ -43,13 +41,14 @@ def create_angle(vertical = 2):
     model.element("MixedFrame", 3, (3,4), section=1, transform=2) # girder
     model.element("MixedFrame", 4, (4,1), section=1, transform=3) # column
 
-    artist = veux.create_artist(model, vertical=vertical)
-    artist.draw_origin()
-    artist.draw_sections()
+    if False:
+        artist = veux.create_artist(model, vertical=vertical)
+        artist.draw_origin()
+        artist.draw_sections()
 
-    artist.draw_axes(extrude=True)
-    artist.save("orient.glb")
-    veux.serve(artist, viewer="three-170", port=8080)
+        artist.draw_axes(extrude=True)
+        artist.save("orient.glb")
+        veux.serve(artist, viewer="three-170", port=8080)
 
 if __name__ == "__main__":
-    create_angle(vertical=3)
+    create_portal(vertical=3)
