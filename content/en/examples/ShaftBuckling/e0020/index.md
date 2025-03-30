@@ -5,21 +5,21 @@ description: This example demonstrates the simulation of follower loading applie
 downloads:
   Python: ["e0020.py"]
 render: e0020.glb
-draft: true
+draft: false
 ---
 
 This example demonstrates the simulation of *follower loading* applied to frame elements.
 Our model is a basic cantilever composed of `ne`, `ExactFrame` elements.
 
-In order to define the follower loading, we first add a [`Plain`](https://opensees.stairlab.io/user/manual/model/pattern/plainPattern.html)
-load pattern to the current [`Model`](https://opensees.stairlab.io/user/manual/model/model_class.html) instance,
+In order to define the follower loading, we first add a [`Plain`](https://xara.so/user/manual/model/pattern/plainPattern.html)
+load pattern to the current [`Model`](https://xara.so/user/manual/model/model_class.html) instance,
 labeled with the tag `1` and scaled in time by a `Linear` time series:
 
 ```python
     model.pattern("Plain", 1, "Linear")
 ```
 
-Next we add a [`FrameLoad`](https://opensees.stairlab.io/user/manual/model/elements/frame/FrameLoad.html)
+Next we add a [`FrameLoad`](https://xara.so/user/manual/model/elements/frame/FrameLoad.html)
 to this pattern, applied to the element with tag `ne` (ie, the last element).
 
 ```python

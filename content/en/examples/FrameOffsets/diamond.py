@@ -1,3 +1,15 @@
+"""
+               ^ P
+               |
+               .<|o
+             .
+           .
+   y ^   .
+     | .
+    _._ ---> x
+    o o
+
+"""
 import opensees.openseespy as ops
 import numpy as np
 import veux
