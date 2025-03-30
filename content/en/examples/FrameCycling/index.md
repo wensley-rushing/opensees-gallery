@@ -37,18 +37,15 @@ The intent of this example is to show how to properly model inelastic beam-colum
 ## Model Generation
 
 - The column is modeled using either force-based or displacement-based elements.
-- The column height <code>H</code> is 96 inches, and the diameter <code>D</code> is 24 inches.
-- The clear cover of concrete <code>clearCover</code> is 0.75 inches.
+- The column height <code>H</code> is 96 inches
 
 ```python
 import xara
+
 # Create a 2D model with 3 DOFs per node
 model = xara.Model(ndm=2, ndf=3)
 
-# Input parameters
 H = 96.0 * inch  # Column height
-D = 24.0 * inch  # Column diameter
-clearCover = 0.75 * inch  # Clear cover of concrete
 
 # Define nodes
 model.node(1, (0.0, 0.0))
@@ -108,7 +105,13 @@ $$
 
 ### Section
 
+- The diameter <code>D</code> is 24 inches.
+- The clear cover of concrete <code>clearCover</code> is 0.75 inches.
+
 ```python
+D = 24.0 * inch  # Column diameter
+clearCover = 0.75 * inch  # Clear cover of concrete
+
 theta = 360.0 / numBars
 model.section("fiberSec", secnTag, GJ=1e8)
 # Core patch
@@ -140,6 +143,12 @@ for i in range(ne):
 ### Gravity
 
 ### Cycling
+
+```python
+# Define recorders for displacement and force
+model.recorder("Node", "disp", "-time", file="out/Disp.out", node=ne+1, dof=1)
+model.recorder("Node", "reaction", "-time", file="out/Force.out", node=1, dof=1)
+```
 
 ## Resources
 

@@ -5,6 +5,7 @@
 # Written: Vesna Terzic (vesna@berkeley.edu)
 # Created: 12/2011
 #
+import os
 from math import sqrt, pi
 import opensees.openseespy as ops
 import matplotlib.pyplot as plt
@@ -170,19 +171,9 @@ def lehman_section(model, D, clearCover):
     # Aggregate shear to the RC section
     secTag = secnTag + 1
     model.section("Aggregator", secTag, steelTag + 6, "Vy", "-section", secnTag)
-    return secTag 
+    return secTag
 
-if __name__ == "__main__":
-    # Set element type (force-based = 1, displacement-based = 2)
-    eleType = 1
-
-    # Number of finite elements and integration points per element
-    if eleType == 1:
-        ne = 1
-        nIP = 5
-    elif eleType == 2:
-        ne = 4
-        nIP = 3
+def create_column(ne, nIP, element):
 
     # Create a 2D model with 3 DOFs per node
     model = ops.Model(ndm=2, ndf=3)
@@ -211,11 +202,14 @@ if __name__ == "__main__":
     model.geomTransf("Corotational", transfTag)
 
     for i in range(ne):
-        if eleType == 1:
-            model.element("forceBeamColumn", i + 1, (i + 1, i + 2), nIP, secTag, transfTag)
-        elif eleType == 2:
-            model.element("dispBeamColumn", i + 1, (i + 1, i + 2), nIP, secTag, transfTag)
+        model.element(element, i + 1, (i + 1, i + 2), nIP, secTag, transfTag)
 
+    return model
+
+
+def analyze_column(ne, nIP, eleType):
+
+    model = create_column(ne, nIP, eleType)
 
     # Define Gravity Load
     IDctrlNode = ne + 1
@@ -268,8 +262,8 @@ if __name__ == "__main__":
     model.sp(IDctrlNode, IDctrlDOF, 1.0, pattern=2)
 
     # Define recorders for displacement and force
-    model.recorder("Node", "disp", "-file", "out/Disp.out", "-time", "-node", ne + 1, dof=1)
-    model.recorder("Node", "reaction", "-file", "out/Force.out", "-time", "-node", 1, dof=1)
+    model.recorder("Node", "disp", "-time", file="out/_disp.out", node=ne+1, dof=1)
+    model.recorder("Node", "reaction", "-time", file="out/_force.out", node=1, dof=1)
 
     # Cyclic analysis
     model.constraints("Penalty", 1.0e14, 1.0e14)
@@ -281,5 +275,52 @@ if __name__ == "__main__":
     model.analysis("Static")
 
     ok = model.analyze(anpts)
+    if ok != 0:
+        raise Exception("Analysis failed")
+
+    model.wipe()
+
+    with open("out/_disp.out", "r") as f:
+        lines = f.readlines()
+        disp = [float(line.split()[1]) for line in lines]
+        time = [float(line.split()[0]) for line in lines]
+    with open("out/_force.out", "r") as f:
+        lines = f.readlines()
+        force = [float(line.split()[1]) for line in lines]
+
+    os.remove("out/_disp.out")
+    os.remove("out/_force.out")
 
 
+    return time, disp, force
+
+if __name__ == "__main__":
+
+    fig, ax = plt.subplots()
+
+    # Set element type (force-based = 1, displacement-based = 2)
+    for element in "dispBeamColumn", "forceBeamColumn":
+        # Number of finite elements and integration points per element
+        if "force" in element:
+            ne = 1
+            nIP = 5
+        else:
+            # Displacement formulation
+            ne = 4
+            nIP = 3
+
+        time, disp, force = analyze_column(ne, nIP, element)
+
+        ax.plot(disp, force, label=element)
+
+    ax.set_xlabel("Displacement [in]")
+    ax.set_ylabel("Force [kips]")
+    fig.legend()
+    plt.show()
+
+
+    fig, ax = plt.subplots()
+    ax.plot(time, disp)
+    ax.set_xlabel("Time [s]")
+    ax.set_ylabel("Displacement [in]")
+    plt.show()

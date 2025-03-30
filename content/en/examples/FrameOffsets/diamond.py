@@ -14,7 +14,7 @@ def diamond_solution(EI, EA, L, off=0):
                    [0, 0,              1],
                    [0, 0, off/np.sqrt(2)]])
 
-    A  = Ag@Ao #Ag[:,:3]@Ao[:3,:]
+    A  = Ag@Ao
     Ke = np.array([[EA/Le,       0,       0],
                    [    0, 4*EI/Le, 2*EI/Le],
                    [    0, 2*EI/Le, 4*EI/Le]])
