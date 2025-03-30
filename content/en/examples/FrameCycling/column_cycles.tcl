@@ -1,11 +1,11 @@
-    #########################################################
-    # Cyclic analysis of a Lehman's Column 415 (PEER 1998/01)
-    #########################################################
+#########################################################
+# Cyclic analysis of a Lehman's Column 415 (PEER 1998/01)
+#########################################################
 
-    # Written: Vesna Terzic (vesna@berkeley.edu)
-    # Created: 12/2011
+# Written: Vesna Terzic (vesna@berkeley.edu)
+# Created: 12/2011
 
-    #units: kip,in
+# units: kip,in
 
     wipe
 
@@ -32,20 +32,18 @@
 
 
     #input parameters
-    set HCol [expr 96.*$in]; #column height
-    set DCol [expr 24.*$in]; #column diameter
+    set H [expr 96.*$in]; #column height
+    set D [expr 24.*$in]; #column diameter
     set clearCover [expr 0.75*$in]; #clear cover of concrete
 
-    #derived quantities
-    set HEle [expr $HCol/$NoEle]; #height of one finite element
-    set ACol [expr $DCol**2*$PI/4.0]; #area of the column cross-section
+    set ACol [expr $D**2*$PI/4.0]; #area of the column cross-section
 
     # Define geometry for model
     # -------------------------
     #node $tag $xCrd $yCrd
      node  1     0.0  0.0
     for { set i 0 } { $i < $NoEle } { incr i } {
-        node  [expr $i+2]   0.0  [expr ($i+1)*$HEle]
+        node  [expr $i+2]   0.0  [expr ($i+1)*$H/$NoEle]
     }
 
     # set the boundary conditions
@@ -61,7 +59,7 @@
 
     #------------------------------------------------------
     # Define uniaxial materials
-    #(the three materails will be defined: one for unconfined concrete cover, one for concrete confined core, and one for reinforcement)
+    # three materails will be defined: one for unconfined concrete cover, one for concrete confined core, and one for reinforcement)
     #--------------------------------------------------------
 
     # define material tags
@@ -109,7 +107,7 @@
     #compression
     # Mander's equations for calculating confined concrete compressive strength and corresponding strain (Mander, 1988)
     set sprime [expr $stran-$NoHoops*$dh]; #clear distance between spirals
-    set ds [expr $DCol-2.0*$clearCover-$dh]; #diameter of spirals between spiral bar centers (diameter of the confined core)
+    set ds [expr $D-2.0*$clearCover-$dh]; #diameter of spirals between spiral bar centers (diameter of the confined core)
     set Asp [expr $Asp1*$NoHoops]; #total area of transverse reinforcement in the bundle
 
     set As [expr $barArea*$numBars]; #total area of the longitudinal steel in the section
@@ -142,7 +140,7 @@
     set nfCoverR 2
     set total_conc_fibers [expr $nfCoreT*$nfCoreR+$nfCoverT*$nfCoverR]
 
-    set ro [expr $DCol/2.0]; #radius of the column cross-section
+    set ro [expr $D/2.0]; #radius of the column cross-section
     set rl [expr $ro-$clearCover-$dh-($db/2.0)]; #distance from the column centroid to the centroid of the long. bar
     set ri [expr ($ds-$sprime/4.)/2.]; #radius of the effectively confined core + s'/8
 
@@ -210,17 +208,17 @@
     set IDctrlNode [expr $NoEle+1]
 
     pattern Plain 1 Linear {
-       load $IDctrlNode 0. -147.0 0.;    # node#, FX FY MZ
+       load $IDctrlNode 0. -147.0 0.;
     }
-    constraints Plain;                     # how it handles boundary conditions
-    numberer Plain;                        # renumber dof's to minimize band-width (optimization), if you want to
-    system BandGeneral;                    # how to store and solve the system of equations in the analysis
+    constraints Plain;                   # how to handle boundary conditions
+    numberer Plain;                      # renumber dof's to minimize band-width (optimization), if you want to
+    system BandGeneral;                  # how to store and solve the system of equations in the analysis
     test NormDispIncr 1.0e-8 6 ;         # determine if convergence has been achieved at the end of an iteration step
     algorithm Newton;                    # use Newton's solution algorithm: updates tangent stiffness at every iteration
-    integrator LoadControl 0.1;            # determine the next time step for an analysis, # apply gravity in 10 steps
-    analysis Static                        # define type of analysis
-    analyze 10;                            # perform gravity analysis
-    loadConst -time 0.0;                # hold gravity constant and restart time
+    integrator LoadControl 0.1;          # determine the next time step for an analysis, # apply gravity in 10 steps
+    analysis Static;
+    analyze 10;
+    loadConst -time 0.0;                 # hold gravity constant and restart time
 
     #--------------------------------
     # Cyclic load pattern
@@ -238,19 +236,19 @@
     #set dhpost [lappend dhpret 1.5 1.5 1.5 0.5 2.0 2.0 2.0 0.65 3.0 3.0 3.0 1.0 5 5 5 1.66 7 7 7]
     set dhpost [lappend dhpret 1.5 1.5 1.5 0.5 2.0 2.0 2.0 0.65 3.0 3.0 3.0 1.0 5 5 5]
     set dhtot $dhpost
-    set running 0.0
+    set tend 0.0
 
     set cycles [llength $dhtot]
     source SingleCycle.tcl
     for { set k 0 } { $k < $cycles } { incr k } {
         set cycmax [expr $uy*[lindex $dhtot $k]]
-        set thist [singlecycle $cycmax $n $running]
-        set running [expr $running + $thist]
+        set thist [singlecycle $cycmax $n $tend]
+        set tend [expr $tend + $thist]
     }
 
     set anpts [expr (4*$n-3)*$cycles]
-    set dt [expr $running/($anpts-1)]
-    puts "pts=$anpts, dt=$dt, tfinal=$running"
+    set dt [expr $tend/($anpts-1)]
+    puts "pts=$anpts, dt=$dt, tfinal=$tend"
 
     # define time series
     timeSeries Path 2 -dt $dt -filePath out/displacement.txt
