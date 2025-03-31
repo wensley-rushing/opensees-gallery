@@ -1,5 +1,5 @@
 ---
-title: Force-based vs. Displacement-based Elements
+title: Force vs. Displacement formulations
 description: "An investigation of various frame formulations"
 thumbnail: img/examples/lehman.png
 tags: ["Frame"]
@@ -10,7 +10,7 @@ downloads:
 ---
 
 Investigate the two most commonly used OpenSees elements for modeling beam-column
-elements: the force formulation (FF) and displacement formulation (DF). 
+elements: the [force](https://xara.so/user/manual/model/elements/frame/ForceFrame.html)  and cubic [displacement](https://xara.so/user/manual/model/elements/frame/CubicFrame.html) formulations. 
 
 <figure style="text-align: center;">
 <img src="img/lehman.png" width="50%">
@@ -19,7 +19,7 @@ elements: the force formulation (FF) and displacement formulation (DF).
 
 Although the parameters for defining these two elements are the same, a beam-column member needs to be modeled differently
 using these two elements to achieve a comparable level of accuracy. 
-The intent of this example is to show how to properly model inelastic beam-columns with both FF and DF. 
+The intent of this example is to show how to properly model inelastic beam-columns with both force and displacement formulations. 
 
 |    |     |
 | :--- | :--- |
@@ -152,22 +152,13 @@ model.recorder("Node", "reaction", "-time", file="out/Force.out", node=1, dof=1)
 
 ## Resources
 
-The slides from the original presentation can be downloaded <a href="https://opensees.berkeley.edu/wiki/images/c/c5/FFvsDF.pdf">here</a>
+The slides from the original presentation can be downloaded from <a href="https://opensees.berkeley.edu/wiki/images/c/c5/FFvsDF.pdf">here</a> 
+and video of the seminar can be found here: <a href="http://www.youtube.com/watch?v=yk-1k2aF53E">http://www.youtube.com/watch?v=yk-1k2aF53E</a>
 
-Video of the seminar can be found here: <a href="http://www.youtube.com/watch?v=yk-1k2aF53E">FF vs.
-DF</a>
 
-<strong>OpenSees files used to demonstrate the effect of rigid
-constraints can be found here:</strong>
 <ul>
-<li>The main file that is to be sourced from the OpenSees interpreter:
-<ul>
-<li><a href="ConventionalColumn_Cyclic.tcl"
-title="wikilink">ConventionalColumn_Cyclic.tcl</a>
-</ul>
 <li>Supporting files to be stored in the same folder with the main file:
 <ul>
-<li><a href="Media:_leh415.xls" title="wikilink">leh415.xls</a>
-(experimental force-displacement response)
+<li><a href="leh415.txt">leh415.txt</a> : experimental force-displacement response
 </ul>
 </ul>
