@@ -1,6 +1,6 @@
 
-import opensees.openseespy as ops
-from opensees.helpers import find_node, find_nodes
+import opensees.openseespy as xara
+from xara.helpers import find_node, find_nodes
 from veux.stress import node_average
 import veux
 from shps import plane
@@ -104,7 +104,7 @@ def create_model(mesh,
 
 
     # create model in two dimensions with 2 DOFs per node
-    model = ops.Model(ndm=2, ndf=2)
+    model = xara.Model(ndm=2, ndf=2)
 
     # Define the material
     # -------------------

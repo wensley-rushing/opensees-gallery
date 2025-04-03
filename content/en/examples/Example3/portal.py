@@ -16,13 +16,6 @@
 #
 import opensees.openseespy as ops
 
-def eigen(model):
-    from scipy.linalg import eig
-    m = model.getTangent(m=1)
-    k = model.getTangent(k=1)
-    w, v = eig(k, m)
-    return w
-
 def create_portal(width  = 360.0, height = 144.0):
 
     # create ModelBuilder (with two-dimensions and 3 DOF/node)
@@ -36,7 +29,7 @@ def create_portal(width  = 360.0, height = 144.0):
     model.node(3, (0.0,   height))
     model.node(4, (width, height))
 
-    # set the boundary conditions - command: fix nodeID uxRestrnt? uyRestrnt? rzRestrnt?
+    # set the boundary conditions
     model.fix(1, (1, 1, 1))
     model.fix(2, (1, 1, 1))
 
@@ -119,7 +112,7 @@ def gravity_analysis(model, P=180.0)->int:
     # Create a Plain load pattern
     #               Type  tag timeSeries loads
     model.pattern("Plain", 1, "Linear", load={
-    # nodeID  xForce yForce zMoment
+    # node    xForce yForce zMoment
          3:   [ 0.0,   -P,   0.0],
          4:   [ 0.0,   -P,   0.0]
     })
@@ -127,12 +120,8 @@ def gravity_analysis(model, P=180.0)->int:
     # Start of analysis generation
     # ------------------------------
 
-    # Create the system of equation
     model.system("ProfileSPD")
-
-    # Create the constraint handler, the transformation method
     model.constraints("Transformation")
-
     model.numberer("RCM")
 
     # create the convergence test, the norm of the residual with a tolerance of 
@@ -309,7 +298,7 @@ def dynamic_analysis(model):
   # ------------------------------
   # Finally perform the analysis
   # ------------------------------
-  print(eigen(model))
+  print(model.eigen(model))
   print(f"... eigen values at start of transient: {model.eigen(2)}")
 
   step = 0.01
@@ -362,7 +351,7 @@ def main():
     import matplotlib.pyplot as plt
     # Try using a prettier plotting style
     try:
-        plt.style.use("typewriter")
+        plt.style.use("veux-web")
     except:
         pass
 

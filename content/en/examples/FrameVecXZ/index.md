@@ -25,7 +25,7 @@ be downloaded from the link above.
 In order to cover a wide range of cases, we'll orient the first column, element `1`, such that the strong axis of it's section bends *outside* the plane of the portal, the strong axis of the second column, element `3`, will resist bending *inside* the portal plane (See the image above).
 We'll build two variations of the model; one where the 2nd coordinate \(X_2\) is vertical, and another
 with the 3rd coordinate \(X_3\) vertical.
-In both cases we begin by initializing a `Model` in `ndm=3` dimensions with `ndf=6` degrees of freedom per node:
+In both cases we begin by initializing a [`Model`](https://xara.so/user/manual/model/model_class.html) in `ndm=3` dimensions with `ndf=6` degrees of freedom per node:
 ```python
 import xara
 model = xara.Model(ndm=3, ndf=6)
@@ -68,3 +68,18 @@ model.section("ShearFiber", 1)
 for fiber in shape.create_fibers(origin="centroid"):
     model.fiber(**fiber, material=1, section=1)
 ```
+
+
+$$
+\left[\begin{array}{ccc}
+\frac{12}{H^3} ( EI_1 + EI_2)
+& \frac{6}{H^2}  EI_1 
+& \frac{6}{H^2}  EI_2 \\
+  \frac{6}{H^2}  EI_1
+& \frac{4}{L}    EI_g+\frac{4}{H} EI_1
+& \frac{2}{L}    EI_g \\
+  \frac{6}{H^2}  EI_2
+& \frac{2}{L}    EI_g 
+& \frac{4}{L}    EI_g + \frac{4}{H} EI_2 \\
+\end{array}\right]
+$$
