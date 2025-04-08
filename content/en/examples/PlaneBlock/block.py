@@ -14,7 +14,6 @@ def plot(nodes, cells):
 
 if __name__ == "__main__":
 
-
     ne = int(sys.argv[1]), int(sys.argv[2])
     if len(sys.argv) > 3:
         nn = int(sys.argv[3]), int(sys.argv[4])
@@ -58,8 +57,6 @@ if __name__ == "__main__":
     artist.draw_nodes()
     artist.draw_surfaces()
     veux.serve(artist)
-
-
 
     from shps.plotting import Rendering
     ax = plot(nodes, cells)

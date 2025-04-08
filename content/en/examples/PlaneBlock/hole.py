@@ -1,21 +1,20 @@
-
-import opensees.openseespy as xara
+import xara
+import veux
 from xara.helpers import find_node, find_nodes
 from veux.stress import node_average
-import veux
 from shps import plane
 from shps.block import create_block
 
 
-def hole():
+def hole(order):
     d = 24   # Beam depth
     L = 240  # Beam length
-    h = 10   # Hole height
-    w = 20   # Hole width
+    h =  8   # Hole height
+    w = L/6  # Hole width
     ne = 6,4
 
     # Define the element type; first-order Lagrange quadrilateral
-    element = plane.Lagrange(1)
+    element = plane.Lagrange(order)
     points  = {
             1: (    0.0,   0.0),
             2: (L/2-w/2,   0.0),
@@ -111,8 +110,7 @@ def create_model(mesh,
     #                                 tag  E      nu   rho
     model.material("ElasticIsotropic", 1, 4000.0, 0.25, 0, "-plane-strain")
 
-    # now create the nodes and elements using the surface command
-    # {"quad", "enhancedQuad", "tri31", "LagrangeQuad"}:
+    # now create the nodes and elements
     args = (thick, "PlaneStrain", 1)
 
     for tag, node in mesh[0].items():
@@ -123,13 +121,11 @@ def create_model(mesh,
 
     # Fix all nodes with coordinate x=0.0
     for node in find_nodes(model, x=0):
-        print("Fixing node ", node)
         #         tag   (u1 u2)
         model.fix(node, (1, 1))
 
     # Fix all nodes with coordinate x=L
     for node in find_nodes(model, x=L):
-        print("Fixing node ", node)
         model.fix(node, (1, 1))
 
     # Define gravity loads
@@ -147,7 +143,7 @@ def create_model(mesh,
 def static_analysis(model):
 
     # Define the load control with variable load steps
-    model.integrator("LoadControl", 1.0, 1, 1.0, 10.0)
+    model.integrator("LoadControl", 1.0)
 
     # Declare the analysis type
     model.analysis("Static")
@@ -159,7 +155,7 @@ def static_analysis(model):
 if __name__ == "__main__":
     import time
 
-    mesh = hole()
+    mesh = hole(1)
     model = create_model(mesh, element="quad")
     start = time.time()
     static_analysis(model)
@@ -167,7 +163,6 @@ if __name__ == "__main__":
     print(model.nodeDisp(find_node(model, x=240, y=0)))
 
 
-    import veux
     artist = veux.create_artist(model)
 
     stress = {node: stress["sxx"] for node, stress in node_average(model, "stressAtNodes").items()}
@@ -176,17 +171,4 @@ if __name__ == "__main__":
     artist.draw_outlines()
     veux.serve(artist)
 
-
-#       print(model.nodeDisp(l2))
-
-
-
-# if __name__ == "__main__":
-#     nodes, cells = hole()
-# #
-#     artist = veux.create_artist((nodes, cells), canvas="gltf")
-#     artist.draw_nodes()
-#     artist.draw_surfaces()
-#     artist.draw_outlines()
-#     veux.serve(artist)
 

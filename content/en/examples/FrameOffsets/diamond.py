@@ -13,6 +13,7 @@
 import opensees.openseespy as ops
 import numpy as np
 import veux
+import os
 
 def diamond_solution(EI, EA, L, off=0):
     import numpy as np
@@ -53,34 +54,36 @@ def create_diamond():
     m.fix(1, (0, 1, 1,  1, 1, 1))
     m.fix(2, (1, 0, 1,  1, 0, 0))
 
-    if False:
-        m.geomTransf("Linear", 1, (0, 0, 1), #offset_local=True,
-                     offset={
-                        1: ( off,),
-                        2: (-off,),
-                    }
-        )
-    else:
-        m.geomTransf("Linear", 1, (0, 0, 1),
-                     offset={
-                        1: ( off/np.sqrt(2), off/np.sqrt(2), 0),
-                        2: (-off/np.sqrt(2),-off/np.sqrt(2), 0),
-                    }
-        )
 
-    m.section("ElasticFrame", 1, E=E, A=A, Iy=I, Iz=I, G=1, J=3/2*I)
-    m.element("MixedFrame", 1, (1, 2), transform=1, section=1, shear=0)
+    m.geomTransf("Linear", 1, (0, 0, 1),
+                  # jntOffset=( off/np.sqrt(2), off/np.sqrt(2), 0,
+                  #            -off/np.sqrt(2),-off/np.sqrt(2), 0),
+                offset={
+                    1: ( off/np.sqrt(2), off/np.sqrt(2), 0),
+                    2: (-off/np.sqrt(2),-off/np.sqrt(2), 0),
+                }
+    )
+
+    if "CRD04" in os.environ:
+        section, element = "ElasticFrame", "ForceFrame"
+    else:
+        section, element = "Elastic", "forceBeamColumn"
+
+    m.section(section, 1, E=E, A=A, Iy=I, Iz=I, G=1, J=3/2*I)
+    m.element(element, 1, (1, 2), transform=1, section=1, shear=0)
 
     m.pattern("Plain", 1, "Linear", loads={2: (0, 1, 0,   0, 0, 0)})
     P = -4*L**2/(E*I)
     m.integrator("LoadControl", P)
     m.analysis("Static")
+#   m.test("NormDispIncr", 1e-8, 2)
     m.analyze(1)
 
 #   m.print(json=True)
 
     print(P/diamond_solution(E*I, E*A, L, off=off)/L)
     print(m.nodeDisp(2, 2)/L)
+    print(m.numIter())
     return m
 
 

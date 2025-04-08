@@ -1,36 +1,52 @@
 # import the OpenSees Python module
-import opensees.openseespy as ops
-from opensees.helpers import find_node, find_nodes
+import xara
+import numpy as np
+from xara.units.iks import kip, inch, foot, ksi
+from xara.helpers import find_node, find_nodes
 from veux.stress import node_average
+from scipy.spatial.distance import euclidean as distance
+import matplotlib.pyplot as plt
 
 def create_beam(mesh,
+                order=1,
                 thickness=1,
                 element: str = "LagrangeQuad"):
 
     nx, ny = mesh
     # Define geometry
     # ---------------
+    E = 4000.0*ksi
+    nu = 0.25
+#   print(f"{E = }, {inch = }")
+    L = 240.0*inch
+    d = 24.0*inch
+    thick = 1.0*inch
+    load = -20.0*kip
+    G = E / (2 * (1 + nu))
+    A = thick*d
+    k = 5/6
+    w = load/L
+    I = thick*d**3/12
 
-    L = 240.0
-    d = 24.0
-    thick = 1.0
-    load = 20.0 # kips
 
-
+    #
+    # Create model
+    #
     # create model in two dimensions with 2 DOFs per node
-    model = ops.Model(ndm=2, ndf=2)
+    model = xara.Model(ndm=2, ndf=2)
 
     # Define the material
     # -------------------
-    #                                 tag  E      nu   rho
-    model.material("ElasticIsotropic", 1, 4000.0, 0.25, 0, "-plane-strain")
+    #                                 tag     E      nu   rho
+    model.material("ElasticIsotropic", 1, E, nu, 0)
 
     # now create the nodes and elements using the surface command
     # {"quad", "enhancedQuad", "tri31", "LagrangeQuad"}:
-    args = (thick, "PlaneStrain", 1)
+    args = (thick, "PlaneStress", 1)
 
-    surface = model.surface((nx, ny),
+    mesh = model.surface((nx, ny),
                   element=element, args=args,
+                  order=order,
                   points={
                     1: [  0.0,   0.0],
                     2: [   L,    0.0],
@@ -41,54 +57,90 @@ def create_beam(mesh,
     # Single-point constraints
     #            x   (u1 u2)
     for node in find_nodes(model, x=0):
-        print("Fixing node ", node)
         model.fix(node, (1, 1))
 
     for node in find_nodes(model, x=L):
-        print("Fixing node ", node)
         model.fix(node, (1, 1))
 
     # Define gravity loads
     # create a Plain load pattern with a linear time series
     model.pattern("Plain", 1, "Linear")
 
-    # Fix all nodes with y-coordinate equal to `d`
-    tip = list(find_nodes(model, y=d))
-    for node in tip:
-        model.load(node, (0.0, -load/len(tip)), pattern=1)
+    # Load all nodes with y-coordinate equal to `d`
+    for nodes in mesh.walk_edge():
+        # skip edges that arent on the top
+        if abs(model.nodeCoord(nodes[0], 2) -d) < 1e-10:
+            continue
+        if abs(model.nodeCoord(nodes[-1], 1) -L) < 1e-10:
+            continue
+        if abs(model.nodeCoord(nodes[0], 1)) < 1e-10:
+            continue
 
-    return model
+        # Edge length
+        Le = distance(model.nodeCoord(nodes[0]), model.nodeCoord(nodes[-1]))
 
+        if order == 1:
+            model.load(nodes[0], (0,   w*Le/2), pattern=1)
+            model.load(nodes[1], (0,   w*Le/2), pattern=1)
+        elif order == 2:
+            model.load(nodes[0], (0,   w*Le/6), pattern=1)
+            model.load(nodes[1], (0, 2*w*Le/3), pattern=1)
+            model.load(nodes[2], (0,   w*Le/6), pattern=1)
 
-def static_analysis(model):
-
-    # Define the load control with variable load steps
-    model.integrator("LoadControl", 1.0, 1, 1.0, 10.0)
-
-    # Declare the analysis type
+    #
+    # Run Analysis
+    #
+    model.integrator("LoadControl", 1.0)
     model.analysis("Static")
+    model.analyze(1)
 
-    # Perform static analysis in 10 increments
-    model.analyze(10)
+    #
+    # Beam theory solution
+    #
+
+    xn = [
+         model.nodeCoord(node,1) for node in find_nodes(model, y=d/2)
+    ]
+
+    um = [
+         model.nodeDisp(node, 2) for node in find_nodes(model, y=d/2)
+    ]
+
+    uy = lambda x: w*x**2/(24*E*I)*(L - x)**2 - w/(k*G*A)*L**2/24*(1 - 12*x/L + 12*(x/L)**2) + w*L**2/(24*G*A*k)
+    ue = [uy(x) for x in xn]
+
+    model.reactions()
+    print(sum(model.nodeReaction(node, 2) for node in model.getNodeTags()))
+
+    return model, xn, um, ue
+
+
 
 
 if __name__ == "__main__":
-    import time
-    for element in "LagrangeQuad", "quad":
-        model = create_beam((20,8), element=element)
-        start = time.time()
-        static_analysis(model)
-        print(f"Finished {element}, {time.time() - start} sec")
-        print(model.nodeDisp(find_node(model, x=100, y=15)))
+    for element in "quad",:
+        model, xn, um, ue = create_beam((40,8), element=element, order=1)
+#       model, xn, um, ue = create_beam((12,4), element=element, order=2)
+
+    fig, ax = plt.subplots()
+    ax.plot(xn, um, label="Simulation")
+    ax.plot(xn, ue, label="Beam theory")
+    ax.set_xlabel("Coordinate, $x$")
+    ax.set_ylabel("Deflection, $u_y$")
+    fig.legend()
+    plt.show()
 
 
     import veux
-    artist = veux.create_artist(model)
+    artist = veux.create_artist(model, canvas="gltf")
 
     stress = {node: stress["sxx"] for node, stress in node_average(model, "stressAtNodes").items()}
 
-    artist.draw_surfaces(field = stress)
+    artist.draw_nodes()
     artist.draw_outlines()
+    artist.draw_surfaces(state=model.nodeDisp, scale=50)
+#   artist.draw_surfaces(field = stress)
+    artist.draw_outlines(state=model.nodeDisp, scale=50)
     veux.serve(artist)
 
 

@@ -1,0 +1,5 @@
+opensees>=0.1.17
+veux
+scipy
+numpy
+matplotlib

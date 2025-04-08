@@ -20,3 +20,4 @@ analysis Static
 analyze 1 
 
 puts "[expr [nodeDisp 2 2]/5]"
+
