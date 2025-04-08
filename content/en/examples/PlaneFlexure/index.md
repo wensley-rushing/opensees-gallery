@@ -27,9 +27,9 @@ $$
 
 with $R = \tfrac{1}{12} Ed^3$.
 
-<figure>
-<img src="img/cross.png" width="40%" >
-<img src="img/beam.png" width="40%" >
+<figure style="text-align: center">
+<img src="img/cross.png" width="45%" >
+<img src="img/beam.png" width="45%" >
 <figcaption>Deformed cross section from 3D solution of pure flexure.</figcaption>
 </figure>
   

@@ -15,23 +15,29 @@ $$
 The deformation gradient is, in coordinates:
 
 $$
-\boldsymbol{F}=\left[\begin{array}{lll}
+\boldsymbol{F}
+=\begin{bmatrix}
 \Lambda & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & 1
-\end{array}\right]
+\end{bmatrix}
 $$
-
+And the Cauchy-Green tensor is
 $$
-\boldsymbol{C}=\boldsymbol{F}^T \boldsymbol{F}=\left[\begin{array}{ccc}
+\boldsymbol{C}=\boldsymbol{F}^T \boldsymbol{F}
+= \Lambda^2 \mathbf{e}\otimes\mathbf{e} + \mathbf{e}_{\alpha} \otimes \mathbf{e}_{\alpha}
+=\left[\begin{array}{ccc}
 \Lambda^2 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & 1
 \end{array}\right]
 $$
-furnishing the Green-Lagrange strain \(\boldsymbol{E}\)
+furnishing the Green-Lagrange strain $\boldsymbol{E}$
 $$
-\boldsymbol{E}=\frac{1}{2}(\boldsymbol{C}-\boldsymbol{I})=\left[\begin{array}{ccc}
+\boldsymbol{E}
+=\frac{1}{2}(\boldsymbol{C}-\boldsymbol{1})
+= \frac{1}{2}\left(\Lambda^2-1\right) \mathbf{e}\otimes\mathbf{e}
+=\left[\begin{array}{ccc}
 \frac{1}{2}\left(\Lambda^2-1\right) & 0 & 0 \\
 0 & 0 & 0 \\
 0 & 0 & 0
@@ -40,7 +46,7 @@ $$
 
 For a SVK material the 2PK stress is
 $$
-\boldsymbol{S}=\lambda \operatorname{tr}(\boldsymbol{E}) \boldsymbol{I}+2 \mu \boldsymbol{E}=\left[\begin{array}{ccc}
+\boldsymbol{S}=\lambda \operatorname{tr}(\boldsymbol{E}) \boldsymbol{1}+2 \mu \boldsymbol{E}=\left[\begin{array}{ccc}
 \left(\Lambda^2-1\right)\left(\frac{\lambda}{2}+\mu\right) & 0 & 0 \\
 0 & \frac{\lambda}{2}\left(\Lambda^2-1\right) & 0 \\
 0 & 0 & \frac{\lambda}{2}\left(\Lambda^2-1\right)

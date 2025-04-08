@@ -22,9 +22,9 @@ model -ndm 3 -ndf 3
 {{% /tab %}}
 {{% tab name="Python (RT)" %}}
 ```python
-import opensees.openseespy as ops
+import xara
 
-model = ops.Model(ndm=3, ndf=3)
+model = xara.Model(ndm=3, ndf=3)
 ```
 {{% /tab %}}
 {{< /tabs >}}
@@ -43,7 +43,7 @@ The final argument of the `block3D` command is a block specifying the location o
 {{% tab name="Tcl" %}}
 ```tcl
 # mesh generation
-block3D $nx $ny $nz   1 1  $element  $eleArgs {
+block3D $nx $ny $nz   1 1  $element  $args {
     1   -1     -1      0
     2    1     -1      0
     3    1      1      0
@@ -57,7 +57,7 @@ block3D $nx $ny $nz   1 1  $element  $eleArgs {
 {{% /tab %}}
 {{% tab name="Python (RT)" %}}
 ```python
-model.block3D(nx, ny, nz, 1, 1, Brick, 1, {
+model.block3D((nx, ny, nz), (1, 1), "Brick", 1, {
               1: [-1.0, -1.0,  0.0],
               2: [ 1.0, -1.0,  0.0],
               3: [ 1.0,  1.0,  0.0],

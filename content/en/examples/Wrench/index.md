@@ -19,7 +19,7 @@ For the triangular mesh, the [`Tri31`](https://xara.so/user/manual/model/element
 {{% tab name="Quadrilateral" %}}
 ```python
 def create_quads():
-    model = ops.Model(ndm=2, ndf=2)
+    model = xara.Model(ndm=2, ndf=2)
     model.nDMaterial("ElasticIsotropic", 1, 200e3, 0.25)
 
     for num,block in blocks.items():
@@ -34,7 +34,7 @@ def create_quads():
 {{% tab name="Triangle" %}}
 ```python
 def create_tris():
-    model = ops.Model(ndm=2, ndf=2)
+    model = xara.Model(ndm=2, ndf=2)
     model.nDMaterial("ElasticIsotropic", 1, 200e3, 0.25)
 
     elem = 1
