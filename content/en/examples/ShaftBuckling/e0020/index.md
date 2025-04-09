@@ -4,6 +4,8 @@ bibliography: references.json
 description: This example demonstrates the simulation of follower loading applied to frame elements.
 downloads:
   Python: ["e0020.py"]
+  Tcl: ["e0020.tcl"]
+tags: ["Frame", "Loads", "Tcl", "Python"]
 render: e0020.glb
 draft: false
 ---
@@ -22,18 +24,29 @@ labeled with the tag `1` and scaled in time by a `Linear` time series:
 Next we add a [`FrameLoad`](https://xara.so/user/manual/model/elements/frame/FrameLoad.html)
 to this pattern, applied to the element with tag `ne` (ie, the last element).
 
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
 ```python
-    model.eleLoad("Frame", "Dirac",
+model.eleLoad("Frame", "Dirac",
                   force = [0, 1, 0],
                   basis = "director",
                   offset=[1.0,0,0],
                   pattern=1,
                   elements=[ne]
-    )
+)
 ```
-The argument `Dirac` specifies that the loading is Dirac delta function.
-Before performing the analysis, we'll also define a `veux.Motion` which
-we will use to animate the simulation:
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+pattern Plain 1 Linear 
+eleLoad Frame Dirac -force {0 1 0} -basis director -offset {1.0 0 0} -pattern 1 -elements {10}
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+The argument `"Dirac"` specifies that the loading is Dirac delta function.
+Before performing the analysis, we'll also define a `Motion` with the `veux`
+library which we will use to animate the simulation:
 ```python
 import veux
 artist = veux.create_artist(model, model_config=dict(extrude_outline="square"))
