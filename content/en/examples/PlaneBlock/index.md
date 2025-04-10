@@ -50,10 +50,11 @@ model.section("PlaneStress", 1, 1, 1)
 
 ### Validation
 
+Consider the equilibrium differential equations for a 2D Timoshenko beam:
 $$
 \begin{gathered}
  A G k_s\left( w'(x)+\theta(x)\right) - E \theta''(x) =0 \\
--A G k_s\left(\frac{\partial^2}{\partial x^2} w(x)+\frac{\partial}{\partial x} \theta(x)\right)=\bar{q}
+-A G k_s\left(w''(x)+ \theta(x)'\right)=\bar{q}
 \end{gathered}
 $$
 
@@ -71,5 +72,29 @@ $$
 
 ## Combining Blocks
 
+The `shps` package gives us more detailed control over the mesh generation process. The `create_block` function has the same basic functionality as the `block2D` method, but it doest actually add elements or nodes to a `Model`. Instead, it returns generated node coordinates (`nodes`) and cell connectivities (`cells`) as follows:
+```python
+from shps import plane
+from shps.block import create_block
+points  = {
+        1: (    0.0,   0.0),
+        2: (L/2-w/2,   0.0),
+        3: (L/2-w/2, d/2-h/2),
+        4: (    0.0, d/2-h/2),
+}
+nodes, cells = create_block(ne, element, points=points)
+```
+It also exposes a `join` keyword argument which appends the generated nodes and cells to a given set of preexisting nodes and cells:
+```python
+points  = {
+        1: (L/2+w/2,   0.0),
+        2: (   L   ,   0.0),
+        3: (   L   , d/2-h/2),
+        4: (L/2+w/2, d/2-h/2),
+}
+other = dict(nodes=nodes, cells=cells)
+nodes, cells = create_block(ne, element, points=points, join=other)
+```
+This checks for duplications, and only adds nodes where none existed before.
 
 {{< fold hole.py "analysis script" >}}
