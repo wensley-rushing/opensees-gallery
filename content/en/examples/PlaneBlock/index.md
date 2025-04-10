@@ -72,6 +72,7 @@ $$
 
 ## Combining Blocks
 
+Now we will perform the same simulation, but with a hole cut into the beam. 
 The `shps` package gives us more detailed control over the mesh generation process. The `create_block` function has the same basic functionality as the `block2D` method, but it doest actually add elements or nodes to a `Model`. Instead, it returns generated node coordinates (`nodes`) and cell connectivities (`cells`) as follows:
 ```python
 from shps import plane
@@ -95,6 +96,6 @@ points  = {
 other = dict(nodes=nodes, cells=cells)
 nodes, cells = create_block(ne, element, points=points, join=other)
 ```
-This checks for duplications, and only adds nodes where none existed before.
+This checks for duplications, and only adds nodes where none existed before. The following complete script is used to perform the complete simulation.
 
 {{< fold hole.py "analysis script" >}}
