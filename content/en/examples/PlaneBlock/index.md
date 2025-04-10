@@ -14,9 +14,9 @@ This example introduces mesh-building tools for solid modeling.
 A finite element analysis is performed of a plane beam with a hole using various Lagrange quadrilaterals. 
 Visualization is performed using the [`veux`](https://pypi.org/project/veux) library.
 
-# Creating Blocks
+## Creating Blocks
 
-## Preliminaries
+### Preliminaries
 
 Before generating elements, we'll first prepare our *Model* by defining an appropriate material and section. 
 Each node of the analysis has two displacement degrees of freedom. Thus the model is defined with

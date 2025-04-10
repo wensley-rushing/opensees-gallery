@@ -32,17 +32,17 @@ And finally we perform `n = 100` extrusions:
 n = 100
 for i in range(n):
 
-    for tag, coords in e.nodes():
+    for tag, coords in ex.nodes():
         model.node(tag, tuple(coords))
         if i==0 and coords[-1] == 0:
             model.fix(tag, (1, 1, 1))
         elif i == n-1:
             model.load(tag, (0, -1, 0), pattern=1)
 
-    for tag, cell in e.cells():
-        model.element("FourNodeTetrahedron", tag, cell, 1)
+    for tag, cell in ex.cells():
+        model.element("FourNodeTetrahedron", tag, tuple(cell), 1)
 
-    e.advance()
+    ex.advance()
 ```
 This will create the following finite element model, which is rendered with veux:
 
