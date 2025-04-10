@@ -8,11 +8,10 @@ downloads:
   Python: ["plane_block.py"]
 ---
 
-![alt text](img/plane_block.png)
 
 This example introduces mesh-building tools for solid modeling. 
 A finite element analysis is performed of a plane beam with a hole using various Lagrange quadrilaterals. 
-Visualization is performed using the [`veux`](https://pypi.org/project/veux) library.
+Visualization is performed using the [`veux`](https://veux.io) library.
 
 ## Creating Blocks
 
@@ -71,6 +70,8 @@ u_y(x)=\frac{q_0 L^4}{24 E I^{}} \frac{x^2}{L^2}\left(1-\frac{x}{L}\right)^2-\fr
 $$
 
 ## Combining Blocks
+
+![Beam with a hole.](img/plane_block.png)
 
 Now we will perform the same simulation, but with a hole cut into the beam. 
 The `shps` package gives us more detailed control over the mesh generation process. The `create_block` function has the same basic functionality as the `block2D` method, but it doest actually add elements or nodes to a `Model`. Instead, it returns generated node coordinates (`nodes`) and cell connectivities (`cells`) as follows:
