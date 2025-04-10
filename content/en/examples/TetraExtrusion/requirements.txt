@@ -1,3 +1,4 @@
-shps
 xara
-veux
+shps>=0.0.15
+veux>=0.0.17
+opensees
