@@ -16,8 +16,6 @@
 #  - Nonlinear beam-column elements
 #  - Gravity load analysis followed by transient analysis
 #
-
-# import the OpenSees Python module
 import opensees.openseespy as ops
 import opensees.units.iks as units
 import math
@@ -149,10 +147,10 @@ def create_model(eleType=None):
     model.node(18, (-bx/2.0, -by/2.0, 3.0*h))
 
     # Retained nodes for rigid diaphragm
-    #        tag   X    Y    Z 
-    model.node( 9,  0.0, 0.0,     h)
-    model.node(14,  0.0, 0.0, 2.0*h)
-    model.node(19,  0.0, 0.0, 3.0*h)
+    #        tag    ( X    Y    Z   )
+    model.node( 9,  (0.0, 0.0,     h))
+    model.node(14,  (0.0, 0.0, 2.0*h))
+    model.node(19,  (0.0, 0.0, 3.0*h))
 
     # Set base constraints
     #      tag DX DY DZ RX RY RZ
@@ -168,10 +166,10 @@ def create_model(eleType=None):
     model.rigidDiaphragm(3, 19, 15, 16, 17, 18)
 
     # Constraints for rigid diaphragm retained nodes
-    #      tag DX DY DZ RX RY RZ
-    model.fix( 9, 0, 0, 1, 1, 1, 0)
-    model.fix(14, 0, 0, 1, 1, 1, 0)
-    model.fix(19, 0, 0, 1, 1, 1, 0)
+    #        tag  (DX DY DZ RX RY RZ)
+    model.fix( 9, ( 0, 0, 1, 1, 1, 0))
+    model.fix(14, ( 0, 0, 1, 1, 1, 0))
+    model.fix(19, ( 0, 0, 1, 1, 1, 0))
 
     # Define materials for nonlinear columns
     # --------------------------------------
@@ -236,15 +234,15 @@ def create_model(eleType=None):
         eleType = "forceBeamColumn"
 
     #                   tag ndI ndJ transfTag integrationTag
-    model.element(eleType,  1, (1, 5), 1, itg)
-    model.element(eleType,  2, (2, 6), 1, itg)
-    model.element(eleType,  3, (3, 7), 1, itg)
-    model.element(eleType,  4, (4, 8), 1, itg)
+    model.element(eleType,  1, ( 1,  5), 1, itg)
+    model.element(eleType,  2, ( 2,  6), 1, itg)
+    model.element(eleType,  3, ( 3,  7), 1, itg)
+    model.element(eleType,  4, ( 4,  8), 1, itg)
 
-    model.element(eleType,  5, (5, 10), 1, itg)
-    model.element(eleType,  6, (6, 11), 1, itg)
-    model.element(eleType,  7, (7, 12), 1, itg)
-    model.element(eleType,  8, (8, 13), 1, itg)
+    model.element(eleType,  5, ( 5, 10), 1, itg)
+    model.element(eleType,  6, ( 6, 11), 1, itg)
+    model.element(eleType,  7, ( 7, 12), 1, itg)
+    model.element(eleType,  8, ( 8, 13), 1, itg)
 
     model.element(eleType,  9, (10, 15), 1, itg)
     model.element(eleType, 10, (11, 16), 1, itg)
@@ -378,21 +376,17 @@ def analyze(model):
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+    try:
+        plt.style.use("typewriter")
+    except:
+        pass
 
     element = "forceBeamColumn"
     model = create_model(element)
     displacements = analyze(model)
 
-    import matplotlib.pyplot as plt
-    try:
-        plt.style.use("typewriter")
-    except:
-        pass 
-
     u3 = displacements[9]
     plt.plot(u3)
     plt.show()
-
-
-
 
