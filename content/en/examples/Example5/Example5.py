@@ -25,7 +25,7 @@ import sys
 #
 
 def ReinforcedRectangle(model, id, h, b, cover, coreID, coverID, steelID, numBars, barArea, nfCoreY, nfCoreZ, nfCoverY, nfCoverZ, GJ):
-   r"""
+    r"""
     Define a procedure which generates a rectangular reinforced concrete section
     with one layer of steel evenly distributed around the perimeter and a confined core.
 
