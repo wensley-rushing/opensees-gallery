@@ -119,7 +119,6 @@ def dynamic_analysis(model, l1):
     # Now remove the loads and let the beam vibrate
     model.remove("loadPattern", 1)
 
-    # create the system of equation
     model.system("ProfileSPD")
 
     # create the DOF numberer
@@ -131,13 +130,10 @@ def dynamic_analysis(model, l1):
     # create the convergence test
     model.test("EnergyIncr", 1.0e-12, 10)
 
-    # create the solution algorithm, a Newton-Raphson algorithm
     model.algorithm("Newton")
 
-    # create the integration scheme, the Newmark with gamma=0.5 and beta=0.25
     model.integrator("Newmark", 0.5, 0.25)
 
-    # create the analysis object 
     model.analysis("Transient")
 
     # record once at time 0

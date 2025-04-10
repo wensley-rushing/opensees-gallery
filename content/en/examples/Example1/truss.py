@@ -14,7 +14,7 @@ def create_truss():
     # Create a Model (with two-dimensions and 2 DOF/node)
     model = ops.Model(ndm=2, ndf=2)
 
-    # Create nodes - command: node nodeId xCrd yCrd
+    # Create nodes
     model.node(1, (  0.0,  0.0))
     model.node(2, (144.0,  0.0))
     model.node(3, (168.0,  0.0))

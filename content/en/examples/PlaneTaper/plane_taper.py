@@ -28,29 +28,35 @@ def create_model(mesh,
     # -------------------
     #                                 tag    E      nu   rho
     model.material("ElasticIsotropic", 1, 10_000.0, 0.25, 0)
-    model.section("PlaneStrain", 1, 1, thickness)
+    model.section("PlaneStress", 1, 1, thickness)
 
     # Define geometry
     # ---------------
 
     load = 1000.0
     b = 30
-    r = 7.5/100
     L = 100.0
+    r = 7.5/L
 
     # Create the nodes and elements using the surface command
     # {"quad", "enhancedQuad", "tri31", "LagrangeQuad"}:
 #   kwds = {"section": 1} # (thickness, "PlaneStrain", 1)
     args = ("-section", 1)
 
-    surface = model.surface((nx, ny),
-                  element=element, args=args,
+    mesh = model.surface((nx, ny),
+#                 element=element, args=args,
                   points={
                     1: [  0.0,   0.0],
                     2: [   L,    L*r],
                     3: [   L,  b-L*r],
                     4: [  0.0, b    ]
                   })
+    elem = 1
+    for cell in mesh.cells:
+        nodes = mesh.cells[cell]
+        model.element("tri31",   elem, [nodes[0], nodes[1], nodes[2]], section=1)
+        model.element("tri31", elem+1, [nodes[0], nodes[2], nodes[3]], section=1)
+        elem += 2
 
     # Single-point constraints
     #            x   (u1 u2)
@@ -71,12 +77,9 @@ def create_model(mesh,
         # Divide load at edges by two
         if abs(model.nodeCoord(node, 2)) in {7.5, 22.5}:
             px /= 2
-
         model.load(node, (px, 0.0), pattern=1)
 
     return model
-
-
 
 
 
@@ -96,8 +99,9 @@ def static_analysis(model):
 if __name__ == "__main__":
     import time
     for element in "quad", : # "LagrangeQuad", "quad":
-#       model = create_model((40,10), element=element)
-        model = create_model((80,10), element=element)
+#       model = create_model((20,6), element=element)
+        model = create_model((40,10), element=element)
+#       model = create_model((80,10), element=element)
         start = time.time()
         static_analysis(model)
         print(f"Finished {element}, {time.time() - start} sec")

@@ -1,4 +1,4 @@
-import xara
+import opensees.openseespy as xara
 from opensees.units.fps import foot, inch
 import veux
 from shps.shapes import WideFlange

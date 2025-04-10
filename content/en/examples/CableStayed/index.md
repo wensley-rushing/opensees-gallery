@@ -5,6 +5,7 @@ description: Model of a cable-stayed bridge imported from CSiBridge
 thumbnail: img/examples/CableStayed02.png
 render: model.glb
 weight: 1000
+draft: true
 ---
 
 The example is composed of the following files:

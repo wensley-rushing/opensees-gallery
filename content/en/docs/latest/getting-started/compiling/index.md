@@ -48,6 +48,16 @@ conda install -c conda-forge fortran-compiler cxx-compiler c-compiler openblas o
 
   {{< /accordion-item >}}
 
+  {{< accordion-item header="Brew (MacOS)" >}}
+
+| Dependency  | Package              |
+|:------------|:---------------------|
+| Tcl\*       | `tcl-tk`             |
+| Compilers   | `gcc`                |
+
+  {{< /accordion-item >}}
+
+
 
   {{< accordion-item header="Pacman (Arch, Manjaro Linux)" >}}
 

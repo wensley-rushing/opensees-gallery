@@ -159,58 +159,40 @@ model.pattern("Plain", 1, "Linear")
 
 # Create nodal loads
 for i in range(bay_count+1):
-    # set some parameters
+
     node1 = i*3 + 2
     node2 = node1 + 1
 
     if   i == 0:
-        model.load(node1, 0.0, P,     0.0, pattern=1)
-        model.load(node2, 0.0, P/2.0, 0.0, pattern=1)
+        model.load(node1, (0.0, P,     0.0), pattern=1)
+        model.load(node2, (0.0, P/2.0, 0.0), pattern=1)
 
     elif i == bay_count:
-        model.load(node1, 0.0, P,     0.0, pattern=1)
-        model.load(node2, 0.0, P/2.0, 0.0, pattern=1)
+        model.load(node1, (0.0, P,     0.0), pattern=1)
+        model.load(node2, (0.0, P/2.0, 0.0), pattern=1)
 
     else:
-        model.load(node1, 0.0, 2.0*P, 0.0, pattern=1)
-        model.load(node2, 0.0, P,     0.0, pattern=1)
-
-
-# print model
-model.print("-JSON", "-file", "Example4.1.json")
-
-# ------------------------------
-# End of model generation
-# ------------------------------
+        model.load(node1, (0.0, 2.0*P, 0.0), pattern=1)
+        model.load(node2, (0.0, P,     0.0), pattern=1)
 
 
 # --------------------------------------------------
 # Start of analysis generation for gravity analysis
 # --------------------------------------------------
 
-# create the DOF numberer, the reverse Cuthill-McKee algorithm
 model.numberer("RCM")
-
-# create the constraint handler, a Plain handler is used as homo constraints
 model.constraints("Plain")
 
 # Create the convergence test, the norm of the residual with a tolerance of 
-# 1e-12 and a max number of iterations of 10
+# 1e-8 and a max number of iterations of 10
 model.test("NormDispIncr", 1.0e-8, 10, 0)
-
-# create the solution algorithm, a Newton-Raphson algorithm
 model.algorithm("Newton")
 
 # Define the integration scheme, the LoadControl scheme using steps of 0.1
 model.integrator("LoadControl", 0.1)
 
-# create the analysis 
+
 model.analysis("Static")
-
-# ------------------------------------------------
-# End of analysis generation for gravity analysis
-# ------------------------------------------------
-
 
 # ------------------------------
 # Perform gravity load analysis
@@ -238,8 +220,8 @@ H = 10.0
 
 # Set lateral load pattern with a Linear TimeSeries
 model.pattern("Plain", 2, "Linear")
-model.load(2, H/2.0, 0.0, 0.0, pattern=2)
-model.load(3, H,     0.0, 0.0, pattern=2)
+model.load(2, (H/2.0, 0.0, 0.0), pattern=2)
+model.load(3, (H,     0.0, 0.0), pattern=2)
 
 
 # ------------------------------
