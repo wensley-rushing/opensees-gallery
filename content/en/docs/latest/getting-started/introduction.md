@@ -9,24 +9,17 @@ aliases:
 layout: docs
 ---
 
-`opensees` is a Python package that provides an intuitive API for nonlinear
-finite element analysis, implemented in C++ through the OpenSees framework. 
-OpenSees features state-of-the-art finite element formulations and solution 
-algorithms, including mixed formulations for beams and solids, over 200 material models, and an
-extensive collection of continuation algorithms to solve highly nonlinear
-problems.
-
 ## Installation
 
-In order to install `opensees` just run the command:
+In order to install `xara` run the command:
 
 {{< command >}}
-python -m pip install opensees
+python -m pip install xara
 {{< /command >}}
 
 ## Running OpenSees
 
-The `opensees` package can be used in three ways:
+The `xara` package can be used in three ways:
 
 {{< accordion class="accordion-theme accordion-flush" >}}
   {{< accordion-item header="Python Module" >}}

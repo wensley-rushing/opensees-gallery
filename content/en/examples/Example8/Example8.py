@@ -1,6 +1,3 @@
-# OpenSees -- Open System for Earthquake Engineering Simulation
-# Pacific Earthquake Engineering Research Center
-# http://opensees.berkeley.edu/
 #
 # Example 8: Cantilever Beam
 # --------------------------
@@ -43,7 +40,7 @@ nn = int((nz+1)*(nx+1)*(ny+1))
 
 # mesh generation
 #          numX numY numZ startNode startEle eleType eleArgs? coords?
-model.block3D(nx, ny, nz, 1, 1, Brick, 1, {
+model.block3D((nx, ny, nz), 1, 1, Brick, 1, {
               1: [-1.0, -1.0,  0.0],
               2: [ 1.0, -1.0,  0.0],
               3: [ 1.0,  1.0,  0.0],
@@ -69,12 +66,7 @@ model.pattern("Plain", 1, "Linear")
 
 # 2) Finally, create the nodal load and assign it to the
 #    pattern we just created
-model.load(nn, p, p, 0.0, pattern=1)
-
-# ----------------------- 
-# End of model generation
-# -----------------------
-
+model.load(nn, (p, p, 0.0), pattern=1)
 
 # ------------------------
 # Start of static analysis
@@ -86,34 +78,17 @@ model.integrator("LoadControl", 1.0)
 
 # Convergence test
 #                     tolerance maxIter displayCode
-model.test("NormUnbalance", 1.0E-10, 20, 0)
+model.test("NormUnbalance", 1.0e-10, 20, 0)
 
 # Solution algorithm
 model.algorithm("Newton")
-
-# DOF numberer
-model.numberer("RCM")
-
-# Constraint handler
 model.constraints("Plain")
-
-# System of equations solver
 model.system("ProfileSPD")
-
-# Analysis for gravity load
 model.analysis("Static")
 
 # Perform the analysis
 model.analyze(5)
 
-# --------------------------
-# End of static analysis
-# --------------------------
-
-
-# ----------------------------
-# Start of recorder generation
-# ----------------------------
 
 model.recorder("Node", "-file", "out/Node.out", "-time", "-node", nn, "-dof", 1, "disp")
 model.recorder("Element", "-file", "out/Elem.out", "-time", "-eleRange", 1, 10, "material", "1", "strains")

@@ -133,8 +133,7 @@ set P 180;                # 10% of axial capacity of columns
 
 # Create a Plain load pattern with a Linear TimeSeries
 pattern Plain 1 "Linear" {
-
-        # Create nodal loads at nodes 3 & 4
+    # Create nodal loads at nodes 3 & 4
 	#    nd    FX          FY  MZ 
 	load  3   0.0  [expr -$P] 0.0
 	load  4   0.0  [expr -$P] 0.0
@@ -142,11 +141,6 @@ pattern Plain 1 "Linear" {
 
 # initialize in case we need to do an initial stiffness iteration
 initialize
-
-# ------------------------------
-# End of model generation
-# ------------------------------
-
 
 
 # ------------------------------

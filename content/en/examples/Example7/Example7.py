@@ -82,14 +82,7 @@ def create_model(walk_edge=False):
 
     return model
 
-    # ----------------------- 
-    # End of model generation
-    # -----------------------
 
-
-    # ------------------------
-    # Start of static analysis
-    # ------------------------
 def static_analysis(model):
     # Load control with variable load steps
     #                              init  Jd  min  max
