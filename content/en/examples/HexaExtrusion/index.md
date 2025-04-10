@@ -1,5 +1,7 @@
 ---
 title: Extrusion with bricks
+description: A hexahedral finite element mesh is generated with xara and executed with OpenSees.
+tags: ["Solid"]
 Downloads:
   Python: ["hexa.py", "requirements.txt"]
   Tcl: ["hexa.tcl"]

@@ -71,15 +71,13 @@ is created using steel and concrete fibers.
    {{< tabs tabTotal="2" >}}
    {{% tab name="Python" %}}
    ```python
-   # Define materials for nonlinear columns
-   # ------------------------------------------
-   # CONCRETE                          tag  f'c    ec0    f'cu   ecu
+   #                                   tag  f'c    ec0    f'cu   ecu
    # Core concrete (confined)
    model.uniaxialMaterial("Concrete01", 1, -6.0, -0.004, -5.0, -0.014)
    # Cover concrete (unconfined)
    model.uniaxialMaterial("Concrete01", 2, -5.0, -0.002, -0.0, -0.006)
    
-   # STEEL
+
    # Reinforcing steel 
    fy =    60.0;      # Yield stress
    E  = 30000.0;      # Young's modulus

@@ -32,6 +32,10 @@ import xara
 model = xara.Model(ndm=3, ndf=6)
 ```
 
+## Orientation
+
+Now we create the nodes and [geometric transformations](https://xara.so/user/manual/model/geomTransf.html), which
+allows us to specify the exact orientation of frame elements in 3D.
 For the first case with \(X_2\) vertical we have:
 ```python
 model.node(1, (    0,      0, 0))
@@ -70,9 +74,12 @@ for fiber in shape.create_fibers(origin="centroid"):
     model.fiber(**fiber, material=1, section=1)
 ```
 
+## Validation
 
+For this simple linear-elastic problem, it is straight forward to compute an exact solution.
+Direct assembly of element stiffness furnishes:
 $$
-\left[\begin{array}{ccc}
+\boldsymbol{K} = \left[\begin{array}{ccc}
 \frac{12}{H^3} ( EI_1 + EI_2)
 & \frac{6}{H^2}  EI_1 
 & \frac{6}{H^2}  EI_2 \\

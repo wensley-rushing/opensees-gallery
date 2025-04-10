@@ -70,14 +70,14 @@ block2D $nx $ny   1 1  $Quad  $eleArgs {
 {{% /tab %}}
 {{% tab name="Python (RT)" %}}
 ```python
-    surface = model.surface((nx, ny),
-                  element=element, args=args,
-                  points={
-                    1: [  0.0,  0.0],
-                    2: [ 40.0,  0.0],
-                    3: [ 40.0, 10.0],
-                    4: [  0.0, 10.0]
-                  })
+surface = model.surface((nx, ny),
+              element=element, args=args,
+              points={
+                1: [  0.0,  0.0],
+                2: [ 40.0,  0.0],
+                3: [ 40.0, 10.0],
+                4: [  0.0, 10.0]
+              })
 ```
 {{% /tab %}}
 {{< /tabs >}}
