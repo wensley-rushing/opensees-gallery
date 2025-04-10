@@ -13,7 +13,7 @@
 #
 
 import numpy as np
-import opensees.openseespy as ops
+import xara
 import matplotlib.pyplot as plt
 import veux
 
@@ -69,7 +69,7 @@ B_C = np.column_stack((np.arange(1,31),
 
 # ### Model Construction
 
-model = ops.Model(ndm=3, ndf=3)
+model = xara.Model(ndm=3, ndf=3)
 
 # Add nodes to the model
 for n in range(nn):
@@ -80,7 +80,7 @@ for n in range(len(B_C)):
     model.fix(B_C[n][0], *B_C[n][1:])
 
 # Define Material
-model.uniaxialMaterial('Elastic',1, E_list[0])
+model.uniaxialMaterial('Elastic', 1, E_list[0])
 
 # Add Elements
 for e in range(nel):
@@ -89,8 +89,6 @@ for e in range(nel):
 
 # ### Draw model
 # The model can now be drawn using the `veux` Python package:
-
-
 
 veux.render(model)
 
@@ -105,8 +103,6 @@ print('The first 6 period of the structure are as follows:\n', T_list)
 # ### Dynamic Analysis
 # Great accordance is obtained in eigenvalue analysis. Now, let's do `wipeAnalysis()` and perform dynamic analysis. The Newmark time integration algorithm with $\gamma=0.5$ and $\beta=0.25$ (Constant Average Acceleration Algorithm) is used. Harmonic loads are applied vertically on the `loaded_nodes` nodes.
 # 
-
-
 
 model.wipeAnalysis()
 
