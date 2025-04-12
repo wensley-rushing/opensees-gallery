@@ -1,6 +1,6 @@
 import numpy as np
 import veux
-import opensees.openseespy
+import xara
 import matplotlib.pyplot as plt
 try:
     plt.style.use("veux-web")
@@ -29,7 +29,7 @@ def arch_model3D():
     #
     # Build the model
     #
-    model = opensees.openseespy.Model(ndm=3, ndf=6)
+    model = xara.Model(ndm=3, ndf=6)
 
     # Create nodes
     ne  = 10
@@ -48,8 +48,8 @@ def arch_model3D():
         # Compute y
         y = R*np.cos(angle) - R*np.cos(th/2)
 
-        # create the node
-        model.node(tag, x, y, 0)
+        # create the node with coordinates (x, y, 0)
+        model.node(tag, (x, y, 0))
 
 
     model.section("ElasticFrame", 1, A=A, E=E, Iy=I, Iz=I, J=2*I, G=E, Ay=A*100, Az=A*100)
@@ -60,7 +60,7 @@ def arch_model3D():
     for i in range(ne):
         tag   = i+1
         nodes = (i+1, i+2)
-        model.element("PrismFrame", tag, nodes, section=1, transform=transfTag)
+        model.element("ForceFrame", tag, nodes, section=1, transform=transfTag)
 
 
     model.fix( 1, (1, 1, 0, 1, 1, 0))
@@ -152,12 +152,6 @@ def animate(model, states):
 if __name__ == "__main__":
 
     model, node = arch_model3D()
-    # artist = veux.render(model, show={"frame.surface"}, model_config={
-    #     "extrude_default": "square",
-    #     "extrude_scale": 100
-    # })
-    # artist.draw_origin()
-    # veux.serve(artist)
 
     (x, y), states = analyze(model, node, arc_control, 110, 45)
 

@@ -180,3 +180,8 @@ collapse under such large drifts.
 
 {{% render "displaced.glb" %}}
 
+
+## References
+
+This model is adapted from <a rel="nofollow" href="https://opensees.berkeley.edu/OpenSees/manuals/ExamplesManual/HTML/871.htm">Example 5</a>
+

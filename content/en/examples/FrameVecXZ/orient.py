@@ -41,14 +41,14 @@ def create_portal(vertical = 2):
     model.element("MixedFrame", 3, (3,4), section=1, transform=2) # girder
     model.element("MixedFrame", 4, (4,1), section=1, transform=3) # column
 
-    if False:
-        artist = veux.create_artist(model, vertical=vertical)
-        artist.draw_origin()
-        artist.draw_sections()
 
-        artist.draw_axes(extrude=True)
-        artist.save("orient.glb")
-        veux.serve(artist, viewer="three-170", port=8080)
+    # Render the model
+    artist = veux.create_artist(model, vertical=vertical)
+    artist.draw_origin()
+    artist.draw_sections()
+
+    artist.draw_axes(extrude=True)
+    veux.serve(artist)
 
 if __name__ == "__main__":
     create_portal(vertical=3)

@@ -65,10 +65,6 @@ pattern Plain 1 Linear {
     load $l2  0.0  -1.0
 }
 
-# ----------------------------
-# End of model generation
-# ----------------------------
-
 
 # --------------------------------------------------------------------
 # Start of static analysis (creation of the analysis & analysis itself)
