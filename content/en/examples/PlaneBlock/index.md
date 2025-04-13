@@ -50,20 +50,22 @@ model.section("PlaneStress", 1, 1, 1)
 ### Validation
 
 Consider the equilibrium differential equations for a 2D Timoshenko beam:
+
 $$
 \begin{gathered}
- A G k_s\left( w'(x)+\theta(x)\right) - E \theta''(x) =0 \\
--A G k_s\left(w''(x)+ \theta(x)'\right)=\bar{q}
+ A G k_s\left( w'+\theta\right) - EI \theta'' =0 \\
+-A G k_s\left(w''+ \theta'\right)=\bar{q}
 \end{gathered}
 $$
 
-The boundary conditions are
+This is a coupled ODE for the displacement $w(x)$ and rotation $\theta(x)$. 
+The boundary conditions for this problem are
 
 $$
 u_y(0)=0, \quad \theta(0)=0, \quad u_y(L)=0 \quad \theta(L)=0
 $$
 
-The solution is:
+and the solution is:
 
 $$
 u_y(x)=\frac{q_0 L^4}{24 E I^{}} \frac{x^2}{L^2}\left(1-\frac{x}{L}\right)^2-\frac{1}{k_s G A}\frac{q_0 L^2}{24} \left(1-12 \frac{x}{L}+12 \frac{x^2}{L^2}\right) + \frac{1}{G A k_s L^2} \frac{q_0 L^4}{24}

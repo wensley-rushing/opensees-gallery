@@ -1,8 +1,8 @@
 #
 # AISC Benchmark Problems
 #
-from opensees.units.iks import ft, ksi
-from opensees.helpers import Prism
+from xara.helpers import Prism
+from xara.units.iks import ft, ksi
 
 def check_case1(model, Mbench, Dbench, ndm):
     ne    = len(model.getEleTags())
@@ -17,7 +17,7 @@ def check_case1(model, Mbench, Dbench, ndm):
 
 
 def check_case2(model, Mbench, Dbench, ndm):
-    nn = len(model.getNodeTags())
+    nn     = len(model.getNodeTags())
     Axial  = model.getTime()
     Mbase  = model.eleResponse( 1, "forces")[2 if ndm==2 else 5]
     Dtip   = -model.nodeDisp(nn, 2)
@@ -29,11 +29,14 @@ def check_case2(model, Mbench, Dbench, ndm):
 
 def analyze_case1(model, Mbench, Dbench, ndm=3):
 
+
     ne = len(model.getNodeTags()) - 1
 
     model.pattern("Plain", 1, "Linear")
     for i in range(ne):
         model.eleLoad("-ele", i+1, "-pattern", 1, "-type", "beamUniform",  ( 0.200/ft, 0.0))
+
+    model.eval("#\n# Begin Analysis\n#\n")
 
     model.constraints("Transformation")
     model.numberer("Plain")
@@ -64,6 +67,7 @@ def analyze_case1(model, Mbench, Dbench, ndm=3):
 
     return model
 
+
 def analyze_case2(model, Mbench, Dbench, ndm=3):
 
     ne = len(model.getNodeTags()) - 1
@@ -71,6 +75,8 @@ def analyze_case2(model, Mbench, Dbench, ndm=3):
     model.pattern("Plain", 1, "Linear", load={
             ne+1: [0, -1, 0] + ([0, 0, 0] if ndm == 3 else [])
     })
+
+    model.eval("#\n# Begin Analysis\n#\n")
 
     model.constraints("Transformation")
     model.numberer("Plain")
@@ -108,6 +114,7 @@ if __name__ == "__main__":
     I =  484.0
     d =  13.8
     tw = 0.340
+    transform = "Corotational"
     section = dict(
             E  = 29000.0,
             G =  11200.0,
@@ -122,8 +129,9 @@ if __name__ == "__main__":
     #
     # Case 1
     #
-    for element in "ForceFrame", "ForceDeltaFrame", "PrismFrame":
-        for shear in (True, False):
+    i = 0
+    for element in "ForceFrame", "PrismFrame", "ForceDeltaFrame":
+        for shear in (True, True, False, False):
 
             if "Exact" in element and (ndm == 2 or not shear):
                 continue
@@ -134,8 +142,9 @@ if __name__ == "__main__":
                 section = section,
                 boundary = ("pin", "pin"),
                 geometry  = "Linear",
-                transform = "Corotational",
-                divisions = 6
+                transform = transform,
+                divisions = 6,
+                shear = shear
             )
 
             if  shear :
@@ -146,9 +155,14 @@ if __name__ == "__main__":
                 Dbench = [ 0.197, 0.224, 0.261, 0.311]
 
             print(f"Case 1: {element} ({shear = })")
-            model = prism.create_model(ndm=ndm)
+            model = prism.create_model(ndm=ndm, file=f"Case1_{i+1}.tcl")
+            model.print(json=f"{i+1}.json")
             analyze_case1(model, Mbench, Dbench, ndm=ndm)
+            i += 1
         # veux.serve(veux.render(model, model.nodeDisp, scale=100, ndf=(3 if ndm == 2 else 6)))
+
+    import sys
+    sys.exit()
 
 
     #
@@ -175,7 +189,7 @@ if __name__ == "__main__":
                 section = section,
                 boundary = ("fix", "free"),
                 geometry  = "delta",
-                transform = "Corotational",
+                transform = transform,
                 divisions = 3
             )
 
