@@ -3,7 +3,7 @@ from shps.shapes import WideFlange, Rectangle
 import opensees.openseespy as ops
 import matplotlib.pyplot as plt
 try:
-    plt.style.use("typewriter")
+    plt.style.use("veux-web")
 except:
     pass
 
@@ -30,7 +30,7 @@ def create_girder(element, shape, fy):
     model.section("ShearFiber", 1, GJ=0)
     for fiber in shape.fibers():
         y, z = fiber.location
-        model.fiber(y, z, fiber.area, mat, fiber.warp[0], [0,0,0], [0,0,0],  section=1)
+        model.fiber(y, z, fiber.area, warp=[fiber.warp[0], [0,0,0], [0,0,0]], material=mat,  section=1)
 
     model.geomTransf("Linear", 1, (0,0,1))
     model.element(element, 1, (10,20), section=1, transform=1)

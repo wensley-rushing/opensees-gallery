@@ -4,7 +4,7 @@
 # Elements are fully rigid when in thuch with gusset plates
 #
 # Rigid liks of the braces are defined with rigid elastic elements. Beam and
-# column reigid elemnts are defined using rigid offsets inside of geometric
+# column rigid elemnts are defined using rigid offsets inside of geometric
 # transformation.
 #
 # This example is written for the OpenSeesRT interpreter.
@@ -61,6 +61,7 @@ proc WSection { secID matID d bf tf tw nfdw nftw nfbf nftf} {
            patch quadr  $matID  $nfbf $nftf   $y3 $z4   $y3 $z1   $y4 $z1   $y4 $z4
     }
 }
+
 proc HSSsection { secID matID d t nfdy nfty nfdz nftz} {
     #
     # This routine creates a fiber section: AISC standard HSS section 

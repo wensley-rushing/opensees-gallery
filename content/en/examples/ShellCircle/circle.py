@@ -1,4 +1,5 @@
 from opensees import openseespy as _ops
+import math
 import veux
 import matplotlib.pyplot as plt
 try:
@@ -19,6 +20,7 @@ Lx = 20.0
 Ly = 1.0
 Nx = 20
 Ny = 1
+EI = thickness**3*Lx/12
 dLx = Lx/Nx
 dLy = Ly/Ny
 for j in range(Ny+1):
@@ -90,6 +92,7 @@ for i in range(nsteps):
 # Plot the nodal solution
 fig,ax = plt.subplots()
 ax.plot(load, u, label="ShellQ4")
+# ax.plot(load, [0]+[-EI/(m*2*math.pi)*(math.cos(m*2*math.pi)-1) for m in load[1:]], label="Analytic")
 ax.set_xlabel(r"Load factor $\lambda$")
 ax.set_ylabel(r"Displacement $u_2$")
 ax.legend()
