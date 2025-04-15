@@ -29,7 +29,7 @@ geomTransf Linear 1  0 0 1  -offset {
 
 ## Validation
 
-Recall the stiffness of a linear Euler-Bernoulli Beam:
+Recall the stiffness $\boldsymbol{K}_e$ of a linear 2D Euler-Bernoulli beam:
 
 $$
 \boldsymbol{K}_e = \begin{bmatrix}
@@ -50,6 +50,7 @@ $$
 $$
 
 and joint offsets are similarly applied with:
+
 $$
 \boldsymbol{A}_o = 
 \begin{bmatrix}

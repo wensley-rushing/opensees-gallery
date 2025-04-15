@@ -42,10 +42,37 @@ As with the example of a [tapered beam](../planetaper/), the [ElasticIsotropic](
 E = 4e3
 nu = 0.25 # Poisson's ratio
 model.material("ElasticIsotropic", 1, E, nu, 0)
-model.section("PlaneStress", 1, 1, 1)
+model.section("PlaneStress", 1, 1, 1.0)
 ```
 
+### Quadrilateral Meshes
+
+Next a mesh of quadrilateral elements is generated.
+The `surface` method is used as follows:
+
+```python
+mesh = model.surface((nx, ny),
+                  element=element,
+                  args={"section": 1},
+                  order=order,
+                  points={
+                    1: [  0.0,   0.0],
+                    2: [   L,    0.0],
+                    3: [   L,     d ],
+                    4: [  0.0,    d ]
+            })
+```
+where:
+- `element` is a string variable containing the name of the element type to generate.
+- `order` is an integer indicating the polynomial order of the generated elements; `order=1` will create standard 4-node quadrilaterals, and `order=2` will generate quadratic 9-node quadrilaterals.
+- `nx` and `ny` are integers indicating how many elements to create in the $x$ and $y$ directions.
+- `args` is a Python dictionary of arguments to be passed to each generated element. In this case the `"section"` keyword is used.
+
 {{< fold plane_block.py "analysis script" >}}
+
+### Analysis
+
+![Deformed shape with Q9 elements.](img/PlaneBlock-Q9.png)
 
 ### Validation
 
@@ -53,12 +80,12 @@ Consider the equilibrium differential equations for a 2D Timoshenko beam:
 
 $$
 \begin{gathered}
- A G k_s\left( w'+\theta\right) - EI \theta'' =0 \\
--A G k_s\left(w''+ \theta'\right)=\bar{q}
+ A G k_s\left( u_y'+\theta\right) - EI \theta'' =0 \\
+-A G k_s\left(u_y''+ \theta'\right)=\bar{w}
 \end{gathered}
 $$
 
-This is a coupled ODE for the displacement $w(x)$ and rotation $\theta(x)$. 
+This is a coupled ODE for the displacement $u_y(x)$ and cross-section rotation $\theta(x)$. 
 The boundary conditions for this problem are
 
 $$
@@ -70,6 +97,10 @@ and the solution is:
 $$
 u_y(x)=\frac{q_0 L^4}{24 E I^{}} \frac{x^2}{L^2}\left(1-\frac{x}{L}\right)^2-\frac{1}{k_s G A}\frac{q_0 L^2}{24} \left(1-12 \frac{x}{L}+12 \frac{x^2}{L^2}\right) + \frac{1}{G A k_s L^2} \frac{q_0 L^4}{24}
 $$
+
+This is plotted below along with the results of the finite element analysis with 4 and 9-node quadrilaterals:
+
+![Beam with a hole.](img/beam_solution.png)
 
 ## Combining Blocks
 

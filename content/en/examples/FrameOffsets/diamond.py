@@ -10,8 +10,8 @@
     o o
 
 """
-import opensees.openseespy as ops
 import numpy as np
+import xara
 import veux
 import os
 
@@ -40,7 +40,7 @@ def diamond_solution(EI, EA, L, off=0):
 
 
 def create_diamond():
-    m = ops.Model(ndm=3, ndf=6)
+    m = xara.Model(ndm=3, ndf=6)
 
     L   = 5
     off = 0.1*L
@@ -51,23 +51,18 @@ def create_diamond():
 
     m.node(1, (0, 0, 0))
     m.node(2, (X, X, 0))
-    m.fix(1, (0, 1, 1,  1, 1, 1))
-    m.fix(2, (1, 0, 1,  1, 0, 0))
+    m.fix(1,  (0, 1, 1,  1, 1, 1))
+    m.fix(2,  (1, 0, 1,  1, 0, 0))
 
 
     m.geomTransf("Linear", 1, (0, 0, 1),
-                  # jntOffset=( off/np.sqrt(2), off/np.sqrt(2), 0,
-                  #            -off/np.sqrt(2),-off/np.sqrt(2), 0),
                 offset={
                     1: ( off/np.sqrt(2), off/np.sqrt(2), 0),
                     2: (-off/np.sqrt(2),-off/np.sqrt(2), 0),
                 }
     )
 
-    if "CRD04" in os.environ:
-        section, element = "ElasticFrame", "ForceFrame"
-    else:
-        section, element = "Elastic", "forceBeamColumn"
+    section, element = "ElasticFrame", "ForceFrame"
 
     m.section(section, 1, E=E, A=A, Iy=I, Iz=I, G=1, J=3/2*I)
     m.element(element, 1, (1, 2), transform=1, section=1, shear=0)
@@ -76,14 +71,14 @@ def create_diamond():
     P = -4*L**2/(E*I)
     m.integrator("LoadControl", P)
     m.analysis("Static")
-#   m.test("NormDispIncr", 1e-8, 2)
+    m.test("NormDispIncr", 1e-8, 2)
     m.analyze(1)
 
-#   m.print(json=True)
 
     print(P/diamond_solution(E*I, E*A, L, off=off)/L)
+    print(m.nodeDisp(1))
+    print(m.nodeDisp(2))
     print(m.nodeDisp(2, 2)/L)
-    print(m.numIter())
     return m
 
 

@@ -1,11 +1,16 @@
 # import the OpenSees Python module
 import xara
+import veux
 import numpy as np
 from xara.units.iks import kip, inch, foot, ksi
 from xara.helpers import find_node, find_nodes
 from veux.stress import node_average
 from scipy.spatial.distance import euclidean as distance
 import matplotlib.pyplot as plt
+try:
+    plt.style.use("veux-web")
+except:
+    pass
 
 def create_beam(mesh,
                 order=1,
@@ -17,7 +22,6 @@ def create_beam(mesh,
     # ---------------
     E = 4000.0*ksi
     nu = 0.25
-#   print(f"{E = }, {inch = }")
     L = 240.0*inch
     d = 24.0*inch
     thick = 1.0*inch
@@ -39,13 +43,15 @@ def create_beam(mesh,
     # -------------------
     #                                 tag     E      nu   rho
     model.material("ElasticIsotropic", 1, E, nu, 0)
+    model.section("PlaneStress", 1, 1, thick)
 
     # now create the nodes and elements using the surface command
     # {"quad", "enhancedQuad", "tri31", "LagrangeQuad"}:
-    args = (thick, "PlaneStress", 1)
+
 
     mesh = model.surface((nx, ny),
-                  element=element, args=args,
+                  element=element,
+                  args={"section": 1},
                   order=order,
                   points={
                     1: [  0.0,   0.0],
@@ -119,7 +125,7 @@ def create_beam(mesh,
 
 if __name__ == "__main__":
     for element in "quad",:
-        model, xn, um, ue = create_beam((40,8), element=element, order=1)
+        model, xn, um, ue = create_beam((40,8), element=element, order=2)
 #       model, xn, um, ue = create_beam((12,4), element=element, order=2)
 
     fig, ax = plt.subplots()
@@ -131,14 +137,13 @@ if __name__ == "__main__":
     plt.show()
 
 
-    import veux
     artist = veux.create_artist(model, canvas="gltf")
 
     stress = {node: stress["sxx"] for node, stress in node_average(model, "stressAtNodes").items()}
 
     artist.draw_nodes()
     artist.draw_outlines()
-    artist.draw_surfaces(state=model.nodeDisp, scale=50)
+    artist.draw_surfaces(state=model.nodeDisp, scale=50, field=stress)
 #   artist.draw_surfaces(field = stress)
     artist.draw_outlines(state=model.nodeDisp, scale=50)
     veux.serve(artist)
