@@ -36,15 +36,12 @@ def create_model(mesh,
     load = 1000.0
     b = 30
     L = 100.0
-    r = 7.5/L
+    r = (b/4)/L
 
     # Create the nodes and elements using the surface command
-    # {"quad", "enhancedQuad", "tri31", "LagrangeQuad"}:
-#   kwds = {"section": 1} # (thickness, "PlaneStrain", 1)
     args = ("-section", 1)
 
     mesh = model.surface((nx, ny),
-#                 element=element, args=args,
                   points={
                     1: [  0.0,   0.0],
                     2: [   L,    L*r],

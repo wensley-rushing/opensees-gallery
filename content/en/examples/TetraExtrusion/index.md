@@ -31,7 +31,6 @@ And finally we perform `n = 100` extrusions:
 ```python
 n = 100
 for i in range(n):
-
     for tag, coords in ex.nodes():
         model.node(tag, tuple(coords))
         if i==0 and coords[-1] == 0:
@@ -44,9 +43,22 @@ for i in range(n):
 
     ex.advance()
 ```
-This will create the following finite element model, which is rendered with veux:
+This will create the following finite element model, which is rendered with [veux](https://veux.io):
 
 ![Channel section](img/channel.png)
 
-After performing the analysis the deformed shape is:
+```python
+model.integrator("LoadControl", 2)
+model.system("Umfpack")
+model.analysis("Static")
+model.analyze(1)
+```
+
+After performing the analysis the deformed shape is rendered with:
+```python
+artist = veux.create_artist(model, ndf=3)
+artist.draw_outlines(state=model.nodeDisp)
+artist.draw_surfaces(state=model.nodeDisp)
+```
+
 ![Deformed cantilever](img/channel-deformed.png)
