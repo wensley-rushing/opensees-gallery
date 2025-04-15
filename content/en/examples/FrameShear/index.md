@@ -3,6 +3,7 @@ title: Columns with Nonlinear Geometry and Shear
 description: This example investigates P-Delta effects in columns with and without shear.
 tags: ["Frame", "Steel"]
 thumbnail: img/aisc-column.png
+draft: false
 downloads:
   Python: ["aisc.py"]
 ---

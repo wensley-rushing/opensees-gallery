@@ -19,7 +19,7 @@ import opensees.openseespy as ops
 # Create a Model (with two-dimensions and 2 DOF/node)
 model = ops.Model(ndm=2, ndf=2)
 
-# Create nodes - command: node nodeId xCrd yCrd
+# Create nodes
 model.node(1, (  0.0,  0.0))
 model.node(2, (144.0,  0.0))
 model.node(3, (168.0,  0.0))
@@ -55,16 +55,14 @@ model.pattern("Plain", 1, "Linear", load=load)
 # Start of analysis generation
 # ------------------------------
 
-# create the constraint handler, a Plain handler is used as homo constraints
 model.constraints("Plain")
 
-# create the solution algorithm, a Linear algorithm is created
+# create the solution algorithm
 model.algorithm("Linear")
 
 # create the integration scheme, the LoadControl scheme using steps of 1.0
 model.integrator("LoadControl", 1.0)
 
-# create the analysis object 
 model.analysis("Static")
 
 

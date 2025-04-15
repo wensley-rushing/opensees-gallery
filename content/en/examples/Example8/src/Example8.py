@@ -76,10 +76,6 @@ model.pattern("Plain", 1, "Linear")
 #    pattern we just created
 model.load(nn, p, p, 0.0, pattern=1)
 
-# ----------------------- 
-# End of model generation
-# -----------------------
-
 
 # ------------------------
 # Start of static analysis

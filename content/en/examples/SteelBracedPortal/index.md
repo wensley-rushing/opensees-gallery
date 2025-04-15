@@ -1,6 +1,6 @@
 ---
 title: Concentrically Braced Portal Frame
-draft: true
+draft: false
 downloads:
   Python: ["portal.py"]
 ---

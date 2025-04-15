@@ -1,7 +1,6 @@
 import opensees.openseespy as xara
 from opensees.units.fps import foot, inch, kip, ksi
 import veux
-from shps.shapes import WideFlange
 
 def portal_solution(EI1, EI2, EIg, H, L):
     import numpy as np

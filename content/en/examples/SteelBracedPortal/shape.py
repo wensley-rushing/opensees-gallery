@@ -1,24 +1,26 @@
 import veux
 from veux.config import LineStyle
 import numpy as np
-from opensees.units.fps import foot, inch
-from shps.shapes import WideFlange
+import xara.units.fps as units
+from xara.units.fps import foot, inch, kip, ksi
+from shps.shapes import from_aisc
 from veux.utility.alpha_shape import alpha_shape
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    shape = WideFlange(d=8*inch, b=6.5*inch, t=0.5*inch)
+#   shape = from_aisc("W27x84", units=units)
+    shape = from_aisc("HSS10x10x5/8", units=units)
     print(shape.create_shape().summary())
 
 
     points = np.array([
-        fiber.location for fiber in shape.create_fibers(origin="centroid")
+        fiber.location for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5)
     ])
 
     fig, ax = plt.subplots()
     ax.scatter(*zip(*points), 0.2, marker=".")
     ax.set_aspect("equal")
-    alpha = alpha_shape(points, radius=0.01)
+    alpha = alpha_shape(points, bound_ratio=0.01) #radius=0.05)
     ax.scatter(*zip(*alpha), 0.2, marker=".", color="red")
     plt.show()
 

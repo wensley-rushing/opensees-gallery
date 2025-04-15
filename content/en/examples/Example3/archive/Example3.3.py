@@ -35,24 +35,18 @@ model = portal_frame()
 # Set a parameter for the axial load
 P = 180.0;                # 10% of axial capacity of columns
 
-# create a Linear TimeSeries (load factor varies linearly with time) - command: timeSeries Linear $tag
-model.timeSeries("Linear", 1)
-
 # create a Plain load pattern - command: pattern Plain $tag $timeSeriesTag { $loads }
-model.pattern("Plain", 1, 1, "-fact", 1.0)
+model.pattern("Plain", 1, "Linear")
 
 # create the nodal load - command: load nodeID xForce yForce zMoment
-model.load(3, 0.0, -P, 0.0)
-model.load(4, 0.0, -P, 0.0)
-
-# ------------------------------
-# End of model generation
-# ------------------------------
+model.load(3, (0.0, -P, 0.0), pattern=1)
+model.load(4, (0.0, -P, 0.0), pattern=1)
 
 
-# ------------------------------
+
+#
 # Start of analysis generation
-# ------------------------------
+#
 
 # create the system of equation
 model.system("BandGeneral")
@@ -73,12 +67,7 @@ model.algorithm("Newton")
 # create the integration scheme, the LoadControl scheme using steps of 0.1
 model.integrator("LoadControl", 0.1)
 
-# create the analysis object 
 model.analysis("Static")
-
-# ------------------------------
-# End of analysis generation
-# ------------------------------
 
 
 # ------------------------------
@@ -91,11 +80,7 @@ model.analyze(10)
 print("Gravity load analysis completed\n")
 
 # Set the gravity loads to be constant & reset the time in the domain
-model.loadConst("-time", 0.0)
-
-# ----------------------------------------------------
-# End of Model Generation & Initial Gravity Analysis
-# ----------------------------------------------------
+model.loadConst(time=0.0)
 
 
 # ----------------------------------------------------
@@ -105,9 +90,9 @@ model.loadConst("-time", 0.0)
 # Define nodal mass in terms of axial load on columns
 m = P/g
 
-#       tag MX MY RZ
-model.mass(3, m, m, 0.0)
-model.mass(4, m, m, 0.0)
+#         tag   MX MY RZ
+model.mass(3, (m, m, 0.0))
+model.mass(4, (m, m, 0.0))
 
 # Define dynamic loads
 # --------------------
@@ -125,10 +110,6 @@ model.pattern("UniformExcitation", 2, 1, "-accel", 2)
 # Set the rayleigh damping factors for nodes & elements
 model.rayleigh(0.0, 0.0, 0.0, 0.000625)
 
-# ----------------------------------------------------
-# End of additional modeling for dynamic loads
-# ----------------------------------------------------
-
 
 # ---------------------------------------------------------
 # Start of modifications to analysis for transient analysis
@@ -137,17 +118,9 @@ model.rayleigh(0.0, 0.0, 0.0, 0.000625)
 # delete the old analysis and all its component objects
 model.wipeAnalysis()
 
-# create the system of equation, a banded general storage scheme
 model.system("BandGeneral")
-
-# create the DOF numberer, the reverse Cuthill-McKee algorithm
 model.numberer("RCM")
-
-# create the constraint handler, a plain handler as homogeneous boundary
 model.constraints("Plain")
-
-# create the convergence test, the norm of the residual with a tolerance of 
-# 1e-12 and a max number of iterations of 10
 model.test("NormDispIncr", 1.0e-12, 10)
 
 # create the solution algorithm, a Newton-Raphson algorithm
@@ -156,12 +129,8 @@ model.algorithm("Newton")
 # create the integration scheme, the Newmark with gamma=0.5 and beta=0.25
 model.integrator("Newmark", 0.5, 0.25)
 
-# create the analysis object 
 model.analysis("Transient")
 
-# ---------------------------------------------------------
-# End of modifications to analysis for transient analysis
-# ---------------------------------------------------------
 
 
 # ------------------------------
@@ -169,18 +138,14 @@ model.analysis("Transient")
 # ------------------------------
 
 # Create a recorder to monitor nodal displacements
-model.recorder("Node", "-time", "-file", "disp.out", "-node", 3, 4, "-dof", 1, 2, 3, "disp")
-model.recorder("Node", "-time", "-file", "accel.out", "-node", 3, 4, "-dof", 1, 2, 3, "accel")
-model.recorder("Node", "-time", "-file", "totAccel.out", "-timeSeries", 2, 0, 0, "-node", 3, 4, "-dof", 1, 2, 3, "accel")
+model.recorder("Node", "disp",  "-time", "-file", "disp.out", "-node", 3, 4, "-dof", 1, 2, 3)
+model.recorder("Node", "accel", "-time", "-file", "accel.out", "-node", 3, 4, "-dof", 1, 2, 3)
+model.recorder("Node", "accel", "-time", "-file", "totAccel.out", "-timeSeries", 2, 0, 0, "-node", 3, 4, "-dof", 1, 2, 3)
 
 # Create recorders to monitor section forces and deformations
 # at the base of the left column
 model.recorder("Element", "-time", "-file", "ele1secForce.out", "-ele", 1, "section", 1, "force")
 model.recorder("Element", "-time", "-file", "ele1secDef.out", "-ele", 1, "section", 1, "deformation")
-
-# --------------------------------
-# End of recorder generation
-# ---------------------------------
 
 
 # ------------------------------

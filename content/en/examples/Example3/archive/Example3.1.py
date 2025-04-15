@@ -31,13 +31,13 @@ model = ops.Model(ndm=2, ndf=3)
 width  = 360.0
 height = 144.0
 
-# create nodes & add to Domain - command: node nodeId xCrd yCrd
+# Create nodes
 model.node(1, 0.0,   0.0)
 model.node(2, width, 0.0)
 model.node(3, 0.0,   height)
 model.node(4, width, height)
 
-# set the boundary conditions - command: fix nodeID uxRestrnt? uyRestrnt? rzRestrnt?
+# set the boundary conditions
 model.fix(1, 1, 1, 1)
 model.fix(2, 1, 1, 1)
 
@@ -125,11 +125,6 @@ model.load(4, 0.0, -P, 0.0)
 model.print("-JSON", "-file", "Example3.1.json")
 
 # ------------------------------
-# End of model generation
-# ------------------------------
-
-
-# ------------------------------
 # Start of analysis generation
 # ------------------------------
 
@@ -152,12 +147,7 @@ model.algorithm("Newton")
 # create the integration scheme, the LoadControl scheme using steps of 0.1
 model.integrator("LoadControl", 0.1)
 
-# create the analysis object 
 model.analysis("Static")
-
-# ------------------------------
-# End of analysis generation
-# ------------------------------
 
 
 # ------------------------------
