@@ -109,14 +109,12 @@ def ReinforcedRectangle(model, id, h, b, cover, coreID, coverID, steelID, numBar
     model.layer("straight", steelID, numBars, barArea, coreY-spacingY, -coreZ, (-coreY+spacingY), -coreZ)
 
 
-# ----------------------------
-# Start of model generation
-# ----------------------------
+
 def create_model(eleType=None):
-    # create ModelBuilder (with three-dimensions and 6 DOF/node)
+    # create Model in three-dimensions with 6 DOF/node
     model = ops.Model(ndm=3, ndf=6)
 
-    # Define geometry
+    # Geometry
     # ---------------
 
     # Set parameters for model geometry
@@ -351,7 +349,7 @@ def analyze(model):
     # ----------------------------
 
     # Record DOF 1 and 2 displacements at nodes 9, 14, and 19
-    model.recorder("Node", "-file", "Node51.out", "-time", "-node", 9, 14, 19, "-dof", 1, 2, "disp")
+    model.recorder("Node", "disp", "-file", "Node51.out", "-time", "-node", 9, 14, 19, "-dof", 1, 2)
 
 
     # Perform the analysis
