@@ -6,6 +6,7 @@
 # Units: kip, in, sec
 
 set use_shear 1
+set Transform PDelta; # Corotational
 
 if { $use_shear } {
     set Mbench_list [list 235.0 270.0 316.0 380.0]
@@ -53,7 +54,7 @@ if { $use_shear } {
 } else {
     section Elastic 1 $E $A $I
 }
-geomTransf Corotational 1
+geomTransf $Transform 1
 
 # Elements
 element ForceBeamColumn 1 1 2 3 1 1
@@ -67,14 +68,14 @@ element ForceBeamColumn 8 8 9 3 1 1
 
 timeSeries Linear 1
 pattern Plain 1 1 {
-    eleLoad -ele 1 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 2 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 3 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 4 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 5 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 6 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 7 -type -beamUniform [expr -0.200/12]
-    eleLoad -ele 8 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 1 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 2 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 3 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 4 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 5 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 6 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 7 -type -beamUniform [expr -0.200/12]
+   eleLoad -ele 8 -type -beamUniform [expr -0.200/12]
 }
 
 constraints Transformation

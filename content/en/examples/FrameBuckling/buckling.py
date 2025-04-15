@@ -18,11 +18,11 @@ import opensees.openseespy as ops
 # Effective length factors
 FACTORS = {
     "pin-pin":     1,
-    "fix-roll":   1,
+    "fix-roll":    1,
     "fix-fix":     0.5,
     "fix-pin":     0.7,
     "fix-free":    2,
-    "pin-roll":   2,
+    "pin-roll":    2,
 }
 
 def buckle_factor(boundary, phi=0):
@@ -148,7 +148,7 @@ def create_column(boundary="pin-pin", elem_data=None, ndm=2):
         if ndm == 3:
             properties.extend(["-Az", Az])
 
-    model.section("FrameElastic", sec_tag, *properties)
+    model.section("ElasticFrame", sec_tag, *properties)
 
     # Define geometric transformation
     geo_tag = 1
@@ -167,7 +167,6 @@ def create_column(boundary="pin-pin", elem_data=None, ndm=2):
                       order=kinematics,
                       shear=int(use_shear))
 
-
     # Define loads
     if use_shear:
         phi = 12*E*I/(Ay*G*L**2)
@@ -178,7 +177,7 @@ def create_column(boundary="pin-pin", elem_data=None, ndm=2):
 #       kL = FACTORS[boundary]*L
         kL = L/buckle_factor(boundary)
         euler_load = E*I/kL**2
-    model.pattern('Plain', 1, "Linear")
+    model.pattern("Plain", 1, "Linear")
     if ndm == 2:
         load = (0.0, -euler_load, 0.0)
     else:
@@ -206,18 +205,17 @@ def buckling_analysis(model, peak_load):
     PeakLoadRatio = 1.50
 
     # Analysis Options
-#   model.system('UmfPack')
+    model.system('UmfPack')
 #   model.constraints('Transformation')
 #   model.test('NormUnbalance', 1.0e-6, 20, 0)
     model.test("EnergyIncr", 1e-8, 20, 9)
-    model.algorithm('Newton')
-    model.integrator('LoadControl', load_step)
-    model.analysis('Static')
+    model.algorithm("Newton")
+    model.integrator("LoadControl", load_step)
+    model.analysis("Static")
 
-#   print(pd.DataFrame(model.getTangent()))
 
     lam_0 = model.getTime()
-    eig_0 = model.eigen(1)
+    eig_0 = model.eigen("-fullGenLapack", 1)
 
     limit_load = None
     failed = False
@@ -225,7 +223,6 @@ def buckling_analysis(model, peak_load):
         if model.analyze(1) != 0:
             print(f"  Analysis failed at step {i} with load at {model.getTime()}")
             failed = True
-#           break
 
         lam =  model.getTime()
         eig =  model.eigen(1)[0]
@@ -249,8 +246,8 @@ def buckling_analysis(model, peak_load):
 if __name__ == "__main__":
 
     for ndm in 3,:
-        for elem in "PrismFrame", "MixedFrame", "ExactFrame":
-    #               "forceBeamColumn", "forceBeamColumnCBDI":
+        for elem in "PrismFrame", "ForceFrame", "ExactFrame":
+    #   for elem in "forceBeamColumn", "forceBeamColumnCBDI":
             print(f"\n{elem:10}      Shear    Order     Theory   Computed       Error")
 
 
@@ -273,6 +270,8 @@ if __name__ == "__main__":
 
                         model, euler_load  = create_column(boundary, elem_data, ndm=ndm)
                         limit_load   = buckling_analysis(model, euler_load)
+                        model.wipe()
+                        del model
 
                         print(f"  {boundary:10} {shear:8} {order:8} ", end="")
                         if limit_load is None:

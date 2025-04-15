@@ -2,7 +2,7 @@
 # AISC Benchmark Problems
 #
 from xara.helpers import Prism
-from xara.units.iks import ft, ksi
+from xara.units.iks import ft, ksi, kip, inch
 
 def check_case1(model, Mbench, Dbench, ndm):
     ne    = len(model.getEleTags())
@@ -29,23 +29,23 @@ def check_case2(model, Mbench, Dbench, ndm):
 
 def analyze_case1(model, Mbench, Dbench, ndm=3):
 
-
     ne = len(model.getNodeTags()) - 1
 
     model.pattern("Plain", 1, "Linear")
     for i in range(ne):
-        model.eleLoad("-ele", i+1, "-pattern", 1, "-type", "beamUniform",  ( 0.200/ft, 0.0))
+        model.eleLoad("-ele", i+1, "-pattern", 1, "-type", "beamUniform",  ( 0.2*kip/ft, 0.0))
 
     model.eval("#\n# Begin Analysis\n#\n")
 
     model.constraints("Transformation")
     model.numberer("Plain")
     model.system("UmfPack")
-    model.test("NormDispIncr", 1.0e-6, 30, 0)
+    model.test("NormDispIncr", 1.0e-10, 10, 0)
     model.algorithm("Newton")
     model.integrator("LoadControl", 0.1)
     model.analysis("Static")
-    model.analyze(10)
+    if model.analyze(10) != 0:
+        raise ValueError
 
     check_case1(model, Mbench[0], Dbench[0], ndm=ndm)
 
@@ -56,13 +56,16 @@ def analyze_case1(model, Mbench, Dbench, ndm=3):
 
 
     model.integrator("LoadControl", 15.0)
-    model.analyze(10)
+    if model.analyze(10) != 0:
+        raise ValueError
     check_case1(model, Mbench[1], Dbench[1], ndm=ndm)
 
-    model.analyze(10)
+    if model.analyze(10) != 0:
+        raise ValueError
     check_case1(model, Mbench[2], Dbench[2], ndm=ndm)
 
-    model.analyze(10)
+    if model.analyze(10) != 0:
+        raise ValueError
     check_case1(model, Mbench[3], Dbench[3], ndm=ndm)
 
     return model
@@ -119,8 +122,8 @@ if __name__ == "__main__":
             E  = 29000.0,
             G =  11200.0,
             A  = A,
-            J  = 100*I,
-            Iy = I,
+            J  = 1.45*inch**4,
+            Iy = 51.4*inch**4,
             Iz = I,
             Ay = d*tw,
             Az = d*tw
@@ -130,8 +133,8 @@ if __name__ == "__main__":
     # Case 1
     #
     i = 0
-    for element in "ForceFrame", "PrismFrame", "ForceDeltaFrame":
-        for shear in (True, True, False, False):
+    for element in "PrismFrame", "ForceFrame", : #"ForceDeltaFrame",: #
+        for shear in (True, False):
 
             if "Exact" in element and (ndm == 2 or not shear):
                 continue
@@ -143,7 +146,7 @@ if __name__ == "__main__":
                 boundary = ("pin", "pin"),
                 geometry  = "Linear",
                 transform = transform,
-                divisions = 6,
+                divisions = 10,
                 shear = shear
             )
 
@@ -155,14 +158,11 @@ if __name__ == "__main__":
                 Dbench = [ 0.197, 0.224, 0.261, 0.311]
 
             print(f"Case 1: {element} ({shear = })")
-            model = prism.create_model(ndm=ndm, file=f"Case1_{i+1}.tcl")
-            model.print(json=f"{i+1}.json")
-            analyze_case1(model, Mbench, Dbench, ndm=ndm)
-            i += 1
-        # veux.serve(veux.render(model, model.nodeDisp, scale=100, ndf=(3 if ndm == 2 else 6)))
+            if True:
+                model = prism.create_model(ndm=ndm)
+                analyze_case1(model, Mbench, Dbench, ndm=ndm)
 
-    import sys
-    sys.exit()
+            i += 1
 
 
     #
@@ -188,9 +188,10 @@ if __name__ == "__main__":
                 element = element,
                 section = section,
                 boundary = ("fix", "free"),
-                geometry  = "delta",
+                geometry  = "Linear", # "delta"
                 transform = transform,
-                divisions = 3
+                divisions = 3,
+                shear=shear
             )
 
             print(f"Case 2: {element} ({shear = })")
