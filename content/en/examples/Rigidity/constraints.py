@@ -2,7 +2,10 @@ import sympy as sp
 import numpy as np
 import pandas as pd
 
-def add_constraints(A, ic, iu=None):
+def analyze_constraints(A, ic, iu=None):
+    """
+    ic: indices of rows pertaining to constrained deformations
+    """
     ir = np.arange(len(A))
     ir = np.delete(ir, ic)
 
@@ -58,8 +61,7 @@ if __name__ == "__main__":
         [  0.6 , 0 ,  0.8 , 0 , 0 ],
         [ -0.6 , 0 ,    0 , 0 , 0.8]]
 
-    add_constraints(A, [0, 3, 4], [0, 4])
+    analyze_constraints(A, [0, 3, 4])
 
-   #  print(A@np.array([1, 1/8, 3/4, -1/4, 0]))
 
 

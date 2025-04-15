@@ -84,7 +84,6 @@ uniaxialMaterial Steel01  3  60 30000 0.015
 
 # Interior column section
 section Fiber 1 {
-   #           mat nfIJ nfJK   yI  zI    yK  zK  
    #           mat nfIJ nfJK   yI  zI    yJ  zJ    yK  zK    yL  zL
    patch quadr  2    1   12 -11.5  10 -11.5 -10  11.5 -10  11.5  10
    patch quadr  1    1   14 -13.5 -10 -13.5 -12  13.5 -12  13.5 -10
@@ -208,10 +207,6 @@ pattern Plain 1 Linear {
     }
 }
 
-# ------------------------------
-# End of model generation
-# ------------------------------
-
 
 # ------------------------------------------------
 # Start of analysis generation for gravity analysis
@@ -238,11 +233,6 @@ constraints Plain
 
 # Create the analysis object
 analysis Static
-
-
-# ------------------------------------------------
-# End of analysis generation for gravity analysis
-# -------------------------------------------------
 
 
 # ------------------------------
