@@ -3,6 +3,7 @@ title: Orienting frames in 3D
 weight: 10
 description: This example demonstrates how to orient beam elements in 3D. 
 thumbnail: img/examples/vecxz.png
+tags: ["Frame"]
 downloads:
   Python: ["requirements.txt", "orient.py"]
   Tcl: ["orient.tcl"]
