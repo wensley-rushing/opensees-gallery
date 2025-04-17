@@ -1,6 +1,6 @@
 ---
 title: Curved Cantilever
-draft: false
+draft: true
 description: Geometrically nonlinear analysis of Bathe's curved cantilever.
 bibliography: references.json
 downloads:

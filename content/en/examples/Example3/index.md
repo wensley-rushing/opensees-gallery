@@ -67,106 +67,114 @@ is created using steel and concrete fibers.
    {{% /tab %}}
    {{< /tabs >}}
 
-2. Next define the materials   
-   {{< tabs tabTotal="2" >}}
-   {{% tab name="Python" %}}
-   ```python
-   #                                   tag  f'c    ec0    f'cu   ecu
-   # Core concrete (confined)
-   model.uniaxialMaterial("Concrete01", 1, -6.0, -0.004, -5.0, -0.014)
-   # Cover concrete (unconfined)
-   model.uniaxialMaterial("Concrete01", 2, -5.0, -0.002, -0.0, -0.006)
-   
+### Materials
 
-   # Reinforcing steel 
-   fy =    60.0;      # Yield stress
-   E  = 30000.0;      # Young's modulus
-   #                                tag fy  E   b
-   model.uniaxialMaterial("Steel01", 3, fy, E, 0.01)
-   ```
-   {{% /tab %}}
-   {{% tab name="Tcl" %}}
-   ```tcl
-   # Core concrete (confined)
-   #                           tag  f'c     ec0  f'cu        ecu
-   uniaxialMaterial Concrete01  1  -6.0  -0.004  -5.0     -0.014
 
-   # Cover concrete (unconfined)
-   uniaxialMaterial Concrete01  2  -5.0  -0.002   0.0     -0.006
+![](img/RCsection0.svg)
 
-   # Reinforcing steel 
-   set fy 60.0;      # Yield stress
-   set E 30000.0;    # Young's modulus
-   #                        tag  fy E0    b
-   uniaxialMaterial Steel01  3  $fy $E 0.01
-   ```
-   {{% /tab %}}
-   {{< /tabs >}}
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+```python
+#                                   tag  f'c    ec0    f'cu   ecu
+# Core concrete (confined)
+model.uniaxialMaterial("Concrete01", 1, -6.0, -0.004, -5.0, -0.014)
+# Cover concrete (unconfined)
+model.uniaxialMaterial("Concrete01", 2, -5.0, -0.002, -0.0, -0.006)
 
-3. Define a cross section for the columns, following the procedure from the [moment-curvature example](../example2/)
-   {{< tabs tabTotal="2" >}}
-   {{% tab name="Python" %}}
-   ```python
-    # Define cross-section for nonlinear columns
-    # ------------------------------------------
-    # set some parameters
-    colWidth = 15.0
-    colDepth = 24.0
-    cover    =  1.5
-    As       =  0.6      # area of no. 7 bars
 
-    # some variables derived from the parameters
-    y1 = colDepth/2.0
-    z1 = colWidth/2.0
+# Reinforcing steel 
+fy =    60.0;      # Yield stress
+E  = 30000.0;      # Young's modulus
+#                                tag fy  E   b
+model.uniaxialMaterial("Steel01", 3, fy, E, 0.01)
+```
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+# Core concrete (confined)
+#                           tag  f'c     ec0  f'cu        ecu
+uniaxialMaterial Concrete01  1  -6.0  -0.004  -5.0     -0.014
 
-    model.section("Fiber", 1)
+# Cover concrete (unconfined)
+uniaxialMaterial Concrete01  2  -5.0  -0.002   0.0     -0.006
+
+# Reinforcing steel 
+set fy 60.0;      # Yield stress
+set E 30000.0;    # Young's modulus
+#                        tag  fy E0    b
+uniaxialMaterial Steel01  3  $fy $E 0.01
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+### Sections
+
+Define a cross section for the columns, following the procedure from the [moment-curvature example](../example2/)
+
+
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+```python
+# Define cross-section for nonlinear columns
+# ------------------------------------------
+# set some parameters
+colWidth = 15.0
+colDepth = 24.0
+cover    =  1.5
+As       =  0.6      # area of no. 7 bars
+
+# some variables derived from the parameters
+y1 = colDepth/2.0
+z1 = colWidth/2.0
+
+model.section("Fiber", 1)
+# Add the concrete core fibers
+model.patch("rect", 1, 10, 1, cover-y1, cover-z1, y1-cover, z1-cover, section=1)
+# Add the concrete cover fibers (top, bottom, left, right)
+model.patch("rect", 2, 10, 1, -y1, z1-cover, y1, z1, section=1)
+model.patch("rect", 2, 10, 1, -y1, -z1, y1, cover-z1, section=1)
+model.patch("rect", 2,  2, 1, -y1, cover-z1, cover-y1, z1-cover, section=1)
+model.patch("rect", 2,  2, 1,  y1-cover, cover-z1, y1, z1-cover, section=1)
+# Add the reinforcing fibers (left, middle, right, section=1)
+model.layer("straight", 3, 3, As, y1-cover, z1-cover, y1-cover, cover-z1, section=1)
+model.layer("straight", 3, 2, As,      0.0, z1-cover,      0.0, cover-z1, section=1)
+model.layer("straight", 3, 3, As, cover-y1, z1-cover, cover-y1, cover-z1, section=1)
+```
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+# Define cross-section for nonlinear columns
+# ------------------------------------------
+
+# set some parameters
+set colWidth 15
+set colDepth 24 
+
+set cover  1.5
+set As    0.60;     # area of no. 7 bars
+
+# some variables derived from the parameters
+set y1 [expr $colDepth/2.0]
+set z1 [expr $colWidth/2.0]
+
+section Fiber 1 {
     # Add the concrete core fibers
-    model.patch("rect", 1, 10, 1, cover-y1, cover-z1, y1-cover, z1-cover, section=1)
+    patch rect 1 10 1 [expr $cover-$y1] [expr $cover-$z1] [expr $y1-$cover] [expr $z1-$cover]
+
     # Add the concrete cover fibers (top, bottom, left, right)
-    model.patch("rect", 2, 10, 1, -y1, z1-cover, y1, z1, section=1)
-    model.patch("rect", 2, 10, 1, -y1, -z1, y1, cover-z1, section=1)
-    model.patch("rect", 2,  2, 1, -y1, cover-z1, cover-y1, z1-cover, section=1)
-    model.patch("rect", 2,  2, 1,  y1-cover, cover-z1, y1, z1-cover, section=1)
-    # Add the reinforcing fibers (left, middle, right, section=1)
-    model.layer("straight", 3, 3, As, y1-cover, z1-cover, y1-cover, cover-z1, section=1)
-    model.layer("straight", 3, 2, As,      0.0, z1-cover,      0.0, cover-z1, section=1)
-    model.layer("straight", 3, 3, As, cover-y1, z1-cover, cover-y1, cover-z1, section=1)
-   ```
-   {{% /tab %}}
-   {{% tab name="Tcl" %}}
-   ```tcl
-   # Define cross-section for nonlinear columns
-   # ------------------------------------------
+    patch rect 2 10 1  [expr -$y1] [expr $z1-$cover] $y1 $z1
+    patch rect 2 10 1  [expr -$y1] [expr -$z1] $y1 [expr $cover-$z1]
+    patch rect 2  2 1  [expr -$y1] [expr $cover-$z1] [expr $cover-$y1] [expr $z1-$cover]
+    patch rect 2  2 1  [expr $y1-$cover] [expr $cover-$z1] $y1 [expr $z1-$cover]
 
-   # set some parameters
-   set colWidth 15
-   set colDepth 24 
-
-   set cover  1.5
-   set As    0.60;     # area of no. 7 bars
-
-   # some variables derived from the parameters
-   set y1 [expr $colDepth/2.0]
-   set z1 [expr $colWidth/2.0]
-
-   section Fiber 1 {
-       # Add the concrete core fibers
-       patch rect 1 10 1 [expr $cover-$y1] [expr $cover-$z1] [expr $y1-$cover] [expr $z1-$cover]
-
-       # Add the concrete cover fibers (top, bottom, left, right)
-       patch rect 2 10 1  [expr -$y1] [expr $z1-$cover] $y1 $z1
-       patch rect 2 10 1  [expr -$y1] [expr -$z1] $y1 [expr $cover-$z1]
-       patch rect 2  2 1  [expr -$y1] [expr $cover-$z1] [expr $cover-$y1] [expr $z1-$cover]
-       patch rect 2  2 1  [expr $y1-$cover] [expr $cover-$z1] $y1 [expr $z1-$cover]
-
-       # Add the reinforcing fibers (left, middle, right)
-       layer straight 3 3 $As [expr $y1-$cover] [expr $z1-$cover] [expr $y1-$cover] [expr $cover-$z1]
-       layer straight 3 2 $As 0.0 [expr $z1-$cover] 0.0 [expr $cover-$z1]
-       layer straight 3 3 $As [expr $cover-$y1] [expr $z1-$cover] [expr $cover-$y1] [expr $cover-$z1]
-   }
-   ```
-   {{% /tab %}}
-   {{< /tabs >}}
+    # Add the reinforcing fibers (left, middle, right)
+    layer straight 3 3 $As [expr $y1-$cover] [expr $z1-$cover] [expr $y1-$cover] [expr $cover-$z1]
+    layer straight 3 2 $As 0.0 [expr $z1-$cover] 0.0 [expr $cover-$z1]
+    layer straight 3 3 $As [expr $cover-$y1] [expr $z1-$cover] [expr $cover-$y1] [expr $cover-$z1]
+}
+```
+{{% /tab %}}
+{{< /tabs >}}
 
 ## Gravity Analysis
 
