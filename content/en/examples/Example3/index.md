@@ -69,7 +69,6 @@ is created using steel and concrete fibers.
 
 ### Materials
 
-
 ![](img/RCsection0.svg)
 
 {{< tabs tabTotal="2" >}}

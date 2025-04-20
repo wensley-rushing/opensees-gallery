@@ -1,3 +1,6 @@
+#
+# Linear portal frame with steel AISC sections
+#
 import opensees.openseespy as xara
 from opensees.units.fps import foot, inch, kip, ksi
 import veux
@@ -79,18 +82,20 @@ def create_portal(vertical = 2):
     model.test("NormDispIncr", inch/1000, 2)
     model.analyze(1)
 
-    print(model.nodeDisp(3, 1))
 
-    if True:
-        artist = veux.create_artist(model, vertical=vertical)
-        artist.draw_sections()
-        artist.draw_outlines(state=model.nodeDisp, scale=1000)
-        artist.draw_origin()
-        artist.draw_axes(extrude=True)
-
-#       artist.save("orient.glb")
-        veux.serve(artist)
+    return model
 
 if __name__ == "__main__":
-    create_portal(vertical=2)
+    vertical = 2
+    model = create_portal(vertical=vertical)
+    print(model.nodeDisp(3, 1))
+
+    artist = veux.create_artist(model, vertical=vertical)
+    artist.draw_sections()
+    artist.draw_outlines(state=model.nodeDisp, scale=1000)
+    artist.draw_origin()
+    artist.draw_axes(extrude=True)
+
+#   artist.save("orient.glb")
+    veux.serve(artist)
 
