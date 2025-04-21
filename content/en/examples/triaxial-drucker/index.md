@@ -179,6 +179,7 @@ puts "triaxial shear application finished..., [getTime]"
 {{< /tabs >}}
 
 The output of the simulation should look as follows:
+
 ![](img/stdout.png)
 
 The displacements over time are:
