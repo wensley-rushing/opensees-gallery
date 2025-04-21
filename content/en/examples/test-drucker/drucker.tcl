@@ -1,7 +1,7 @@
-#########################################################
-##
+#--------------------------------------------------------
+#
 # File is generated for the purposes of testing the#
-#Drucker-Prager model --> conventional triaxial #
+# Drucker-Prager model --> conventional triaxial #
 # compression test#
 ##
 #   Created:  03.16.2009 CRM#
@@ -9,7 +9,7 @@
 ##
 # ---> Basic units used are kN and meters#
 ##
-#########################################################
+#--------------------------------------------------------
 
 #-------------------------------------------------------
 # create the modelBuilder and build the model
@@ -59,11 +59,11 @@ set delta2  0.0
 set mDen    1.7
 
 #--material models
-#   type                tag    K   G   Fy   rho   rhoBar   Fs   Fo   delta1   delta2   H   theta   density 
-nDMaterial DruckerPrager 2    $k  $G  $Fy  $rho  $rhoBar  $Fs  $Fo  $delta1  $delta2  $H  $theta  $mDen
+#   type                tag   K  G   Fy   rho   rhoBar   Fs   Fo   delta1   delta2   H   theta  density 
+nDMaterial DruckerPrager 2   $k $G  $Fy  $rho  $rhoBar  $Fs  $Fo  $delta1  $delta2  $H  $theta  $mDen
 
 #--create the element
-#type tag  nodesmatID  bforce1  bforce2  bforce3
+#         type  tag      nodes        matID   bforce1  bforce2  bforce3
 element stdBrick 1    1 2 3 4 5 6 7 8   2      0.0      0.0      0.0
 
 puts "model Built..."
