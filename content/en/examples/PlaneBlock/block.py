@@ -1,7 +1,7 @@
 from shps import plane
 from shps.block import create_block, join, grid
 import veux
-import sys,pprint
+import sys
 
 def plot(nodes, cells):
     import matplotlib.pyplot as plt

@@ -96,13 +96,18 @@ geomTransf "Linear"  3   0 -1  0
 {{< /tabs >}}
 
 Everything else is identical for both cases. The material is a simple
-*ElasticIsotropic* formulation and for the section we'll use the `shps` package
+*ElasticIsotropic* formulation 
+
+```python
+from xara.units.fps import inch, ksi
+model.material("ElasticIsotropic", 1, E=29e3*ksi, nu=0.3)
+```
+
+For the section we'll use the `shps` package
 to build a fiber discretization of a wide-flange:
 
 ```python
-from xara.units.fps import inch
 from shps.shapes import WideFlange
-model.material("ElasticIsotropic", 1, 29e3, 0.3)
 
 shape = WideFlange(d=8*inch, b=6.5*inch, tw=0.5*inch, tf=0.5*inch)
 model.section("ShearFiber", 1)

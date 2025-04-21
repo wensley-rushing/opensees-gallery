@@ -6,5 +6,5 @@ downloads:
 weight: 200
 ---
 
-![](img/u.png)
+![Displacements over time](img/u.png)
 

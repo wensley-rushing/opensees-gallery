@@ -25,11 +25,10 @@ if __name__ == "__main__":
     #
     # Render the deformed state of the structure
     #
-    artist = veux.render(model, model.nodeDisp,
-                         canvas="gltf",
+    artist.draw_surfaces(state= model.nodeDisp,
                          scale=200,
-                         reference={"plane.outline"},
-                         displaced={"plane.surface", "plane.outline"},
+   #                     reference={"plane.outline"},
+   #                     displaced={"plane.surface", "plane.outline"},
     )
 
     veux.serve(artist)

@@ -129,11 +129,11 @@ for i in range(numBay+1):
     for j in range(1, 3):
         # add the column element (secId == 2 if external, 1 if internal column)
         if (i == 0):
-            model.element(eleType, beamID, iNode, jNode, 1, 2)
+            model.element(eleType, beamID, (iNode, jNode), 1, 2)
         elif (i == numBay):
-            model.element(eleType, beamID, iNode, jNode, 1, 2)
+            model.element(eleType, beamID, (iNode, jNode), 1, 2)
         else:
-            model.element(eleType, beamID, iNode, jNode, 1, 1)
+            model.element(eleType, beamID, (iNode, jNode), 1, 1)
 
         # increment the parameters
         iNode += 1
@@ -177,53 +177,36 @@ for i in range(numBay+1):
     node2 = node1 + 1
 
     if   i == 0:
-        model.load(node1, 0.0, P,     0.0, pattern=1)
-        model.load(node2, 0.0, P/2.0, 0.0, pattern=1)
+        model.load(node1, (0.0, P,     0.0), pattern=1)
+        model.load(node2, (0.0, P/2.0, 0.0), pattern=1)
     elif i == numBay:
-        model.load(node1, 0.0, P,     0.0, pattern=1)
-        model.load(node2, 0.0, P/2.0, 0.0, pattern=1)
+        model.load(node1, (0.0, P,     0.0), pattern=1)
+        model.load(node2, (0.0, P/2.0, 0.0), pattern=1)
     else:
-        model.load(node1, 0.0, 2.0*P, 0.0, pattern=1)
-        model.load(node2, 0.0, P,     0.0, pattern=1)
+        model.load(node1, (0.0, 2.0*P, 0.0), pattern=1)
+        model.load(node2, (0.0, P,     0.0), pattern=1)
 
-# print model
 
-model.print("-JSON", "-file", "Example4.1.json")
 
-# ------------------------------
-# End of model generation
-# ------------------------------
 
 
 # --------------------------------------------------
 # Start of analysis generation for gravity analysis
 # --------------------------------------------------
 
-# create the system of equation
 model.system("BandGeneral")
-
-# create the DOF numberer, the reverse Cuthill-McKee algorithm
 model.numberer("RCM")
-
-# create the constraint handler, a Plain handler is used as homo constraints
 model.constraints("Plain")
 
 # Create the convergence test, the norm of the residual with a tolerance of 
 # 1e-12 and a max number of iterations of 10
 model.test("NormDispIncr", 1.0e-8, 10, 0)
-
-# create the solution algorithm, a Newton-Raphson algorithm
 model.algorithm("Newton")
 
 # create the integration scheme, the LoadControl scheme using steps of 0.1
 model.integrator("LoadControl", 0.1)
 
-# create the analysis object 
 model.analysis("Static")
-
-# ------------------------------------------------
-# End of analysis generation for gravity analysis
-# ------------------------------------------------
 
 
 # ------------------------------

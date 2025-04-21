@@ -25,7 +25,6 @@ by computing the critical load and comparing it to the theoretical Euler load wh
 P_{\mathrm{euler}} = \frac{\pi^2 EI}{L^2}
 \]
 
-## Theory
 
 Loosely speaking, buckling happens when there are multiple shapes that a structure can deform into that will be in equilibrium with it's applied loads. 
 This implies that at the time of buckling, there are multiple independent displacement increments $\bm{u}$ which will be mapped to the same resisting load by the tangent $\bm{K}$. 
@@ -41,32 +40,8 @@ For many classical models, the dependence of $\bm{K}$ on $\lambda$ is linear, an
 $$
 \bm{K}(\lambda) \approx \bm{K}(0) + \bm{K}^{\prime}(0) \lambda
 $$
+
 where $\bm{K}^{\prime}$ is the derivative of $\bm{K}$ with respect to $\lambda$.
-
-{{< fold "buckling.py" >}}
-
-#### Timoshenko Column Buckling
-
-$$
-\begin{gathered}
-\lambda=\sqrt{\frac{P L^2}{E I\left[1-P /\left(k_{\mathrm{s}} G A\right)\right]}}=\sqrt{\frac{P L^2}{\chi E I}} \\
-\chi=1-P /\left(k_{\mathrm{s}} G A\right) \\
-P=\chi \lambda^2 E I / L^2 .
-\end{gathered}
-$$
-
-$$
-\begin{gathered}
-\chi=\frac{1}{1+\lambda^2 E I /\left(k_{\mathrm{s}} G A L^2\right)}=\frac{1}{1+\lambda^2 \varphi / 12} \\
-P=\frac{\lambda^2 E I / L^2}{1+\lambda^2 \varphi / 12} .
-\end{gathered}
-$$
-
-$$
-\tan \lambda_{\text {cr }}=\chi \lambda_{\text {cr }}=\frac{\lambda_{\text {cr }}}{1+\lambda_{\text {cr }} 2 \varphi / 12}
-$$
-
-## Implementation
 
 
 ## Model
@@ -296,6 +271,28 @@ ForceFrame
 
 ### Shear
 
+When shear deformations are included things become more complicated:
+
+$$
+\begin{gathered}
+\lambda=\sqrt{\frac{P L^2}{E I\left[1-P /\left(k_{\mathrm{s}} G A\right)\right]}}=\sqrt{\frac{P L^2}{\chi E I}} \\
+\chi=1-P /\left(k_{\mathrm{s}} G A\right) \\
+P=\chi \lambda^2 E I / L^2 .
+\end{gathered}
+$$
+
+$$
+\begin{gathered}
+\chi=\frac{1}{1+\lambda^2 E I /\left(k_{\mathrm{s}} G A L^2\right)}=\frac{1}{1+\lambda^2 \varphi / 12} \\
+P=\frac{\lambda^2 E I / L^2}{1+\lambda^2 \varphi / 12} .
+\end{gathered}
+$$
+
+$$
+\tan \lambda_{\text {cr }}=\chi \lambda_{\text {cr }}=\frac{\lambda_{\text {cr }}}{1+\lambda_{\text {cr }} 2 \varphi / 12}
+$$
+
+
 PrismFrame
 
 | Boundary  |  Computed  |   Error   |
@@ -338,3 +335,8 @@ ExactFrame
 | fix-pin   |  17347.40
 | fix-free  |   2178.80
 | pin-roll  |   2178.80
+
+The full script is:
+
+{{< fold "buckling.py" >}}
+

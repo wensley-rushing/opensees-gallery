@@ -215,7 +215,7 @@ def buckling_analysis(model, peak_load):
 
 
     lam_0 = model.getTime()
-    eig_0 = model.eigen("-fullGenLapack", 1)
+    eig_0 = model.eigen("-fullGenLapack", 1)[0]
 
     limit_load = None
     failed = False
@@ -225,7 +225,7 @@ def buckling_analysis(model, peak_load):
             failed = True
 
         lam =  model.getTime()
-        eig =  model.eigen(1)[0]
+        eig =  model.eigen("-fullGenLapack", 1)[0]
 
         if eig <= 0.0 or failed:
             if eig_0 != eig:
@@ -246,16 +246,14 @@ def buckling_analysis(model, peak_load):
 if __name__ == "__main__":
 
     for ndm in 3,:
-        for elem in "PrismFrame", "ForceFrame", "ExactFrame":
+        for shear in False, True:
     #   for elem in "forceBeamColumn", "forceBeamColumnCBDI":
-            print(f"\n{elem:10}      Shear    Order     Theory   Computed       Error")
 
+            for elem in "PrismFrame", "ForceFrame", "ExactFrame":
+                print(f"\n{elem:10}      Shear    Order     Theory   Computed       Error")
+                for boundary in FACTORS:
 
-            for boundary in FACTORS:
-
-                orders = (0,2) if "Exact" not in elem else (1,)
-
-                for shear in False, True:
+                    orders = (0,) # (0,2) if "Exact" not in elem else (1,)
                     for order in orders:
 
                         if not shear and "Exact" in elem:
