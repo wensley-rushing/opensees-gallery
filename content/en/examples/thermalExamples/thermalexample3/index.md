@@ -69,7 +69,7 @@ or
 > geomTransf Corotational $transftag;
 > ```
 
-Learn more about geometric transofrmations [here](https://opensees.stairlab.io/user/manual/model/geomTransf.html).
+Learn more about geometric transofrmations [here](https://xara.so/user/manual/model/geomTransf.html).
 
 ## section
 
@@ -190,7 +190,7 @@ Reaction forces at end nodes (nodes 1 & 7)
 recorder Node -file $dataDir/RXNs.out -time -node 1 7 -dof 2 reaction;
 ```
 
-Learn more about the recorder command [here](https://opensees.stairlab.io/user/manual/output/recorder.html).
+Learn more about the recorder command [here](https://xara.so/user/manual/output/recorder.html).
 
 ## Thermal Loading
 

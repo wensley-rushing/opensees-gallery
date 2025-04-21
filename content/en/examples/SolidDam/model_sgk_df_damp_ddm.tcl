@@ -5344,262 +5344,261 @@ timeSeries Path  1 -dt 0.01 -filePath elcentro.txt -factor 1.0
 set loadMag 1E7
 
 pattern Plain 111 1 {
-load 556      $loadMag     0.0    0.0 
-load 557      $loadMag     0.0    0.0 
-load 558      $loadMag     0.0    0.0 
-load 559      $loadMag     0.0    0.0 
-load 560      $loadMag     0.0    0.0 
-load 561      $loadMag     0.0    0.0 
-load 562      $loadMag     0.0    0.0 
-load 563      $loadMag     0.0    0.0 
-load 564      $loadMag     0.0    0.0 
-load 565      $loadMag     0.0    0.0 
-load 566      $loadMag     0.0    0.0 
-load 567      $loadMag     0.0    0.0 
-load 568      $loadMag     0.0    0.0 
-load 569      $loadMag     0.0    0.0 
-load 570      $loadMag     0.0    0.0 
-load 595      $loadMag     0.0    0.0 
-load 596      $loadMag     0.0    0.0 
-load 597      $loadMag     0.0    0.0 
-load 598      $loadMag     0.0    0.0 
-load 599      $loadMag     0.0    0.0 
-load 600      $loadMag     0.0    0.0 
-load 601      $loadMag     0.0    0.0 
-load 602      $loadMag     0.0    0.0 
-load 603      $loadMag     0.0    0.0 
-load 604      $loadMag     0.0    0.0 
-load 605      $loadMag     0.0    0.0 
-load 606      $loadMag     0.0    0.0 
-load 631      $loadMag     0.0    0.0 
-load 632      $loadMag     0.0    0.0 
-load 633      $loadMag     0.0    0.0 
-load 634      $loadMag     0.0    0.0 
-load 635      $loadMag     0.0    0.0 
-load 636      $loadMag     0.0    0.0 
-load 637      $loadMag     0.0    0.0 
-load 638      $loadMag     0.0    0.0 
-load 639      $loadMag     0.0    0.0 
-load 640      $loadMag     0.0    0.0 
-load 641      $loadMag     0.0    0.0 
-load 642      $loadMag     0.0    0.0 
-load 667      $loadMag     0.0    0.0 
-load 668      $loadMag     0.0    0.0 
-load 669      $loadMag     0.0    0.0 
-load 670      $loadMag     0.0    0.0 
-load 671      $loadMag     0.0    0.0 
-load 672      $loadMag     0.0    0.0 
-load 673      $loadMag     0.0    0.0 
-load 674      $loadMag     0.0    0.0 
-load 675      $loadMag     0.0    0.0 
-load 676      $loadMag     0.0    0.0 
-load 677      $loadMag     0.0    0.0 
-load 678      $loadMag     0.0    0.0 
-load 949      $loadMag     0.0    0.0 
-load 950      $loadMag     0.0    0.0 
-load 951      $loadMag     0.0    0.0 
-load 952      $loadMag     0.0    0.0 
-load 953      $loadMag     0.0    0.0 
-load 954      $loadMag     0.0    0.0 
-load 955      $loadMag     0.0    0.0 
-load 956      $loadMag     0.0    0.0 
-load 957      $loadMag     0.0    0.0 
-load 958      $loadMag     0.0    0.0 
-load 959      $loadMag     0.0    0.0 
-load 960      $loadMag     0.0    0.0 
-load 961      $loadMag     0.0    0.0 
-load 962      $loadMag     0.0    0.0 
-load 963      $loadMag     0.0    0.0 
-load 964      $loadMag     0.0    0.0 
-load 965      $loadMag     0.0    0.0 
-load 966      $loadMag     0.0    0.0 
-load 967      $loadMag     0.0    0.0 
-load 968      $loadMag     0.0    0.0 
-load 969      $loadMag     0.0    0.0 
-load 970      $loadMag     0.0    0.0 
-load 971      $loadMag     0.0    0.0 
-load 972      $loadMag     0.0    0.0 
-load 973      $loadMag     0.0    0.0 
-load 974      $loadMag     0.0    0.0 
-load 975      $loadMag     0.0    0.0 
-load 976      $loadMag     0.0    0.0 
-load 977      $loadMag     0.0    0.0 
-load 978      $loadMag     0.0    0.0 
-load 1069     $loadMag     0.0    0.0 
-load 1070     $loadMag     0.0    0.0 
-load 1071     $loadMag     0.0    0.0 
-load 1072     $loadMag     0.0    0.0 
-load 1073     $loadMag     0.0    0.0 
-load 1074     $loadMag     0.0    0.0 
-load 1075     $loadMag     0.0    0.0 
-load 1076     $loadMag     0.0    0.0 
-load 1077     $loadMag     0.0    0.0 
-load 1078     $loadMag     0.0    0.0 
-load 1079     $loadMag     0.0    0.0 
-load 1080     $loadMag     0.0    0.0 
-load 1081     $loadMag     0.0    0.0 
-load 1082     $loadMag     0.0    0.0 
-load 1083     $loadMag     0.0    0.0 
-load 1084     $loadMag     0.0    0.0 
-load 1085     $loadMag     0.0    0.0 
-load 1086     $loadMag     0.0    0.0 
-load 1087     $loadMag     0.0    0.0 
-load 1088     $loadMag     0.0    0.0 
-load 1089     $loadMag     0.0    0.0 
-load 1090     $loadMag     0.0    0.0 
-load 1091     $loadMag     0.0    0.0 
-load 1092     $loadMag     0.0    0.0 
-load 1093     $loadMag     0.0    0.0 
-load 1094     $loadMag     0.0    0.0 
-load 1095     $loadMag     0.0    0.0 
-load 1096     $loadMag     0.0    0.0 
-load 1097     $loadMag     0.0    0.0 
-load 1098     $loadMag     0.0    0.0 
-load 1153     $loadMag     0.0    0.0 
-load 1154     $loadMag     0.0    0.0 
-load 1155     $loadMag     0.0    0.0 
-load 1156     $loadMag     0.0    0.0 
-load 1157     $loadMag     0.0    0.0 
-load 1158     $loadMag     0.0    0.0 
-load 1159     $loadMag     0.0    0.0 
-load 1160     $loadMag     0.0    0.0 
-load 1161     $loadMag     0.0    0.0 
-load 1162     $loadMag     0.0    0.0 
-load 1163     $loadMag     0.0    0.0 
-load 1164     $loadMag     0.0    0.0 
-load 1165     $loadMag     0.0    0.0 
-load 1166     $loadMag     0.0    0.0 
-load 1167     $loadMag     0.0    0.0 
-load 1168     $loadMag     0.0    0.0 
-load 1169     $loadMag     0.0    0.0 
-load 1170     $loadMag     0.0    0.0 
-load 1383     $loadMag     0.0    0.0 
-load 1384     $loadMag     0.0    0.0 
-load 1385     $loadMag     0.0    0.0 
-load 1386     $loadMag     0.0    0.0 
-load 1395     $loadMag     0.0    0.0 
-load 1396     $loadMag     0.0    0.0 
-load 1397     $loadMag     0.0    0.0 
-load 1398     $loadMag     0.0    0.0 
-load 1407     $loadMag     0.0    0.0 
-load 1408     $loadMag     0.0    0.0 
-load 1409     $loadMag     0.0    0.0 
-load 1410     $loadMag     0.0    0.0 
-load 1419     $loadMag     0.0    0.0 
-load 1420     $loadMag     0.0    0.0 
-load 1421     $loadMag     0.0    0.0 
-load 1422     $loadMag     0.0    0.0 
-load 1431     $loadMag     0.0    0.0 
-load 1432     $loadMag     0.0    0.0 
-load 1433     $loadMag     0.0    0.0 
-load 1434     $loadMag     0.0    0.0 
-load 1443     $loadMag     0.0    0.0 
-load 1444     $loadMag     0.0    0.0 
-load 1445     $loadMag     0.0    0.0 
-load 1446     $loadMag     0.0    0.0 
-load 1669     $loadMag     0.0    0.0 
-load 1670     $loadMag     0.0    0.0 
-load 1671     $loadMag     0.0    0.0 
-load 1672     $loadMag     0.0    0.0 
-load 1673     $loadMag     0.0    0.0 
-load 1674     $loadMag     0.0    0.0 
-load 1687     $loadMag     0.0    0.0 
-load 1688     $loadMag     0.0    0.0 
-load 1689     $loadMag     0.0    0.0 
-load 1690     $loadMag     0.0    0.0 
-load 1691     $loadMag     0.0    0.0 
-load 1692     $loadMag     0.0    0.0 
-load 1705     $loadMag     0.0    0.0 
-load 1706     $loadMag     0.0    0.0 
-load 1707     $loadMag     0.0    0.0 
-load 1708     $loadMag     0.0    0.0 
-load 1709     $loadMag     0.0    0.0 
-load 1710     $loadMag     0.0    0.0 
-load 1723     $loadMag     0.0    0.0 
-load 1724     $loadMag     0.0    0.0 
-load 1725     $loadMag     0.0    0.0 
-load 1726     $loadMag     0.0    0.0 
-load 1727     $loadMag     0.0    0.0 
-load 1728     $loadMag     0.0    0.0 
-load 1741     $loadMag     0.0    0.0 
-load 1742     $loadMag     0.0    0.0 
-load 1743     $loadMag     0.0    0.0 
-load 1744     $loadMag     0.0    0.0 
-load 1745     $loadMag     0.0    0.0 
-load 1746     $loadMag     0.0    0.0 
-load 1762     $loadMag     0.0    0.0 
-load 1763     $loadMag     0.0    0.0 
-load 1764     $loadMag     0.0    0.0 
-load 1765     $loadMag     0.0    0.0 
-load 1766     $loadMag     0.0    0.0 
-load 1782     $loadMag     0.0    0.0 
-load 1783     $loadMag     0.0    0.0 
-load 1784     $loadMag     0.0    0.0 
-load 1785     $loadMag     0.0    0.0 
-load 1786     $loadMag     0.0    0.0 
-load 1802     $loadMag     0.0    0.0 
-load 1803     $loadMag     0.0    0.0 
-load 1804     $loadMag     0.0    0.0 
-load 1805     $loadMag     0.0    0.0 
-load 1806     $loadMag     0.0    0.0 
-load 1822     $loadMag     0.0    0.0 
-load 1823     $loadMag     0.0    0.0 
-load 1824     $loadMag     0.0    0.0 
-load 1825     $loadMag     0.0    0.0 
-load 1826     $loadMag     0.0    0.0 
-load 1842     $loadMag     0.0    0.0 
-load 1843     $loadMag     0.0    0.0 
-load 1844     $loadMag     0.0    0.0 
-load 1845     $loadMag     0.0    0.0 
-load 1846     $loadMag     0.0    0.0 
-load 1862     $loadMag     0.0    0.0 
-load 1863     $loadMag     0.0    0.0 
-load 1864     $loadMag     0.0    0.0 
-load 1865     $loadMag     0.0    0.0 
-load 1866     $loadMag     0.0    0.0 
-load 1921     $loadMag     0.0    0.0 
-load 1922     $loadMag     0.0    0.0 
-load 1923     $loadMag     0.0    0.0 
-load 1924     $loadMag     0.0    0.0 
-load 1925     $loadMag     0.0    0.0 
-load 1926     $loadMag     0.0    0.0 
-load 1927     $loadMag     0.0    0.0 
-load 1928     $loadMag     0.0    0.0 
-load 1929     $loadMag     0.0    0.0 
-load 1930     $loadMag     0.0    0.0 
-load 1931     $loadMag     0.0    0.0 
-load 1932     $loadMag     0.0    0.0 
-load 1933     $loadMag     0.0    0.0 
-load 1934     $loadMag     0.0    0.0 
-load 1935     $loadMag     0.0    0.0 
-load 1936     $loadMag     0.0    0.0 
-load 1937     $loadMag     0.0    0.0 
-load 1938     $loadMag     0.0    0.0 
-load 2151     $loadMag     0.0    0.0 
-load 2152     $loadMag     0.0    0.0 
-load 2153     $loadMag     0.0    0.0 
-load 2154     $loadMag     0.0    0.0 
-load 2163     $loadMag     0.0    0.0 
-load 2164     $loadMag     0.0    0.0 
-load 2165     $loadMag     0.0    0.0 
-load 2166     $loadMag     0.0    0.0 
-load 2175     $loadMag     0.0    0.0 
-load 2176     $loadMag     0.0    0.0 
-load 2177     $loadMag     0.0    0.0 
-load 2178     $loadMag     0.0    0.0 
-load 2187     $loadMag     0.0    0.0 
-load 2188     $loadMag     0.0    0.0 
-load 2189     $loadMag     0.0    0.0 
-load 2190     $loadMag     0.0    0.0 
-load 2199     $loadMag     0.0    0.0 
-load 2200     $loadMag     0.0    0.0 
-load 2201     $loadMag     0.0    0.0 
-load 2202     $loadMag     0.0    0.0 
-load 2211     $loadMag     0.0    0.0 
-load 2212     $loadMag     0.0    0.0 
-load 2213     $loadMag     0.0    0.0 
-load 2214     $loadMag     0.0    0.0 
- 
+  load 556      $loadMag     0.0    0.0 
+  load 557      $loadMag     0.0    0.0 
+  load 558      $loadMag     0.0    0.0 
+  load 559      $loadMag     0.0    0.0 
+  load 560      $loadMag     0.0    0.0 
+  load 561      $loadMag     0.0    0.0 
+  load 562      $loadMag     0.0    0.0 
+  load 563      $loadMag     0.0    0.0 
+  load 564      $loadMag     0.0    0.0 
+  load 565      $loadMag     0.0    0.0 
+  load 566      $loadMag     0.0    0.0 
+  load 567      $loadMag     0.0    0.0 
+  load 568      $loadMag     0.0    0.0 
+  load 569      $loadMag     0.0    0.0 
+  load 570      $loadMag     0.0    0.0 
+  load 595      $loadMag     0.0    0.0 
+  load 596      $loadMag     0.0    0.0 
+  load 597      $loadMag     0.0    0.0 
+  load 598      $loadMag     0.0    0.0 
+  load 599      $loadMag     0.0    0.0 
+  load 600      $loadMag     0.0    0.0 
+  load 601      $loadMag     0.0    0.0 
+  load 602      $loadMag     0.0    0.0 
+  load 603      $loadMag     0.0    0.0 
+  load 604      $loadMag     0.0    0.0 
+  load 605      $loadMag     0.0    0.0 
+  load 606      $loadMag     0.0    0.0 
+  load 631      $loadMag     0.0    0.0 
+  load 632      $loadMag     0.0    0.0 
+  load 633      $loadMag     0.0    0.0 
+  load 634      $loadMag     0.0    0.0 
+  load 635      $loadMag     0.0    0.0 
+  load 636      $loadMag     0.0    0.0 
+  load 637      $loadMag     0.0    0.0 
+  load 638      $loadMag     0.0    0.0 
+  load 639      $loadMag     0.0    0.0 
+  load 640      $loadMag     0.0    0.0 
+  load 641      $loadMag     0.0    0.0 
+  load 642      $loadMag     0.0    0.0 
+  load 667      $loadMag     0.0    0.0 
+  load 668      $loadMag     0.0    0.0 
+  load 669      $loadMag     0.0    0.0 
+  load 670      $loadMag     0.0    0.0 
+  load 671      $loadMag     0.0    0.0 
+  load 672      $loadMag     0.0    0.0 
+  load 673      $loadMag     0.0    0.0 
+  load 674      $loadMag     0.0    0.0 
+  load 675      $loadMag     0.0    0.0 
+  load 676      $loadMag     0.0    0.0 
+  load 677      $loadMag     0.0    0.0 
+  load 678      $loadMag     0.0    0.0 
+  load 949      $loadMag     0.0    0.0 
+  load 950      $loadMag     0.0    0.0 
+  load 951      $loadMag     0.0    0.0 
+  load 952      $loadMag     0.0    0.0 
+  load 953      $loadMag     0.0    0.0 
+  load 954      $loadMag     0.0    0.0 
+  load 955      $loadMag     0.0    0.0 
+  load 956      $loadMag     0.0    0.0 
+  load 957      $loadMag     0.0    0.0 
+  load 958      $loadMag     0.0    0.0 
+  load 959      $loadMag     0.0    0.0 
+  load 960      $loadMag     0.0    0.0 
+  load 961      $loadMag     0.0    0.0 
+  load 962      $loadMag     0.0    0.0 
+  load 963      $loadMag     0.0    0.0 
+  load 964      $loadMag     0.0    0.0 
+  load 965      $loadMag     0.0    0.0 
+  load 966      $loadMag     0.0    0.0 
+  load 967      $loadMag     0.0    0.0 
+  load 968      $loadMag     0.0    0.0 
+  load 969      $loadMag     0.0    0.0 
+  load 970      $loadMag     0.0    0.0 
+  load 971      $loadMag     0.0    0.0 
+  load 972      $loadMag     0.0    0.0 
+  load 973      $loadMag     0.0    0.0 
+  load 974      $loadMag     0.0    0.0 
+  load 975      $loadMag     0.0    0.0 
+  load 976      $loadMag     0.0    0.0 
+  load 977      $loadMag     0.0    0.0 
+  load 978      $loadMag     0.0    0.0 
+  load 1069     $loadMag     0.0    0.0 
+  load 1070     $loadMag     0.0    0.0 
+  load 1071     $loadMag     0.0    0.0 
+  load 1072     $loadMag     0.0    0.0 
+  load 1073     $loadMag     0.0    0.0 
+  load 1074     $loadMag     0.0    0.0 
+  load 1075     $loadMag     0.0    0.0 
+  load 1076     $loadMag     0.0    0.0 
+  load 1077     $loadMag     0.0    0.0 
+  load 1078     $loadMag     0.0    0.0 
+  load 1079     $loadMag     0.0    0.0 
+  load 1080     $loadMag     0.0    0.0 
+  load 1081     $loadMag     0.0    0.0 
+  load 1082     $loadMag     0.0    0.0 
+  load 1083     $loadMag     0.0    0.0 
+  load 1084     $loadMag     0.0    0.0 
+  load 1085     $loadMag     0.0    0.0 
+  load 1086     $loadMag     0.0    0.0 
+  load 1087     $loadMag     0.0    0.0 
+  load 1088     $loadMag     0.0    0.0 
+  load 1089     $loadMag     0.0    0.0 
+  load 1090     $loadMag     0.0    0.0 
+  load 1091     $loadMag     0.0    0.0 
+  load 1092     $loadMag     0.0    0.0 
+  load 1093     $loadMag     0.0    0.0 
+  load 1094     $loadMag     0.0    0.0 
+  load 1095     $loadMag     0.0    0.0 
+  load 1096     $loadMag     0.0    0.0 
+  load 1097     $loadMag     0.0    0.0 
+  load 1098     $loadMag     0.0    0.0 
+  load 1153     $loadMag     0.0    0.0 
+  load 1154     $loadMag     0.0    0.0 
+  load 1155     $loadMag     0.0    0.0 
+  load 1156     $loadMag     0.0    0.0 
+  load 1157     $loadMag     0.0    0.0 
+  load 1158     $loadMag     0.0    0.0 
+  load 1159     $loadMag     0.0    0.0 
+  load 1160     $loadMag     0.0    0.0 
+  load 1161     $loadMag     0.0    0.0 
+  load 1162     $loadMag     0.0    0.0 
+  load 1163     $loadMag     0.0    0.0 
+  load 1164     $loadMag     0.0    0.0 
+  load 1165     $loadMag     0.0    0.0 
+  load 1166     $loadMag     0.0    0.0 
+  load 1167     $loadMag     0.0    0.0 
+  load 1168     $loadMag     0.0    0.0 
+  load 1169     $loadMag     0.0    0.0 
+  load 1170     $loadMag     0.0    0.0 
+  load 1383     $loadMag     0.0    0.0 
+  load 1384     $loadMag     0.0    0.0 
+  load 1385     $loadMag     0.0    0.0 
+  load 1386     $loadMag     0.0    0.0 
+  load 1395     $loadMag     0.0    0.0 
+  load 1396     $loadMag     0.0    0.0 
+  load 1397     $loadMag     0.0    0.0 
+  load 1398     $loadMag     0.0    0.0 
+  load 1407     $loadMag     0.0    0.0 
+  load 1408     $loadMag     0.0    0.0 
+  load 1409     $loadMag     0.0    0.0 
+  load 1410     $loadMag     0.0    0.0 
+  load 1419     $loadMag     0.0    0.0 
+  load 1420     $loadMag     0.0    0.0 
+  load 1421     $loadMag     0.0    0.0 
+  load 1422     $loadMag     0.0    0.0 
+  load 1431     $loadMag     0.0    0.0 
+  load 1432     $loadMag     0.0    0.0 
+  load 1433     $loadMag     0.0    0.0 
+  load 1434     $loadMag     0.0    0.0 
+  load 1443     $loadMag     0.0    0.0 
+  load 1444     $loadMag     0.0    0.0 
+  load 1445     $loadMag     0.0    0.0 
+  load 1446     $loadMag     0.0    0.0 
+  load 1669     $loadMag     0.0    0.0 
+  load 1670     $loadMag     0.0    0.0 
+  load 1671     $loadMag     0.0    0.0 
+  load 1672     $loadMag     0.0    0.0 
+  load 1673     $loadMag     0.0    0.0 
+  load 1674     $loadMag     0.0    0.0 
+  load 1687     $loadMag     0.0    0.0 
+  load 1688     $loadMag     0.0    0.0 
+  load 1689     $loadMag     0.0    0.0 
+  load 1690     $loadMag     0.0    0.0 
+  load 1691     $loadMag     0.0    0.0 
+  load 1692     $loadMag     0.0    0.0 
+  load 1705     $loadMag     0.0    0.0 
+  load 1706     $loadMag     0.0    0.0 
+  load 1707     $loadMag     0.0    0.0 
+  load 1708     $loadMag     0.0    0.0 
+  load 1709     $loadMag     0.0    0.0 
+  load 1710     $loadMag     0.0    0.0 
+  load 1723     $loadMag     0.0    0.0 
+  load 1724     $loadMag     0.0    0.0 
+  load 1725     $loadMag     0.0    0.0 
+  load 1726     $loadMag     0.0    0.0 
+  load 1727     $loadMag     0.0    0.0 
+  load 1728     $loadMag     0.0    0.0 
+  load 1741     $loadMag     0.0    0.0 
+  load 1742     $loadMag     0.0    0.0 
+  load 1743     $loadMag     0.0    0.0 
+  load 1744     $loadMag     0.0    0.0 
+  load 1745     $loadMag     0.0    0.0 
+  load 1746     $loadMag     0.0    0.0 
+  load 1762     $loadMag     0.0    0.0 
+  load 1763     $loadMag     0.0    0.0 
+  load 1764     $loadMag     0.0    0.0 
+  load 1765     $loadMag     0.0    0.0 
+  load 1766     $loadMag     0.0    0.0 
+  load 1782     $loadMag     0.0    0.0 
+  load 1783     $loadMag     0.0    0.0 
+  load 1784     $loadMag     0.0    0.0 
+  load 1785     $loadMag     0.0    0.0 
+  load 1786     $loadMag     0.0    0.0 
+  load 1802     $loadMag     0.0    0.0 
+  load 1803     $loadMag     0.0    0.0 
+  load 1804     $loadMag     0.0    0.0 
+  load 1805     $loadMag     0.0    0.0 
+  load 1806     $loadMag     0.0    0.0 
+  load 1822     $loadMag     0.0    0.0 
+  load 1823     $loadMag     0.0    0.0 
+  load 1824     $loadMag     0.0    0.0 
+  load 1825     $loadMag     0.0    0.0 
+  load 1826     $loadMag     0.0    0.0 
+  load 1842     $loadMag     0.0    0.0 
+  load 1843     $loadMag     0.0    0.0 
+  load 1844     $loadMag     0.0    0.0 
+  load 1845     $loadMag     0.0    0.0 
+  load 1846     $loadMag     0.0    0.0 
+  load 1862     $loadMag     0.0    0.0 
+  load 1863     $loadMag     0.0    0.0 
+  load 1864     $loadMag     0.0    0.0 
+  load 1865     $loadMag     0.0    0.0 
+  load 1866     $loadMag     0.0    0.0 
+  load 1921     $loadMag     0.0    0.0 
+  load 1922     $loadMag     0.0    0.0 
+  load 1923     $loadMag     0.0    0.0 
+  load 1924     $loadMag     0.0    0.0 
+  load 1925     $loadMag     0.0    0.0 
+  load 1926     $loadMag     0.0    0.0 
+  load 1927     $loadMag     0.0    0.0 
+  load 1928     $loadMag     0.0    0.0 
+  load 1929     $loadMag     0.0    0.0 
+  load 1930     $loadMag     0.0    0.0 
+  load 1931     $loadMag     0.0    0.0 
+  load 1932     $loadMag     0.0    0.0 
+  load 1933     $loadMag     0.0    0.0 
+  load 1934     $loadMag     0.0    0.0 
+  load 1935     $loadMag     0.0    0.0 
+  load 1936     $loadMag     0.0    0.0 
+  load 1937     $loadMag     0.0    0.0 
+  load 1938     $loadMag     0.0    0.0 
+  load 2151     $loadMag     0.0    0.0 
+  load 2152     $loadMag     0.0    0.0 
+  load 2153     $loadMag     0.0    0.0 
+  load 2154     $loadMag     0.0    0.0 
+  load 2163     $loadMag     0.0    0.0 
+  load 2164     $loadMag     0.0    0.0 
+  load 2165     $loadMag     0.0    0.0 
+  load 2166     $loadMag     0.0    0.0 
+  load 2175     $loadMag     0.0    0.0 
+  load 2176     $loadMag     0.0    0.0 
+  load 2177     $loadMag     0.0    0.0 
+  load 2178     $loadMag     0.0    0.0 
+  load 2187     $loadMag     0.0    0.0 
+  load 2188     $loadMag     0.0    0.0 
+  load 2189     $loadMag     0.0    0.0 
+  load 2190     $loadMag     0.0    0.0 
+  load 2199     $loadMag     0.0    0.0 
+  load 2200     $loadMag     0.0    0.0 
+  load 2201     $loadMag     0.0    0.0 
+  load 2202     $loadMag     0.0    0.0 
+  load 2211     $loadMag     0.0    0.0 
+  load 2212     $loadMag     0.0    0.0 
+  load 2213     $loadMag     0.0    0.0 
+  load 2214     $loadMag     0.0    0.0    
 }
 
 

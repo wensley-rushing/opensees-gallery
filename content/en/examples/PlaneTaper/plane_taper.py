@@ -16,7 +16,7 @@ from veux.stress import node_average
 
 
 def create_model(mesh,
-                 thickness=1,
+                 thickness=1.0,
                  element: str = "LagrangeQuad"):
 
     nx, ny = mesh
@@ -26,8 +26,7 @@ def create_model(mesh,
 
     # Define the material
     # -------------------
-    #                                 tag    E      nu   rho
-    model.material("ElasticIsotropic", 1, 10_000.0, 0.25, 0)
+    model.material("ElasticIsotropic", 1, E=10_000.0, nu=0.25)
     model.section("PlaneStress", 1, 1, thickness)
 
     # Define geometry
@@ -56,7 +55,6 @@ def create_model(mesh,
         elem += 2
 
     # Single-point constraints
-    #            x   (u1 u2)
     for node in find_nodes(model, x=0.0):
         print("Fixing node ", node)
         model.fix(node, (1, 1))

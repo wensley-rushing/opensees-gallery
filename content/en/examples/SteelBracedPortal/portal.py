@@ -1,3 +1,6 @@
+#
+# 3D portal frame with concentric bracing
+#
 import numpy as np
 import math
 import opensees.openseespy as ops
@@ -42,33 +45,12 @@ def create_girder(model, nodes, tags):
         model.fiber(**fiber, material=1, section=s+1)
 
 
-    #
-    # Nodes
-    #
-
-    i, j = nodes
-
-    if False:
-        tags["nodes"].extend([n+1, n+2, n+3])
-        xi = model.nodeCoord(i)
-        xj = model.nodeCoord(j)
-
-        # joint offset for the beam at its ends (from column centerline to the shear tab hinge line)
-        offset = np.array([7.61, 0, 0])*inch
-
-        model.node(n+1, tuple(xi+offset))
-        model.node(n+2, tuple(xi+offset))
-        model.node(n+3, tuple(xj-offset))
-
-        # Constrain translational DOFs
-        model.equalDOF(n+1, n+2, (1, 2, 3))
-
 
     #
     # Elements
     #
     tags["elements"].extend([e+1])
-    model.element("ForceFrame", e+1, (i, j), section=s+1, transform=2)
+    model.element("ForceFrame", e+1, nodes, section=s+1, transform=2)
 
 
 def create_column(model, nodes, tags):
@@ -117,6 +99,7 @@ def create_brace_fixed(model, nodes, tags):
     shape = from_aisc("HSS10x10x5/8", units=units)
     # Create the section in the model
     model.section("ShearFiber", s+1)
+
     # Populate the section with fibers using the shape. The 
     # mesh_scale parameter controls the number of generated fibers.
     # This will roughly create 2.5 fibers across the smallest dimension
@@ -243,8 +226,9 @@ def create_portal():
     model.geomTransf("Linear", 3, (0, 0, 1))
 
 
-    create_girder(model, (3, 4), tags) # girder
-    create_girder(model, (5, 4), tags) # girder
+    # Create elements using helper functions
+    create_girder(model, (3, 4), tags)
+    create_girder(model, (5, 4), tags)
 
     create_column(model, (1, 3), tags)
     create_column(model, (2, 5), tags)

@@ -9,8 +9,21 @@ downloads:
 ---
 
 A finite element analysis is performed of a plane tapered cantilever using constant-strain triangles. 
-The [ElasticIsotropic](https://xara.so/user/manual/material/ndMaterials/ElasticIsotropic.html) material model is employed.
 Visualization is performed in the script [`render.py`](render.py) using the [`veux`](https://pypi.org/project/veux) library.
+
+## Model
+
+We begin by setting up a 2D model:
+```python
+import xara
+model = xara.Model(ndm=3, ndf=3)
+```
+The [ElasticIsotropic](https://xara.so/user/manual/material/ndMaterials/ElasticIsotropic.html) material model is employed.
+
+```python
+model.material("ElasticIsotropic", 1, 10_000.0, 0.25, 0)
+model.section("PlaneStress", 1, 1, thickness)
+```
 
 Once again the `surface` method is used to generate the finite element mesh. However, in the present study we omit the `element` argument so that only nodes are generated:
 ```python
@@ -32,6 +45,8 @@ for cell in mesh.cells:
     elem += 2
 ```
 
+## Loads
+
 Note that care must be taken to apply the distributed load at the tip in a consistent manner. For elements with linear interpolation at the boundary one has:
 ```python
 from xara.helpers import find_node, find_nodes
@@ -51,5 +66,5 @@ The stress field looks like:
 
 {{< render stress.glb >}}
 
-
+The full script is given below:
 {{< fold plane_taper.py "analysis script" >}}

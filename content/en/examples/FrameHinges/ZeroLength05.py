@@ -1,7 +1,6 @@
-
-import sees
+import veux
 from math import cos,sin,sqrt,pi
-import opensees.openseespy as ops
+import xara
 # ZeroLength5.tcl
 # CE 221 Spring 1999 Midterm Problem
 #
@@ -37,18 +36,18 @@ def rotSpring2D(model, eleID, nodeR, nodeC, matID):
 
 
 # Define the model builder
-model = ops.Model(ndm=2,  ndf=3)
+model = xara.Model(ndm=2,  ndf=3)
 
 # Define nodes
-model.node(1,  0.0, 0.0)
-model.node(2,  0.0, 0.0)
-model.node(3,  4.0, 0.0)
-model.node(4,  4.0, 0.0)
-model.node(5, 10.0, 0.0)
+model.node(1, ( 0.0, 0.0))
+model.node(2, ( 0.0, 0.0))
+model.node(3, ( 4.0, 0.0))
+model.node(4, ( 4.0, 0.0))
+model.node(5, (10.0, 0.0))
 
 # Define single point constraints
-model.fix(1, 1, 1, 1)
-model.fix(5, 1, 1, 0)
+model.fix(1, (1, 1, 1))
+model.fix(5, (1, 1, 0))
 
 # Define moment-rotation relationship for spring A
 model.uniaxialMaterial('ElasticPP', 1, 10, 0.8)
@@ -62,8 +61,8 @@ model.uniaxialMaterial('Parallel',  2, 3, 4)
 model.geomTransf('Linear', 1)
 
 # Define beam elements
-model.element('elasticBeamColumn', 3, 2, 3, 100, 1000, 1000, 1)
-model.element('elasticBeamColumn', 4, 4, 5, 100, 1000, 1000, 1)
+model.element('elasticBeamColumn', 3, (2, 3), 100, 1000, 1000, 1)
+model.element('elasticBeamColumn', 4, (4, 5), 100, 1000, 1000, 1)
 
 
 #                eleID nodeR nodeC matID
@@ -83,15 +82,15 @@ model.analysis("Static")
 
 model.analyze(1)
 
-artist = sees.render(model, canvas="plotly", ndf=3) #.canvas.popup()
-sees.serve(sees.render(model, model.nodeDisp, canvas=artist.canvas, ndf=3)) #.canvas.popup()
+artist = veux.render(model, canvas="plotly", ndf=3) #.canvas.popup()
+veux.serve(veux.render(model, model.nodeDisp, canvas=artist.canvas, ndf=3)) #.canvas.popup()
 
 
 model.analyze(9)
-model.print( 'algorithm')
-model.print( 'node', 4)
+model.print('algorithm')
+model.print('node', 4)
 
 
-artist = sees.render(model, canvas="plotly", ndf=3) #.canvas.popup()
-sees.serve(sees.render(model, model.nodeDisp, canvas=artist.canvas, ndf=3)) #.canvas.popup()
+artist = veux.render(model, canvas="plotly", ndf=3) #.canvas.popup()
+veux.serve(veux.render(model, model.nodeDisp, canvas=artist.canvas, ndf=3)) #.canvas.popup()
 

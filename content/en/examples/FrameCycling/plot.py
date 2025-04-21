@@ -11,20 +11,23 @@ def main(argv):
             x = next(argi)
         else:
             if x is None:
-                x = np.loadtxt(arg)
+                x = arg
             else:
                 y_files.append(arg)
 
-    print(y_files)
     ys = [
         np.loadtxt(f)[:,-1]
         for f in y_files
     ]
+
+    x_data = np.loadtxt(x)
     if len(ys) > 0:
         for y in ys:
-            plt.plot(x, y)
+            plt.plot(x_data, y)
+    elif len(x_data.shape) == 1:
+        plt.plot(x_data)
     else:
-        plt.plot(x)
+        plt.plot(*x_data.T)
 
     plt.show()
 

@@ -32,7 +32,7 @@ sensitivityAlgorithm -computeAtEachStep
 
 analyze 1000 0.01
 
-puts "Dynamic analysi done..."
+puts "Dynamic analysis done..."
 
 set endT [clock seconds]
 puts "Execution time: [expr $endT-$startT] seconds."

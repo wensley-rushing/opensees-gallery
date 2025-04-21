@@ -53,7 +53,6 @@ Note:
 ![Displacement along length for sequential discretizations (plane strain).](img/beam-strain.png)
 
 
-
 # Plane Stress
 
 ![Displacement along length for sequential discretizations (plane stress).](img/beam-stress.png)

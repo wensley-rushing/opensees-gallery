@@ -43,10 +43,15 @@ for i in range(n):
 
     ex.advance()
 ```
-This will create the following finite element model, which is rendered with [veux](https://veux.io):
+This will create the following finite element model, which is rendered below with [veux](https://veux.io):
+```python
+import veux
+veux.render(model)
+```
 
 ![Channel section](img/channel.png)
 
+Next we perform a basic static analysis:
 ```python
 model.integrator("LoadControl", 2)
 model.system("Umfpack")

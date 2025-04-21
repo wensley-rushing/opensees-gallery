@@ -1,4 +1,3 @@
-
 # --------------------------------------------------------------------------------------------------
 # LibUnits.tcl -- define system of units
 #		Silvia Mazzoni & Frank McKenna, 2006
@@ -162,7 +161,7 @@ foreach ndm {2 3} {
   set section 1
 
   set W2144Area [expr 13.0*$inch*$inch]; 
-  set W2144xI  [expr 843*$inch*$inch*$inch*$inch];
+  set W2144xI   [expr 843*$inch*$inch*$inch*$inch];
 
   puts "Es: [expr 20400*$MPa]"
   element elasticBeamColumn 12 1 2  $W2144Area [expr 204000*$MPa] $W2144xI $transformationKey -release 1;

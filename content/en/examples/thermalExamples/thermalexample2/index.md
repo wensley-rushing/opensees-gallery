@@ -60,7 +60,7 @@ The beam is expanding in one direction, therefore, 2nd order bending effects do 
 geomTransf Linear $transftag;
 ```
 
-Learn more about geometric transofrmations [here](https://opensees.stairlab.io/user/manual/model/geomTransf.html).
+Learn more about geometric transofrmations [here](https://xara.so/user/manual/model/geomTransf.html).
 
 ## Section
 
@@ -166,7 +166,7 @@ recorder Element -file $dataDir/ele_force_1.out -time -ele 1 section 2 force
 recorder Element -file $dataDir/ele_force_2.out -time -ele 2 section 2 force
 ```
 
-Learn more about the recorder command [here](https://opensees.stairlab.io/user/manual/output/recorder.html).
+Learn more about the recorder command [here](https://xara.so/user/manual/output/recorder.html).
 
 
 ## Thermal Loading
