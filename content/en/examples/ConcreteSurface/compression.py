@@ -2,6 +2,10 @@ from opensees import openseespy as ops
 from ASDConcrete3D_MakeLaws import make as make_concrete
 from matplotlib import pyplot as plt
 import numpy as np
+# try:
+#     plt.style.use("veux-web")
+# except:
+#     pass
 
 
 def main():

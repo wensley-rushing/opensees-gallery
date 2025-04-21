@@ -3,7 +3,13 @@ title: Concrete
 tags: ["Python"]
 description: "An investigation of 3D concrete material models"
 thumbnail: img/ASDConcrete3D_Ex_Surface_Output.gif
-draft: true
+draft: false
+downloads:
+  Python:
+  - compression.py
+  - surface.py
+  - ASDConcrete3D_MakeLaws.py
+
 ---
 
 

@@ -1,6 +1,10 @@
 from opensees import openseespy as ops
 from math import pi, sin, cos
 from matplotlib import pyplot as plt
+try:
+    plt.style.use("veux-web")
+except:
+    pass
 
 def analyze_dir(material, dX, dY):
 
