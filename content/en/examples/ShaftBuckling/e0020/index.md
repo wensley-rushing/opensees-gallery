@@ -7,6 +7,7 @@ downloads:
   Tcl: ["e0020.tcl"]
 tags: ["Frame", "Loads", "Tcl", "Python"]
 render: e0020.glb
+thumbnail: img/examples/e0020.png
 draft: false
 ---
 
