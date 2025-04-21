@@ -17,8 +17,8 @@ weight: 200
 
 This model simulates the triaxial compression behavior of a soil-like material
 subject to confining pressure and axial loading. The simulation is conducted using
-a single 8-node `stdBrick` element with Drucker–Prager plasticity. The goal is to
-evaluate material behavior under both hydrostatic and deviatoric loading paths.
+a single 8-node `stdBrick` element with [Drucker–Prager plasticity](https://xara.so/user/manual/material/plastic/DruckerPrager.html). 
+The goal is to evaluate material behavior under both hydrostatic and deviatoric loading paths.
 
 ## Model
 
@@ -61,24 +61,37 @@ fix 8 1 1 0
 The Drucker–Prager material is defined with specified parameters for elasticity, yield surface, and hardening behavior:
 
 {{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+model.nDMaterial("DruckerPrager", 2,
+    K       = 27777.78 ,
+    G       =  9259.26 ,
+    Fy      =     5.0  ,
+    Rvol    =     0.398,
+    Rbar    =     0.398,
+    Fs      =     0.0  ,
+    Fo      =     0.0  ,
+    Hsat    =     0.0  ,
+    H       =     0.0  ,
+    theta   =     1.0  ,
+    delta2  =     0.0  ,
+    density =   1.7
+)
+{{% /tab %}}
 {{% tab name="Tcl" %}}
 ```tcl
-set k       27777.78
-set G       9259.26
-set Fy      5.0
-set rho     0.398
-set rhoBar  0.398
-set Fs      0.0
-set Fo      0.0
-set delta1  0.0
-set H       0.0
-set theta   1.0
-set delta2  0.0
-set mDen    1.7
-
 nDMaterial DruckerPrager 2 \
-    $k $G $Fy $rho $rhoBar $Fs $Fo \
-    $delta1 $delta2 $H $theta $mDen
+   -K      27777.78  \
+   -G       9259.26  \
+   -Fy         5.0   \
+   -Rvol       0.398 \
+   -Rbar       0.398 \
+   -Fs         0.0   \
+   -Fo         0.0   \
+   -Hsat       0.0   \
+   -H          0.0   \
+   -theta      1.0   \
+   -delta2     0.0   \
+   -density    1.7
 ```
 {{% /tab %}}
 {{< /tabs >}}
@@ -165,6 +178,10 @@ puts "triaxial shear application finished..., [getTime]"
 {{% /tab %}}
 {{< /tabs >}}
 
+The output of the simulation should look as follows:
+![](img/stdout.png)
+
+The displacements over time are:
 
 ![Displacements over time](img/u.png)
 
