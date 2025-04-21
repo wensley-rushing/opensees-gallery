@@ -40,7 +40,7 @@ nn = int((nz+1)*(nx+1)*(ny+1))
 
 # mesh generation
 #          numX numY numZ startNode startEle eleType eleArgs? coords?
-model.block3D((nx, ny, nz), 1, 1, Brick, 1, {
+model.block3D(*(nx, ny, nz), *(1, 1), Brick, 1, {
               1: [-1.0, -1.0,  0.0],
               2: [ 1.0, -1.0,  0.0],
               3: [ 1.0,  1.0,  0.0],
@@ -90,8 +90,8 @@ model.analysis("Static")
 model.analyze(5)
 
 
-model.recorder("Node", "-file", "out/Node.out", "-time", "-node", nn, "-dof", 1, "disp")
-model.recorder("Element", "-file", "out/Elem.out", "-time", "-eleRange", 1, 10, "material", "1", "strains")
+model.recorder("Node", "disp", "-file", "out/Node.out", "-time", "-node", nn, "-dof", 1)
+model.recorder("Element", "-file", "out/Elem.out", "-time", "-eleRange", 1, 10, "material", 1, "strains")
 
 # Alternatively, using new syntax
 model.recorder("Node", "disp",
