@@ -62,6 +62,7 @@ The Drucker–Prager material is defined with specified parameters for elasticit
 
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}
+```python
 model.nDMaterial("DruckerPrager", 2,
     K       = 27777.78 ,
     G       =  9259.26 ,
@@ -76,6 +77,7 @@ model.nDMaterial("DruckerPrager", 2,
     delta2  =     0.0  ,
     density =   1.7
 )
+```
 {{% /tab %}}
 {{% tab name="Tcl" %}}
 ```tcl
