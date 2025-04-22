@@ -135,7 +135,7 @@ def create_brace_fixed(model, nodes, tags):
     for i in range(ne):
         # Reserve a new element tag
         tags["elements"].extend([e+i+3])
-        model.element("PrismFrame", e+i+3, (n+i+1, n+i+2), section=s+1, transform=1)
+        model.element("ForceFrame", e+i+3, (n+i+1, n+i+2), section=s+1, transform=1)
 
 def create_brace_hinged(model, nodes, tags):
     n = max(tags["nodes"])
@@ -248,7 +248,6 @@ def pushover_analysis(model):
     artist = veux.create_artist(model, vertical=2)
 
     motion = Motion(artist)
-    speed = 10
 
     u = []
     p = []
@@ -268,7 +267,8 @@ def pushover_analysis(model):
     plt.show()
 
     motion.add_to(artist.canvas)
-    veux.serve(artist)
+    return artist
+
 
 if __name__ == "__main__":
 

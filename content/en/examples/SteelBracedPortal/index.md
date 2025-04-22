@@ -26,9 +26,9 @@ It concerns a concentrically braced steel frame.
 
 ![Braced frame](img/portal.png)
 
-
+<!--
 ![Model schematic](img/nodes.png)
-
+-->
 
 This example models a single-story portal frame with concentric bracing, as shown in the figure above. 
 Inelastic behavior is captured using force-interpolating beam-column elements with fiber section discretizations. 
@@ -51,8 +51,18 @@ import opensees.openseespy as ops
 model = ops.Model(ndm=3, ndf=6)
 ```
 
-The portal frame is constructed from W14 and W27 sections, with braces composed of HSS members.
-Fiber sections are created using predefined shapes from the `shps` library, and assigned to
+All sections share a single inelastic material definition:
+
+```python
+E = 29e3 * ksi
+fy = 50 * ksi
+nu = 0.3
+
+model.nDMaterial("J2BeamFiber", 1, E, nu, fy, 0.01*E, 0.0)
+```
+
+The portal frame is constructed from AISC wide flange sections, with braces composed of HSS members.
+Fiber sections are created using predefined shapes from the `shps` library (see, e.g., [this](https://gallery.stairlab.io/examples/framevecxz/) example), and assigned to
 force-based frame elements.
 
 The portal frame is assembled using three helper functions:
@@ -71,8 +81,6 @@ create_brace_fixed(model, (2, 4), tags)
 ```
 
 Each function encapsulates repeated modeling logic for structural members. 
-Let’s look at what each does.
-
 In each function, a fiber section is populated using the `create_fibers()` method from the AISC shape object,
 with a `mesh_scale` that controls the granularity of the fiber discretization.
 
@@ -132,18 +140,6 @@ This helper is more involved. It models a brace that connects to beam-column joi
    - 2 `ForceFrame` elements at the ends represent rigid gusset plates.
    - 5 `PrismFrame` elements in the center model the flexible HSS brace.
 
-
-## Materials
-
-All sections share a single inelastic material definition:
-
-```python
-E = 29e3 * ksi
-fy = 50 * ksi
-nu = 0.3
-
-model.nDMaterial("J2BeamFiber", 1, E, nu, fy, 0.01*E, 0.0)
-```
 
 ## Loads
 
@@ -208,14 +204,5 @@ veux.serve(artist)
 ```
 
 ![alt text](img/braced-portal.png)
-
-## Summary
-
-This example demonstrates modern nonlinear analysis workflows with OpenSees and Python,
-including:
-- Explicit modeling of geometry and inelastic response
-- Use of AISC-based fiber sections and composite elements
-- Real-time animated visualization with `veux`
-
 
 
