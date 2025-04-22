@@ -14,7 +14,6 @@ class MatrixAnalysis:
         return np.round(Q, 4)
 
 
-
 def create_field(model,  artist):
     ndm = artist.model.ndm
     ndf = 3 if ndm == 2 else 6
@@ -27,10 +26,11 @@ def create_field(model,  artist):
         L = np.linalg.norm(X[-1] - X[0])
 
         if not artist.model.cell_matches(tag, "prism"):
-            return [0, 0, 0]
+            M = model.eleResponse(tag, "section", x+1, "forces")[3:6]
+            return M
 
         else:
-            q  = model.eleResponse(tag, "basicForces")
+            q = model.eleResponse(tag, "basicForces")
 
 
             if ndm == 3:

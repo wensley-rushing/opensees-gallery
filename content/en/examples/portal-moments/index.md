@@ -8,6 +8,5 @@ Downloads:
   - plane.py
 ---
 
-![alt text](img/moments.png)
+![Bending moment diagrams rendered with veux.](img/moments.png)
 
-![alt text](image.png)
