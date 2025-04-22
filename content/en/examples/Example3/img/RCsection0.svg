@@ -33,6 +33,25 @@
      inkscape:current-layer="surface1" />
   <defs
      id="defs148">
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7" />
+    </marker>
     <g
        id="g86">
       <symbol
@@ -380,6 +399,63 @@
          d="M 0 0 L 483 0 L 483 280 L 0 280 Z M 101.800781 21.699219 L 109 23.5 L 101.800781 25.300781 L 109.898438 25.300781 L 109.898438 21.699219 Z M 89.199219 25.300781 L 82 23.5 L 89.199219 21.699219 L 81.101562 21.699219 L 81.101562 25.300781 Z M 89.199219 25.300781 "
          id="path145" />
     </clipPath>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7-3" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-6"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle-6-3"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Concave triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path7-4-8" />
+    </marker>
   </defs>
   <g
      id="surface1"
@@ -470,86 +546,6 @@
        transform="matrix(0.1,0,0,-0.1,0,280)"
        id="path182" />
     <g
-       clip-path="url(#clip5)"
-       clip-rule="nonzero"
-       id="g188">
-      <g
-         clip-path="url(#clip6)"
-         clip-rule="nonzero"
-         id="g186">
-        <path
-           style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-           d="M 2125,2700 H 820"
-           transform="matrix(0.1,0,0,-0.1,0,280)"
-           id="path184" />
-      </g>
-    </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 891.99219,2681.9922 820,2700 l 71.99219,18.0078"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path190" />
-    <g
-       clip-path="url(#clip7)"
-       clip-rule="nonzero"
-       id="g196">
-      <g
-         clip-path="url(#clip8)"
-         clip-rule="nonzero"
-         id="g194">
-        <path
-           style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-           d="M 2800,2700 H 4060"
-           transform="matrix(0.1,0,0,-0.1,0,280)"
-           id="path192" />
-      </g>
-    </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 3988.0078,2718.0078 4060,2700 l -71.9922,-18.0078"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path198" />
-    <g
-       clip-path="url(#clip9)"
-       clip-rule="nonzero"
-       id="g204">
-      <g
-         clip-path="url(#clip10)"
-         clip-rule="nonzero"
-         id="g202">
-        <path
-           style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-           d="m 4465,1620 v 720"
-           transform="matrix(0.1,0,0,-0.1,0,280)"
-           id="path200" />
-      </g>
-    </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 4446.9922,2268.0078 4465,2340 l 18.0078,-71.9922"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path206" />
-    <g
-       clip-path="url(#clip11)"
-       clip-rule="nonzero"
-       id="g212">
-      <g
-         clip-path="url(#clip12)"
-         clip-rule="nonzero"
-         id="g210">
-        <path
-           style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-           d="M 4465,1440 V 720"
-           transform="matrix(0.1,0,0,-0.1,0,280)"
-           id="path208" />
-      </g>
-    </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 4483.0078,791.99219 4465,720 l -18.0078,71.99219"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path214" />
-    <g
        clip-path="url(#clip13)"
        clip-rule="nonzero"
        id="g220">
@@ -574,31 +570,6 @@
        d="M 4303.0078,791.99219 4285,720 l -18.0078,71.99219"
        transform="matrix(0.1,0,0,-0.1,0,280)"
        id="path224" />
-    <g
-       clip-path="url(#clip15)"
-       clip-rule="nonzero"
-       id="g230">
-      <g
-         clip-path="url(#clip16)"
-         clip-rule="nonzero"
-         id="g228">
-        <path
-           style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-           d="M 4285,2340 V 2070"
-           transform="matrix(0.1,0,0,-0.1,0,280)"
-           id="path226" />
-      </g>
-    </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 4266.9922,2268.0078 4285,2340 l 18.0078,-71.9922"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path232" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
-       d="M 4303.0078,2141.9922 4285,2070 l -18.0078,71.9922"
-       transform="matrix(0.1,0,0,-0.1,0,280)"
-       id="path234" />
     <g
        clip-path="url(#clip17)"
        clip-rule="nonzero"
@@ -674,65 +645,6 @@
     </g>
     <g
        style="fill:#000000;fill-opacity:1"
-       id="g288">
-      <use
-         xlink:href="#glyph0-3"
-         x="221.5"
-         y="14.5"
-         id="use266" />
-      <use
-         xlink:href="#glyph0-4"
-         x="226.89999"
-         y="14.5"
-         id="use268" />
-      <use
-         xlink:href="#glyph0-5"
-         x="231.69521"
-         y="14.5"
-         id="use270" />
-      <use
-         xlink:href="#glyph0-6"
-         x="237.0952"
-         y="14.5"
-         id="use272" />
-      <use
-         xlink:href="#glyph0-7"
-         x="240.0976"
-         y="14.5"
-         id="use274" />
-      <use
-         xlink:href="#glyph0-8"
-         x="245.4976"
-         y="14.5"
-         id="use276" />
-      <use
-         xlink:href="#glyph0-9"
-         x="248.1976"
-         y="14.5"
-         id="use278" />
-      <use
-         xlink:href="#glyph0-8"
-         x="254.2888"
-         y="14.5"
-         id="use280" />
-      <use
-         xlink:href="#glyph0-10"
-         x="256.9888"
-         y="14.5"
-         id="use282" />
-      <use
-         xlink:href="#glyph0-11"
-         x="262.38879"
-         y="14.5"
-         id="use284" />
-      <use
-         xlink:href="#glyph0-12"
-         x="267.78879"
-         y="14.5"
-         id="use286" />
-    </g>
-    <g
-       style="fill:#000000;fill-opacity:1"
        id="g312">
       <use
          xlink:href="#glyph0-8"
@@ -756,6 +668,33 @@
            style="font-size:13.4655px;fill:#1a1a1a;stroke-width:0.9181"
            x="432.81607"
            y="125.41935">width = 15&quot;</tspan></text>
+    </g>
+    <g
+       style="fill:#000000;fill-opacity:1"
+       id="g312-7"
+       transform="translate(-196.18531,-117.31453)">
+      <use
+         xlink:href="#glyph0-8"
+         x="453.10239"
+         y="131.5"
+         id="use300-1" />
+      <use
+         xlink:href="#glyph0-8"
+         x="461.89359"
+         y="131.5"
+         id="use304-5" />
+      <text
+         xml:space="preserve"
+         style="font-size:13.4655px;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ff0000;stroke-width:0.9181"
+         x="425.47128"
+         y="125.41935"
+         id="text1-2"
+         transform="scale(0.95786478,1.0439887)"><tspan
+           sodipodi:role="line"
+           id="tspan1-1"
+           style="font-size:13.4655px;fill:#1a1a1a;stroke-width:0.9181"
+           x="425.47128"
+           y="125.41935">depth = 24&quot;</tspan></text>
     </g>
     <g
        style="fill:#000000;fill-opacity:1"
@@ -973,5 +912,33 @@
          style="stroke-width:0.9181"
          x="193.1843"
          y="114.02664">Confined Concrete</tspan></text>
+    <path
+       style="fill:#1a1a1a;stroke-width:0.9181"
+       d="M 443.73719,46.533445 V 113.03008"
+       id="path3" />
+    <path
+       style="fill:#1a1a1a;stroke-width:0.9181"
+       d="M 444.34126,105.78787 V 51.800505"
+       id="path4" />
+    <path
+       style="fill:#1a1a1a;stroke-width:0.9181"
+       d="m 492.6668,-19.963191 6.64476,67.813401"
+       id="path6" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.88833;stroke-opacity:1;marker-end:url(#ConcaveTriangle)"
+       d="m 305.04768,9.6071595 94.9823,0.8296055"
+       id="path9" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.873287;stroke-opacity:1;marker-end:url(#ConcaveTriangle-6)"
+       d="m 444.96298,111.25911 0.64631,-58.317837"
+       id="path9-4" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.87298;stroke-opacity:1;marker-end:url(#ConcaveTriangle-6-3)"
+       d="m 444.6621,139.53375 0.0859,61.60807"
+       id="path9-4-0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.912792;stroke-opacity:1;marker-end:url(#ConcaveTriangle-8)"
+       d="M 198.22269,10.546441 88.502459,9.9327701"
+       id="path9-6" />
   </g>
 </svg>

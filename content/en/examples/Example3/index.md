@@ -376,7 +376,26 @@ loadConst -time 0.0
 {{< /tabs >}}
 
 Mass terms are added to nodes 3 and 4. A new uniform
-excitation load pattern is created. The excitation acts in the
+excitation load pattern is created. 
+
+The `rayleigh` method is used to add stiffness proportional damping to the system. 
+The damping term will be based on the last committed stifness of the
+elements, i.e. \(C = a_c K_{\text{commit}}\) with \(a_c = 0.000625\). 
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+```python
+model.rayleigh(0.0, 0.0, 0.0, 0.000625)
+```
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+rayleigh 0.0 0.0 0.0 0.000625
+```
+{{% /tab %}}
+{{< /tabs >}}
+
+
+The excitation acts in the
 horizontal direction and reads the acceleration record and time interval
 from the file `ARL360.g3`. The file `ARL360.g3` is created from the 
 [PEER Strong Motion Database](https://ngawest2.berkeley.edu/) record
@@ -390,12 +409,21 @@ A new solution Algorithm of type `Newton` is then created.
 The solution algorithm uses a `ConvergenceTest` which tests convergence on the norm of
 the displacement increment vector. 
 -->
-The integrator for this analysis will
-be of type Newmark with a \(\gamma = 0.25\) and \(\beta = 0.5\). 
+The integrator for this analysis will use the *Newmark* method with \(\gamma = 0.25\) and \(\beta = 0.5\). 
 
-The integrator will add some stiffness proportional damping to the system,
-the damping term will be based on the last committed stifness of the
-elements, i.e. \(C = a_c K_{\text{commit}}\) with \(a_c = 0.000625\). 
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+```python
+model.integrator("Newmark",  0.5,  0.25)
+```
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+integrator Newmark  0.5  0.25 
+```
+{{% /tab %}}
+{{< /tabs >}}
+
 
 <!--
 The equations are formed using a banded storage scheme, so the System is
@@ -456,9 +484,9 @@ Each line of `nodeTransient.out` contains the domain time,
 and DX, DY and RZ for node 3. Plotting the first and second columns of
 this file the lateral displacement versus time for node 3 can be
 obtained as shown in the figure below. 
--->
 
 ![Lateral displacement at node 3](newNode3.3.svg)
+-->
 
 <!--
 Each line of the files `ele1secForce.out` 
@@ -468,7 +496,7 @@ for section 1 (the base section) of element 1.
 
 Element response quantities can be used to generate the moment-curvature time history of the base section of column 1 as shown below.
 
-![Column section moment-curvature results](newElement1MK.svg)
+![Column section moment-curvature results](img/transient-momcur.svg)
 
 ## Summary
 
@@ -483,21 +511,17 @@ Summarizing, we now have the following functions:
 
 
 A complete analysis may look as follows:
+
 ```python
 def main():
     # Create the model
     model = create_portal()
 
-    # perform analysis under gravity loads
-    status = gravity_analysis(model)
+    # Perform analysis under gravity loads
+    gravity_analysis(model)
 
-    if status != ops.successful:
-        print(f"Gravity analysis FAILED ({status = })\n")
-
-    status = pushover_analysis(model)
-    # Print a message to indicate if analysis successful or not
-    if status != ops.successful:
-        print(f"Pushover analysis FAILED ({status = })\n")
+    # Perform transient analysis
+    pushover_analysis(model)
 
     # Print the state at node 3
     model.print("node", 3)
@@ -505,3 +529,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+

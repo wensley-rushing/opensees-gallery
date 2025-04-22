@@ -45,7 +45,6 @@ def create_portal(width  = 360.0, height = 144.0):
     # Reinforcing steel 
     fy =    60.0;      # Yield stress
     E  = 30000.0;      # Young's modulus
-    #                                tag fy  E   b
     model.uniaxialMaterial("Steel01", 3, fy, E, 0.01)
 
     # Define cross-section for nonlinear columns
@@ -85,8 +84,8 @@ def create_portal(width  = 360.0, height = 144.0):
 
     # Create the columns using Beam-column elements
     #                              tag   nodes trn itg
-    model.element("forceBeamColumn", 1, (1, 3), np, 1,  1)
-    model.element("forceBeamColumn", 2, (2, 4), np, 1,  1)
+    model.element("forceBeamColumn", 1, (1, 3),  section=1,  transform=1)
+    model.element("forceBeamColumn", 2, (2, 4),  section=1,  transform=1)
 
     # Define girder element
     # -----------------------------
@@ -96,9 +95,10 @@ def create_portal(width  = 360.0, height = 144.0):
 
     # Create the girder element
     #                                tag  nodes     A      E       Iz   transfTag
-    model.element("elasticBeamColumn", 3, (3, 4), 360.0, 4030.0, 8640.0, 2)
+    model.element("elasticBeamColumn", 3, (3, 4), 360.0, 4030.0, 8640.0, transform=2)
 
     return model
+
 
 def gravity_analysis(model, P=180.0)->int:
   # initialize in case we need to do an initial stiffness iteration
@@ -236,10 +236,6 @@ def pushover_analysis(model, H=10.0):
 
 def dynamic_analysis(model):
 
-  # ----------------------------------------------------
-  # Start of additional modeling for dynamic loads
-  # ----------------------------------------------------
-
   # Set the gravity loads to be constant & reset the time in the domain
   model.loadConst(time=0.0)
 
@@ -275,7 +271,6 @@ def dynamic_analysis(model):
   model.wipeAnalysis()
 
   model.system('BandGeneral')
-
   model.constraints('Plain')
 
   # Create the convergence test, the norm of the residual with a tolerance of 
@@ -289,22 +284,24 @@ def dynamic_analysis(model):
 
   model.analysis('Transient')
 
-#   model.recorder('EnvelopeNode', "disp",  time=True, file='out/disp.out', node=(3, 4), dof=1)
-#   model.recorder('EnvelopeNode', "accel", time=True, file='out/accel.out', timeSeries=1,  node=(3, 4), dof=1)
+  model.recorder('EnvelopeNode', "disp",  time=True, file='out/disp.out', node=(3, 4), dof=1)
+  model.recorder('EnvelopeNode', "accel", time=True, file='out/accel.out', timeSeries=1,  node=(3, 4), dof=1)
 
-#   model.recorder('Element', "force", time=True, file='out/ele1secForce.out', ele=1, section=1)
-#   model.recorder('Element', "deformation", time=True, file='out/ele1secDef.out',   ele=1, section=1)
+  model.recorder('Element', "force", time=True, file='out/ele1secForce.out', ele=1, section=1)
+  model.recorder('Element', "deformation", time=True, file='out/ele1secDef.out',   ele=1, section=1)
 
   # ------------------------------
   # Finally perform the analysis
   # ------------------------------
-  print(model.eigen(model))
   print(f"... eigen values at start of transient: {model.eigen(2)}")
 
   step = 0.01
 
-  for i in range(2000):
-  # while  status == 0  and  tCurrent < tFinal:
+  # Store moment and curvature
+  M, k = [], []
+  status = 0
+# for i in range(2000):
+  while  status == 0  and  model.getTime() < dt*2000:
 
       status = model.analyze(1, step)
 
@@ -321,7 +318,11 @@ def dynamic_analysis(model):
           model.test('NormDispIncr', 1.0e-12,  10)
           model.algorithm('Newton')
 
-  return status
+      M.append(model.eleResponse(1, "section", 1, "force")[1])
+      k.append(model.eleResponse(1, "section", 1, "deformation")[1])
+
+
+  return M, k
 
 
 def main():
@@ -359,7 +360,6 @@ def main():
     ax.plot(u,p)
     ax.set_xlabel("Displacement [in]")
     ax.set_ylabel("Base Shear [kips]")
-    plt.show()
     fig.savefig("img/pushover-node-3.svg")
 
 
@@ -372,13 +372,14 @@ def main():
     gravity_analysis(model)
 
     # Perform the dynamic analysis
-    status = dynamic_analysis(model)
+    M, k = dynamic_analysis(model)
+    fig2, ax2 = plt.subplots()
+    ax2.plot(k, M)
+    ax2.set_xlabel(r"Curvature, $\mathrm{in}^{-1}$")
+    ax2.set_ylabel(r"Moment, $\mathrm{in}-\mathrm{kip}$")
+    fig2.savefig("img/transient-momcur.svg")
+    plt.show()
 
-    # Print a message to indicate if analysis successful or not
-    if status == 0:
-        print("Transient analysis SUCCESSFUL")
-    else:
-        print("Transient analysis FAILED")
 
     # Perform an eigenvalue analysis
     print(f"... eigen values at end of transient: {model.eigen(2)}")

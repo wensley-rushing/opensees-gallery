@@ -115,13 +115,13 @@ proc create_portal {} {
   # Define girder element
   # -----------------------------
 
-  # Geometry of column elements
+  # Geometry of girder elements
   #                tag 
   geomTransf Linear 2  
 
   # Create the beam element
   #                          tag ndI ndJ     A       E    Iz   transfTag
-  element ElasticBeamColumn   3   3   4    360    4030  8640    2
+  element elasticBeamColumn   3   3   4    360    4030  8640    2
 
   # Define gravity loads
   # --------------------
@@ -222,9 +222,9 @@ proc pushover_analysis {} {
   recorder EnvelopeElement -file out/ele32.out -time -ele 1 2 localForce
 
 
-  # ------------------------------
+  #
   # Finally perform the analysis
-  # ------------------------------
+  #
 
   # Set some parameters
   set maxU 15.0;	        # Max displacement
@@ -321,10 +321,6 @@ proc dynamic_analysis {} {
   # set the rayleigh damping factors for nodes & elements
   rayleigh 0.0 0.0 0.0 0.000625
 
-  # ----------------------------------------------------
-  # End of additional modeling for dynamic loads
-  # ----------------------------------------------------
-
 
   # ---------------------------------------------------------
   # Start of modifications to analysis for transient analysis
@@ -341,13 +337,13 @@ proc dynamic_analysis {} {
 
   # Create the convergence test, the norm of the residual with a tolerance of 
   # 1e-12 and a max number of iterations of 10
-  test NormDispIncr 1.0e-12  10 
+  test NormDispIncr 1.0e-12  10  0
 
   # Create the solution algorithm, a Newton-Raphson algorithm
   algorithm Newton
 
   # Create the DOF numberer, the reverse Cuthill-McKee algorithm
-  # numberer RCM
+  numberer RCM
 
   # Create the integration scheme, the Newmark with alpha =0.5 and beta =.25
   integrator Newmark  0.5  0.25 
@@ -376,7 +372,7 @@ proc dynamic_analysis {} {
 
 
   # set some variables
-  set tFinal [expr 1560 * 0.02]
+  set tFinal [expr 2000 * 0.02]
   set tCurrent [getTime]
   set status 0
 
