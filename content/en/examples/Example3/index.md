@@ -10,11 +10,12 @@ downloads:
   Tcl:    ["portal.tcl"]
 ---
 
-![Example 3.1](Example2.svg)
+![Example 3.1](img/Example2.svg)
 
 This set of examples investigates the nonlinear analysis of a reinforced
 concrete frame. The nonlinear beam column element with a fiber
 discretization of the cross section is used in the model.
+The investigation is adapted from the work of McKenna and Scott (2001).
 
 ## Model Building
 
@@ -311,15 +312,92 @@ entries the displacements at node 4.
 ## Pushover analysis
 
 After performing the gravity load analysis on the model, the time in the
-domain is reset to `0.0` and the current value of all loads acting are
-held constant. 
+domain is reset to `0.0` and the current value of all loads acting are held constant. 
 A new load pattern with a linear time series and horizontal loads acting at nodes `3` and `4` is then added to the model.
 
-The static analysis used to perform the gravity load analysis is 
-modified to use the [`DisplacementControl`](https://xara.so/user/manual/analysis/integrator/DisplacementControl.html) integrator. 
-At each new step
-in the analysis the integrator will determine the load increment necessary to increment the horizontal displacement at node `3` by `0.1` inches. 
-`60` analysis steps are performed in this new analysis.
+For the Pushover analysis we will use a [`DisplacementControl`](https://xara.so/user/manual/analysis/integrator/DisplacementControl.html) strategy. 
+In displacement control we specify a incremental displacement `dU` 
+that we would like to see at a nodal DOF and the strategy iterates to
+determine what the pseudo-time (load factor if using a linear time
+series) is required to impose that incremental displacement. 
+For this example, at each new step in the analysis the integrator will determine
+the load increment necessary to increment the horizontal displacement at
+node 3 by 0.1 in. 
+
+```python
+dU = 0.1
+model.integrator("DisplacementControl", 3, 1, dU, 1, dU, dU)
+```
+
+At each new analysis step the integrator will determine the load increment necessary to increment the horizontal displacement at node `3` by `0.1` inches. 
+As the example is nonlinear and nonlinear models do not always
+converge the analysis is carried out inside a while loop. The loop will
+either result in the model reaching it's target displacement or it will
+fail to do so. At each step a single analysis step is performed. If the
+analysis step fails using standard Newton solution algorithm, another
+strategy using initial stiffness iterations will be attempted.
+
+{{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+```python
+u, p = [], []
+while status == ops.successful and u[-1] < maxU:
+
+    status = model.analyze(1)
+
+    # if the analysis failed, try initial tangent iteration
+    if status != ops.successful:
+        print("... Newton failed, trying initial stiffness")
+        model.test("NormDispIncr", 1.0e-12, 1000, 5)
+        model.algorithm("ModifiedNewton", initial=True)
+        status = model.analyze(1)
+        if status == ops.successful:
+            print("... that worked, back to regular Newton")
+
+        model.test("NormDispIncr", 1.0e-12, 10)
+        model.algorithm("Newton")
+
+    u.append(model.nodeDisp(3, 1))
+    p.append(model.getTime())
+
+if status != ops.successful:
+    raise Exception("Pushover analysis failed")
+```
+{{% /tab %}}
+{{% tab name="Tcl" %}}
+```tcl
+# set some parameters
+set maxU 15.0; # Max displacement set ok 0 set currentDisp 0.0
+
+# perform the analysis
+while {$ok == 0 && [getTime] < $maxU} {
+    set ok [analyze 1]
+
+    # if the analysis fails try initial tangent iteration
+    if {$ok != 0} { 
+        puts "regular newton failed .. lets try an initial stiffness for this step" 
+        test NormDispIncr 1.0e-12 1000 
+        algorithm ModifiedNewton -initial 
+        set ok [analyze 1] 
+        if {$ok == 0} {
+            puts "that worked .. back to regular newton"
+        }
+        test NormDispIncr 1.0e-12 10 algorithm Newton 
+    }
+}
+set currentDisp [nodeDip 3 1]
+}
+
+# print out a SUCCESS or FAILURE MESSAGE
+if {$ok == 0} { 
+    puts "Pushover analysis completed SUCCESSFULLY"; }
+else {
+    puts "Pushover analysis FAILED"; 
+}
+```
+{{% /tab %}}
+{{< /tabs >}}
+
 
 For this analysis the nodal displacements at node `3` will be
 stored in the variable `u` for post-processing. 
@@ -529,4 +607,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+# References
+
+- McKenna F and Scott M (2001) The OpenSees Example Primer
 
