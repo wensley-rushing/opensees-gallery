@@ -39,7 +39,6 @@ def create_plane():
 if __name__ == "__main__":
 
     model = create_plane()
-    print(MatrixAnalysis(model).Q_vector())
 
     artist = veux.create_artist(model, vertical=2)
     artist.draw_outlines()
