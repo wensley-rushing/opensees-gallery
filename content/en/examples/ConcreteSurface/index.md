@@ -1,6 +1,9 @@
 ---
 title: Concrete
-tags: ["Python"]
+meta:
+  title: "Cyclic compression test using ASDConcrete3D with automatic regularization"
+tags: ["Solid"]
+weight: 100
 description: >-
   This example demonstrates how to construct and test the ASDConcrete3D
   material model under cyclic uniaxial compression. The simulation
@@ -14,17 +17,6 @@ downloads:
   - surface.py
 ---
 
-<!--
----
-title: "ASDConcrete3D Compression"
-meta:
-  title: "Cyclic compression test using ASDConcrete3D with automatic regularization"
-weight: 50
-tags: ["Damage", "ASDConcrete3D", "Python"]
-categories: ["Concrete", "Damage Mechanics", "Verification"]
-thumbnail: img/ASDConcrete3D.png
---- 
--->
 
 
 This example is adapted from the OpenSees documentation for the ASDConcrete material.
