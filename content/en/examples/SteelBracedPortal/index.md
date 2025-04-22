@@ -183,6 +183,8 @@ plt.xlabel("Roof Displacement")
 plt.ylabel("Base Shear")
 ```
 
+![](img/pushover.png)
+
 ## Visualization
 
 The structure is rendered and animated using `veux`. Deformations are visualized
