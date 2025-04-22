@@ -25,6 +25,19 @@ The goal is to evaluate material behavior under both hydrostatic and deviatoric 
 We begin by defining the model builder and creating the nodes of the brick:
 
 {{< tabs tabTotal="2" >}}
+{{% tab name="Python" %}}
+import xara
+model = xara.Model(ndm=3, ndf=3)
+
+model.node(1, (1.0, 0.0, 0.0))
+model.node(2, (1.0, 1.0, 0.0))
+model.node(3, (0.0, 1.0, 0.0))
+model.node(4, (0.0, 0.0, 0.0))
+model.node(5, (1.0, 0.0, 1.0))
+model.node(6, (1.0, 1.0, 1.0))
+model.node(7, (0.0, 1.0, 1.0))
+model.node(8, (0.0, 0.0, 1.0))
+{{% /tab %}}
 {{% tab name="Tcl" %}}
 ```tcl
 model BasicBuilder -ndm 3 -ndf 3
