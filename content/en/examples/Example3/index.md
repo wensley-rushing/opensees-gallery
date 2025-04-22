@@ -425,7 +425,10 @@ the figure below.
 ![Load displacement curve for node 3](img/ExampleOut3.2.svg) 
 -->
 
-![Load displacement curve for node 3](img/pushover-node-3.svg)
+<figure style="text-align: center;">
+<img src="img/pushover-node-3.svg" style="width: 80%;">
+<figcaption>Load displacement curve for node 3</figcaption>
+</figure>
 
 
 ## Dynamic Analysis
@@ -574,7 +577,10 @@ for section 1 (the base section) of element 1.
 
 Element response quantities can be used to generate the moment-curvature time history of the base section of column 1 as shown below.
 
-![Column section moment-curvature results](img/transient-momcur.svg)
+<figure style="text-align: center;">
+<img src="img/transient-momcur.svg" style="width: 80%;">
+<figcaption>Column section moment-curvature results</figcaption>
+</figure>
 
 ## Summary
 
