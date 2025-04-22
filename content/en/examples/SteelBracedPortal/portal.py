@@ -264,6 +264,7 @@ def pushover_analysis(model):
 
     fig, ax = plt.subplots()
     ax.plot(u,p)
+    fig.savefig("img/pushover.png")
     plt.show()
 
     motion.add_to(artist.canvas)
