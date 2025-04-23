@@ -98,7 +98,7 @@ def _get_elong_tangent(temp: float,
 
     ET    = E0
     elong = thermal_elong
-    return ET, elong, fy, fp
+    return ET, fy, fp
 
 
 class EN1993:
@@ -134,7 +134,7 @@ class EN1993:
         fy = self._model.getParamValue(fy_tag)
         E = self._model.getParamValue(E_tag)
 
-        E, elong, fy, fp = _get_elong_tangent(temperature, fy, E)
+        E, fy, fp = _get_elong_tangent(temperature, fy, E)
 
         self._model.updateParameter(fy_tag, fy)
         self._model.updateParameter(E_tag,  E)
@@ -157,6 +157,7 @@ if __name__ == "__main__":
         # for force in np.arange(0, 5000000, 250000):
         for force in np.linspace(0, 2500e3, 10):
             print(f"Running T={T_end} °C, force={force:.2f} N ...")
+    
             model = xara.Model(ndm=3, ndf=7)
 
             model.eval(f"set T_end {T_end}")
