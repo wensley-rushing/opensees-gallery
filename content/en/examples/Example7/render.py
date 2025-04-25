@@ -3,7 +3,7 @@ import veux
 if __name__ == "__main__":
     from Example7 import create_model, static_analysis
 
-    model = create_model()
+    model, ctrl_node = create_model()
     static_analysis(model)
 
     #

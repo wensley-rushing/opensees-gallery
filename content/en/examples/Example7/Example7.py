@@ -80,7 +80,7 @@ def create_model(walk_edge=False):
     model.load(side1, 0.0, -0.25, 0.0, 0.0, 0.0, 0.0, pattern=1)
     model.load(side2, 0.0, -0.25, 0.0, 0.0, 0.0, 0.0, pattern=1)
 
-    return model
+    return model, mid
 
 
 def static_analysis(model):
@@ -112,12 +112,13 @@ def static_analysis(model):
     return model.analyze(5)
 
 
-def dynamic_analysis(model):
-    # ----------------------------
-    # Start of recorder generation
-    # ----------------------------
+def dynamic_analysis(model, node):
+    # ------------------------------
+    # Define quantities to record
+    # ------------------------------
 
-    model.recorder("Node", "-file", "Node.out", "-time", "-node", mid, "-dof", 2, "disp")
+#   model.recorder("Node", "-file", "Node.out", "-time", "-node", node, "-dof", 2, "disp")
+    model.recorder("Node", "disp", file="Node.out", time=True, node=node, dof=2)
 
 
     # ------------------------------------------
@@ -149,7 +150,7 @@ def dynamic_analysis(model):
 
 
 if __name__ == "__main__":
-    model = create_model()
+    model,ctrl_node = create_model()
     static_analysis(model)
-    dynamic_analysis(model)
+    dynamic_analysis(model, ctrl_node)
 
