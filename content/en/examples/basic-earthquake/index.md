@@ -1,16 +1,15 @@
 ---
-title: "Single-Story Frame with Shell Roof Under Earthquake Excitation"
+title: "Linear Dynamic analysis of ground shaking"
 meta:
   title: "Dynamic analysis of a basic building model combining frame and shell elements in OpenSees"
-weight: 20
-tags: ["Frame", "Shell", "Dynamic Analysis", "Python", "Tcl"]
+weight: 10
+tags: ["Frame", "Shell", "Dynamic"]
 categories: ["Basic", "Elastic", "Earthquake"]
 description: >-
   A finite element model of a single-story structure composed of frame columns and a shell roof is constructed and subjected to dynamic earthquake excitation.
 keywords: ["structural analysis", "earthquake engineering"]
 downloads:
-  Python: ["Example2.py", "frame_shell.py"]
-  Tcl: ["Example2.tcl"]
+  Python: ["main.py", "tabasFN.txt", "tabasFP.txt"]
 ---
 
 This example shows how to realize a simple three-dimensional finite element model in OpenSees, combining frame and shell elements, and performing dynamic analysis under earthquake excitation. 
