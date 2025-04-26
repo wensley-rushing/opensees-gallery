@@ -121,6 +121,20 @@
         footer = "none"
         orientation = "stacked"
         homepage = 3
+    [sections.benchmarks]
+        title = "Get started with basic examples"
+        layout = "card"
+        sort = "date"
+        reverse = true
+        background = ""
+        color = "body-tertiary"
+        style = "border-0 shadow" # card-body-margin" # card-zoom 
+        cols = 3
+        padding = "3"
+        header = "tags"
+        footer = "none"
+        orientation = "stacked"
+        homepage = 3
 # toml-docs-end sections
     [sections.docs]
         title = "Components"
