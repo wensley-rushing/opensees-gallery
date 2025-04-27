@@ -155,12 +155,7 @@ def test_ElasticFrame():
     # ---------------------------------
 
     ops.analyze(1)
-    # print "node 5: nodeDisp 5"
-    # print "node 6: nodeDisp 6"
-    # print "node 7: nodeDisp 7"
-    # print "node 8: nodeDisp 8"
-    # print "node 9: nodeDisp 9"
-    # print "node 10: nodeDisp 10"
+
     # ---------------------------------
     # Check Equilibrium
     # ---------------------------------
@@ -199,12 +194,6 @@ def test_ElasticFrame():
     # ---------------------------------
 
     ops.analyze(1)
-    # print "node 5: nodeDisp 5"
-    # print "node 6: nodeDisp 6"
-    # print "node 7: nodeDisp 7"
-    # print "node 8: nodeDisp 8"
-    # print "node 9: nodeDisp 9"
-    # print "node 10: nodeDisp 10"
     # ---------------------------------
     # Check Equilibrium
     # ---------------------------------
@@ -222,9 +211,6 @@ def test_ElasticFrame():
     print("\nEqilibrium Check After Lateral Loads:")
     print("SumX: Inputed: ", inputedFx, " + Computed: ", computedFx, " =  ",inputedFx+computedFx)
     print("SumY: Inputed: ", inputedFy, " + Computed: ", computedFy, " =  ",inputedFy+computedFy)
-
-    # print ele information for columns at base
-    #print ele 1 4 7 10
 
     # ---------------------------------
     # Check Eigenvalues

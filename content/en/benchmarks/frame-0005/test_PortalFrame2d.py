@@ -210,4 +210,6 @@ def test_PortalFrame2d():
 
     assert ok==0
 
+if __name__ == "__main__":
+    test_PortalFrame2d()
 

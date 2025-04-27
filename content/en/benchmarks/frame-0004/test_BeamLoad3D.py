@@ -49,7 +49,7 @@ for element in elements :
     sec = 1
     model.section('Elastic', 1, E, A, Iz, Iy, G, J)
 
-    model.geomTransf('Corotational', 1, (0, 0, 1))
+    model.geomTransf("Linear", 1, (0, 0, 1))
 
     # Create elements
     tag   = 1
@@ -66,7 +66,7 @@ for element in elements :
     model.eleLoad ("-ele", 1,  "-type", "-beamUniform", wy/2,  wz/2, wx/2)
 
 
-    niter = 4
+    niter = 2
     model.test("NormUnbalance", 1.0e-10, niter)
     model.algorithm("Newton")
     model.integrator("LoadControl", 1.0)
@@ -107,6 +107,5 @@ for element in elements :
     printRow("theta_yj", d1-d2, model.nodeDisp(2, 5))
 
     print("")
-
 
 

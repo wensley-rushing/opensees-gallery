@@ -242,14 +242,10 @@ foreach elem_count {1 2 10} {
 }
 
 
-set results [open STATUS.md a+]
 if {$ok == 0} {
     puts "PASSED Verification Test AISC25.tcl \n\n"
-    puts $results "| PASSED |  AISC25.tcl |"
 } else {
     puts "FAILED Verification Test AISC25.tcl \n\n"
-    puts $results "| FAILED |  AISC25.tcl |"
 }
 
-close $results;
 

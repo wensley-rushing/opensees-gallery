@@ -114,12 +114,8 @@ for {set i 0} {$i<$numEigen} {incr i 1} {
 }
 
 
-set results [open STATUS.md a+]
 if {$testOK == 0} {
     puts "PASSED Verification Test EigenFrame.tcl \n\n"
-    puts $results "| PASSED |  EigenFrame.tcl"
 } else {
     puts "FAILED Verification Test EigenFrame.tcl \n\n"
-    puts $results "FAILED : EigenFrame.tcl"
 }
-close $results
