@@ -5,42 +5,48 @@
 # Units: kip, in
 #
 #
-# @__________@_@__________@ _
-# | | |
-# | | | 54"
-# | | |
+# @___________@_@__________@ _
+# |            |            |
+# |            |            | 54"
+# |            |            |
 # |@__________@|@__________@| _
-# | | |
-# | | |
-# | | | 54"
-# | | | _
-# ^ ^ ^
-# | 108" | 108" |
-# comment out one of lines if wish to see graphics or not
-#set displayMode "displayON"
-set displayMode "displayOFF"
+# |            |            |
+# |            |            |
+# |            |            | 54"
+# |            |            | _
+# ^            ^            ^
+# |     108"   |    108"    |
+
+proc rotSpring2D {eleID nodeR nodeC matID} {
+  # Create the zero length element
+  element zeroLength $eleID $nodeR $nodeC -mat $matID -dir 6
+  # Constrain the translational DOF with a multi-point constraint
+  # retained constrained DOF_1 DOF_2 ... DOF_n
+  equalDOF $nodeR $nodeC 1 2
+}
+
 model BasicBuilder -ndm 2 -ndf 3
 # tag X Y
-node 1 0 0
-node 2 0 54
-node 3 0 54
-node 4 0 108
-node 5 0 108
-node 6 108 0
-node 7 108 54
-node 8 108 54
-node 9 108 54
+node  1   0   0
+node  2   0  54
+node  3   0  54
+node  4   0 108
+node  5   0 108
+node  6 108   0
+node  7 108  54
+node  8 108  54
+node  9 108  54
 node 10 108 108
 node 11 108 108
 node 12 108 108
-node 13 216 0
-node 14 216 54
-node 15 216 54
+node 13 216   0
+node 14 216  54
+node 15 216  54
 node 16 216 108
 node 17 216 108
 # node DX DY RZ
-fix 1 1 1 0
-fix 6 1 1 0
+fix  1 1 1 0
+fix  6 1 1 0
 fix 13 1 1 0
 # Define beam and column property variables
 set E 29000
@@ -53,8 +59,6 @@ set Igir 6.08
 # Define moment-rotation relationship for spring - EPP
 # E ep
 uniaxialMaterial ElasticPP 1 26290 0.005
-# Source in proc to define rotational zero-length element
-source rotSpring2D.tcl
 # id ndR ndC matID
 rotSpring2D 1 2 3 1
 rotSpring2D 2 4 5 1
@@ -116,10 +120,7 @@ recorder Element 15 -file StFrPZL1el15.out -time forces
 recorder Element 16 -file StFrPZL1el16.out -time forces
 recorder Element 17 -file StFrPZL1el17.out -time forces
 recorder Element 18 -file StFrPZL1el18.out -time forces
-# Source in some commands to display the model
-if {$displayMode == "displayON"} {
-  source StFramePZLdisplay.tcl
-}
+
 integrator LoadControl 1 3 0.2 1
 test EnergyIncr 1.0e-6 10 1
 algorithm Newton
@@ -127,6 +128,7 @@ numberer Plain
 constraints Transformation 1.0
 system SparseGeneral
 analysis Static
+
 # Perform the pushover analysis
 analyze 30
 # Switch to displacement control

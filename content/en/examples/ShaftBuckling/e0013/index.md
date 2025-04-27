@@ -1,6 +1,6 @@
 ---
 title: "013 - Asymmetric Section: Post-buckling"
-draft: true
+draft: false
 description: Post-buckling curve with an asymmetric cross section
 bibliography: references.json
 downloads:

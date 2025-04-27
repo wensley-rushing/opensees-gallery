@@ -1,6 +1,7 @@
 ---
 title: Tension test
-draft: true
+thumbnail: img/examples/tension-coupon.png
+draft: false
 ---
 
 ![alt text](img/coupon.png)

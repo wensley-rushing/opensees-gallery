@@ -1,7 +1,6 @@
 # import the OpenSees Python module
 import xara
 import veux
-import numpy as np
 from xara.units.iks import kip, inch, foot, ksi
 from xara.helpers import find_node, find_nodes
 from veux.stress import node_average

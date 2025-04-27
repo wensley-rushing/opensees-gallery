@@ -1,8 +1,15 @@
 ---
 title: "030 - Plastic hinging"
 description: Plastic hinging in a fix-fix girder under a point load is simulated using J2 plasticity.
-draft: true
+draft: false
 ---
+
+$$
+\lambda_c P = \frac{2 M_p L}{a b}
+$$
+$$
+u = \frac{2}{3} \frac{M_p b^2}{E I}
+$$
 
 ![](img/e0030.png)
 

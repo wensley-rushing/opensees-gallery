@@ -1,6 +1,6 @@
 ---
 title: "010 - Nonlinear torsion"
-draft: true
+draft: false
 description: Test of the Wagner strain term with standard 6-DOF frame elements.
 render: e0010.glb
 bibliography: references.json

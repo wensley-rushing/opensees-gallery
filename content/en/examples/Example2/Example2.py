@@ -30,10 +30,8 @@ def moment_curvature(model, secTag, axialLoad, maxK, numIncr):
        numIncr -- number of increments used to reach maxK (default 100)
 
     Sets up a recorder which writes moment-curvature results to file
-    section$secTag.out ... the moment is in column 1, and curvature in column 2
-
-    Written: Andreas Schellenberg (andreas.schellenberg@gmail.com)
-    Date: June 2017
+    section$secTag.out ... 
+    the moment is in column 1, and curvature in column 2
 
     """
 
@@ -79,6 +77,7 @@ def moment_curvature(model, secTag, axialLoad, maxK, numIncr):
 
     # Do the section analysis
     model.analyze(numIncr)
+
 
 def create_section():
     # ------------------------------
@@ -150,13 +149,10 @@ if __name__ == "__main__":
     # Call the section analysis procedure
     moment_curvature(model, 1, P, Ky*mu, numIncr)
 
-
     u = model.nodeDisp(2,3)
     if abs(u-0.00190476190476190541) < 1e-12:
-        print('PASSED : MomentCurvature.py\n')
         print("Passed!")
     else:
-        print('FAILED : MomentCurvature.py\n')
         print("Failed!")
 
 

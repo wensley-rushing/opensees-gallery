@@ -28,6 +28,7 @@ model.material("ElasticIsotropic", 1, 29e3, 0.23)
 model.pattern("Plain", 1, "Linear")
 ```
 And finally we perform `n = 100` extrusions:
+
 ```python
 n = 100
 for i in range(n):
@@ -43,6 +44,7 @@ for i in range(n):
 
     ex.advance()
 ```
+
 This will create the following finite element model, which is rendered below with [veux](https://veux.io):
 ```python
 import veux

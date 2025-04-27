@@ -141,5 +141,9 @@ parameterization as the wrapped element's interpolation.
 
 ## References
 
+- NAFEMS Finite Element Methods & Standards, Abbassian, F., Dawswell, D. J., and Knowles, N. C.,
+  Selected Benchmarks for Non-Linear Behavior of 3D-Beams. Glasgow: NAFEMS, Publication NNB, Rev. 1, Oct. 1989. 
+  Test NL5.
+
 <div id="bibliography-list"></div>
 

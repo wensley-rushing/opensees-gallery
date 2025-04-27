@@ -2,7 +2,7 @@
 title: "Linear Dynamic analysis of ground shaking"
 meta:
   title: "Dynamic analysis of a basic building model combining frame and shell elements in OpenSees"
-weight: 10
+weight: 15
 tags: ["Frame", "Shell", "Dynamic"]
 categories: ["Basic", "Elastic", "Earthquake"]
 description: >-

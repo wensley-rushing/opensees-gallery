@@ -1,7 +1,7 @@
 ---
 title: Frame with Viscous Dampers
 authors: ["Sarven Akcelyan", "Dimitrios G. Lignos"]
-tags: ["Tcl"]
+tags: ["Links"]
 draft: true
 thumbnail: img/exampes/ViscousDamper.png
 description: This example demonstrates how to use the viscous damper material within a simple single story shear frame.
@@ -10,21 +10,13 @@ description: This example demonstrates how to use the viscous damper material wi
 This example demonstrates how to use the viscous damper material within
 a simple single story shear frame.
 
-The files needed to analyze this structure in OpenSees are included
-here:
-
--   The main file:
-
 Supporting files
 
 -   `TakY.th` - uses the JR Takatori record from the Kobe 1995 earthquake
     (available in the zip file below)
 
-All files are available in a compressed format here:
-[`Viscous_Damper_Example.zip`](Viscous_Damper_Example.zip)
 
-The rest of this example describes the model and shows the analysis
-results.
+The rest of this example describes the model and shows the analysis results.
 
 ## Model Description
 
@@ -67,8 +59,8 @@ Figure 1) is considered to be rigid.
 To model the viscous damper the
 [ViscousDamper](ViscousDamper_Material "wikilink") is used. The input
 parameters that are selected for the damper example are as follows:
-Axial Stiffness K = 25 kN/mm, Damping Coefficient Cd=20.74
-kN(s/mm)\<sup\>0.35\</sup\> and exponent a=0.35.
+Axial Stiffness \(K = 25\) kN/mm, Damping Coefficient \(Cd=20.74\) 
+kN(s/mm)\<sup\>0.35\</sup\> and exponent \(a=0.35\).
 
 ### Loading
 

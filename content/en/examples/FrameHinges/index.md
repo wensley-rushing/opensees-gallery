@@ -1,13 +1,14 @@
 ---
 title: Hinges in Frame Elements
 tags: ["Python", "Tcl"]
-draft: true
+draft: false
 ---
 
-<details><summary>Python</summary>
-{{< highlight-content ZeroLength05.py python >}}
-</details>
+$$
+\lambda_c = \frac{3 M_p}{P L}
+$$
 
-<details><summary>Tcl</summary>
-{{< highlight-content ZeroLength05.tcl tcl >}}
-</details>
+$$
+u = -\frac{M_p L^2}{4 EI}
+$$
+

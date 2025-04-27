@@ -42,10 +42,9 @@ section PlaneStrain 1 1 2.0
 {{% /tab %}}
 {{% tab name="Python (RT)" %}}
 ```python
-thick = 2.0;
 #                                 tag  E      nu      rho
 model.material("ElasticIsotropic", 1, 1000.0, 0.25, 6.75/g)
-model.section("PlaneStrain", 1, material=1, thickness=thick)
+model.section("PlaneStrain", 1, material=1, thickness=2.0)
 ```
 {{% /tab %}}
 {{< /tabs >}}

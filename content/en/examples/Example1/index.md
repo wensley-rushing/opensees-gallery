@@ -13,7 +13,7 @@ description: >-
 keywords: ["structural analysis"]
 
 downloads:
-  Python: ["Example1.py", "truss.py"]
+  Python: ["main.py"]
   Tcl: ["Example1.tcl"]
 
 ---
@@ -175,17 +175,17 @@ set loads {4 100 -50}
 {{< /tabs >}}
 
 We then add a [`"Plain"`](https://xara.so/user/manual/model/pattern/plainPattern.html) load pattern to the model with these loads, 
-and use the `"Linear"` option
-to specify that it should be increased linearly with each new load step.
+and use the `"Constant"` option
+to specify that it should be held constant.
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}
 ```python
-model.pattern("Plain", 1, "Linear", load=loads)
+model.pattern("Plain", 1, "Constant", load=loads)
 ```
 {{% /tab %}}
 {{% tab name="Tcl" %}}
 ```tcl
-pattern Plain 1 "Linear" "load $loads"
+pattern Plain 1 "Constant" "load $loads"
 ```
 {{% /tab %}}
 {{< /tabs >}}
@@ -198,7 +198,7 @@ Note that it is common to define the `load` data structure
 {{< tabs tabTotal="2" >}}
 {{% tab name="Python" %}}
 ```python
-model.pattern("Plain", 1, "Linear", load={
+model.pattern("Plain", 1, "Constant", load={
   4: [100, -50]
 })
 ```
@@ -215,22 +215,6 @@ pattern Plain 1 "Linear" {
 </blockquote>
 
 ## Analysis
-
-Next we configure that analysis procedure.
-The model is linear, so we use the [`Linear` algorithm](https://xara.so/user/manual/analysis/algorithm/LinearAlgorithm.html). 
-
-{{< tabs tabTotal="2" >}}
-{{% tab name="Python" %}}
-```python
-model.algorithm("Linear")
-```
-{{% /tab %}}
-{{% tab name="Tcl" %}}
-```tcl
-algorithm Linear;
-```
-{{% /tab %}}
-{{< /tabs >}}
 
 Even though the solution is linear, we have to select a procedure for
 applying the load, which is called an `Integrator`. 
@@ -250,13 +234,7 @@ integrator LoadControl 1.0;
 {{% /tab %}}
 {{< /tabs >}}
 
-<!--
-The equations are formed using a banded system, so the System is `BandSPD` (banded, symmetric
-positive definite).
-This is a good choice for most moderate size models.
-The equations have to be numbered, so typically an RCM numberer is used (for Reverse Cuthill-McKee). 
-The constraints are most easily represented with a `Plain` constraint handler.
--->
+
 Once all the components of an analysis are defined, the Analysis 
 itself is defined. For this problem a `Static` analysis is used.
 

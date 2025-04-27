@@ -292,8 +292,20 @@ $$
 \tan \lambda_{\text {cr }}=\chi \lambda_{\text {cr }}=\frac{\lambda_{\text {cr }}}{1+\lambda_{\text {cr }} 2 \varphi / 12}
 $$
 
+{{< nav id="shear" type="tabs" >}}
+{{< nav-item header="Prism" show="true" >}}
 
-PrismFrame
+| Boundary  |  Computed  |   Error   |
+|-----------|------------|-----------|
+| pin-pin   |   8718.89  |  1.085 %  |
+| fix-roll  |   8718.88  |  1.085 %  |
+| fix-fix   |  34545.22  |  4.259 %  |
+| fix-pin   |  17727.65  |  2.192 %  |
+| fix-free  |   2184.73  |  0.272 %  |
+| pin-roll  |   2184.73  |  0.273 %  |
+
+{{< /nav-item >}}
+{{< nav-item header="Force" >}}
 
 | Boundary  |  Computed  |   Error   |
 |-----------|------------|-----------|
@@ -304,16 +316,8 @@ PrismFrame
 | fix-free  |   2184.73  |  0.272 %  |
 | pin-roll  |   2184.73  |  0.273 %  |
 
-ForceFrame
-
-| Boundary  |  Computed  |   Error   |
-|-----------|------------|-----------|
-| pin-pin   |   8718.89  |  1.085 %  |
-| fix-roll  |   8718.88  |  1.085 %  |
-| fix-fix   |  34545.22  |  4.259 %  |
-| fix-pin   |  17727.65  |  2.192 %  |
-| fix-free  |   2184.73  |  0.272 %  |
-| pin-roll  |   2184.73  |  0.273 %  |
+{{< /nav-item >}}
+{{< /nav >}}
 
 ExactFrame
 

@@ -3,10 +3,10 @@ import veux
 from shps.shapes import WideFlange, Rectangle
 import opensees.openseespy as ops
 import matplotlib.pyplot as plt
-try:
-    plt.style.use("veux-web")
-except:
-    pass
+# try:
+#     plt.style.use("veux-web")
+# except:
+#     pass
 
 
 def create_distributed(element, shape, fy):
@@ -27,17 +27,16 @@ def create_distributed(element, shape, fy):
     K = E/(3*(1-2*nu))
     G = 0.5*E/(1+nu)
     model.nDMaterial("J2", 1, K, G, fy, 0, 0, 0.001*E)
-#   model.nDMaterial('J2BeamFiber', mat, E, nu, fy, 0.1*E, 0.0)
+    # model.nDMaterial('J2BeamFiber', mat, E, nu, fy, 0.1*E, 0.0)
 
     model.section("ShearFiber", 1, GJ=0)
     for fiber in shape.fibers():
         y, z = fiber.location
-        # TODO: Remove warping for simplicity
         model.fiber(y, z, fiber.area, material=1,  section=1)
 
     model.geomTransf("Linear", 1, (0,0,1))
-    model.element(element, 1, (10,20), section=1, transform=1)
-    model.element(element, 2, (20,30), section=1, transform=1)
+    model.element(element, 1, (10,20), 8, 1, 1 ) #transform=1, sections=1)
+    model.element(element, 2, (20,30), 8, 1, 1 ) #transform=1, sections=1)
 
     return model
 
@@ -67,7 +66,7 @@ if __name__ == "__main__":
 
     L = 30
     a = 10
-    Pmax = 1.5*(2*Zx*Fy/(a*(L-a)))*L
+    Pmax = (2*Zx*Fy/(a*(L-a)))*L # *1.5
 
     model = create_distributed("ForceFrame", shape, Fy)
     print(f"Mp = {Zx*Fy}")
@@ -80,16 +79,15 @@ if __name__ == "__main__":
     #
     # Loading
     #
-    model.pattern("Plain", 1, "Linear", loads={20: (0,-1,0,  0,0,0)})
+    model.pattern("Plain", 1, "Linear", loads={20: (0,0,-1,  0,0,0)})
     model.integrator("LoadControl", 1.2*Pmax/100)
-#   model.test("NormDispIncr", 1e-10, 20, 1) ; # OK with J2BeamFiber, bad for J2
-    model.test("NormDispIncr", 1e-8, 30, 1)
+    model.test("NormDispIncr", 1e-10, 20, 1) ; # OK with J2BeamFiber, bad for J2
+    # model.test("NormDispIncr", 1e-8, 30, 1)
     model.analysis("Static")
 
     P = []
     u = []
     while model.getTime() < Pmax:
-        print(model.getTime())
         if model.analyze(1) != 0:
 #           raise ValueError(f"Analysis failed at time = {model.getTime()}")
             print(f"Analysis failed at time = {model.getTime()}")
