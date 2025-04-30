@@ -5,8 +5,7 @@
 # REFERENCES
 #   as per EigenFrame.tcl
 
-puts "EigenFrame.Extra.tcl: Verification 2d Bathe & Wilson original Elastic Frame - with other options"
-puts "  - eigenvalue "
+verify about "EigenFrame.Extra.tcl: Verification 2d Bathe & Wilson original Elastic Frame - with other options"
 
 set eleTypes {
     elasticBeam 
@@ -17,7 +16,7 @@ set eleTypes {
 }
 
 foreach eleType $eleTypes {
-    puts "Element: $eleType"
+    puts "   $eleType"
 
     wipe
 
@@ -54,8 +53,8 @@ foreach eleType $eleTypes {
     set numFiberY 2000;  # note we only need so many to get the required accuracy on eigenvalue 1e-7!
     set numFiberZ 1;
     section Fiber 2 {
-#	patch rect 1 $numFiberY $numFiberZ 0.0 0.0 $z $y
-	patch quad 1 $numFiberY $numFiberZ [expr -$y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr $z/2.0] [expr -$y/2.0] [expr $z/2.0]
+#        patch rect 1 $numFiberY $numFiberZ 0.0 0.0 $z $y
+        patch quad 1 $numFiberY $numFiberZ [expr -$y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr $z/2.0] [expr -$y/2.0] [expr $z/2.0]
     }
     
 
@@ -64,71 +63,71 @@ foreach eleType $eleTypes {
     set nodeTag 1
     set yLoc 0.
     for {set j 0} {$j <= $numFloor} {incr j 1} {
-	set xLoc 0.
-	for {set i 0} {$i <=$numBay} {incr i 1} {
-	    node $nodeTag $xLoc $yLoc
-	    set xLoc [expr $xLoc + $bayWidth]
-	    incr nodeTag 1
-	}
-	set yLoc [expr $yLoc + $storyHeight]
+        set xLoc 0.
+        for {set i 0} {$i <=$numBay} {incr i 1} {
+            node $nodeTag $xLoc $yLoc
+            set xLoc [expr $xLoc + $bayWidth]
+            incr nodeTag 1
+        }
+        set yLoc [expr $yLoc + $storyHeight]
     }
     
     # fix base nodes        
     for {set i 1} {$i <= [expr $numBay+1]} {incr i 1} {
-	fix $i 1 1 1
+        fix $i 1 1 1
     }
     
     # add column element    
     geomTransf $coordTransf 1
     set eleTag 1
     for {set i 0} {$i <=$numBay} {incr i 1} {
-	set end1 [expr $i+1]
-	set end2 [expr $end1 + $numBay +1]
-	for {set j 0} {$j<$numFloor} {incr j 1} {
+        set end1 [expr $i+1]
+        set end2 [expr $end1 + $numBay +1]
+        for {set j 0} {$j<$numFloor} {incr j 1} {
 
-	    if {$eleType == "elasticBeam"} {
-		element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamElasticSection"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
-	    } elseif {$eleType == "dispBeamElasticSection"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
-	    } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
-	    } else {
-		element $eleType $eleTag $end1 $end2 $nPts -section 2 -transform 1 -mass $M $massType
-	    }
-	    set end1 $end2
-	    set end2 [expr $end1 + $numBay +1]
-	    incr eleTag 1
-	}
+            if {$eleType == "elasticBeam"} {
+                element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamElasticSection"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
+            } elseif {$eleType == "dispBeamElasticSection"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
+            } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
+            } else {
+                element $eleType $eleTag $end1 $end2 $nPts -section 2 -transform 1 -mass $M $massType
+            }
+            set end1 $end2
+            set end2 [expr $end1 + $numBay +1]
+            incr eleTag 1
+        }
     }
     
 
     # add beam elements     
     for {set j 1} {$j<=$numFloor} {incr j 1} {
-	set end1 [expr ($numBay+1)*$j+1]
-	set end2 [expr $end1 + 1]
-	for {set i 0} {$i <$numBay} {incr i 1} {
-	    if {$eleType == "elasticBeam"} {
-		element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamElasticSection"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
-	    } elseif {$eleType == "dispBeamElasticSection"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
-	    } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
-	    } else {
-		puts "BARF"
-	    }
-#	    element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M
-	    set end1 $end2
-	    set end2 [expr $end1 + 1]
-	    incr eleTag 1
-	}
+        set end1 [expr ($numBay+1)*$j+1]
+        set end2 [expr $end1 + 1]
+        for {set i 0} {$i <$numBay} {incr i 1} {
+            if {$eleType == "elasticBeam"} {
+                element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamElasticSection"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
+            } elseif {$eleType == "dispBeamElasticSection"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
+            } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
+            } else {
+                puts "BARF"
+            }
+#            element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M
+            set end1 $end2
+            set end2 [expr $end1 + 1]
+            incr eleTag 1
+        }
     }
     
     # calculate eigenvalues
@@ -137,33 +136,23 @@ foreach eleType $eleTypes {
     set PI [expr 2*asin(1.0)]
     
     # determine PASS/FAILURE of test
-    set testOK 0
 
     # print table of camparsion
     #                         Bathe & Wilson               Peterson                    SAP2000                  SeismoStruct
 
     set comparisonResults {{0.589541 5.52695 16.5878} {0.589541 5.52696 16.5879} {0.589541 5.52696 16.5879} {0.58955 5.527 16.588}}
-    puts "\n\nEigenvalue Comparisons for eleType: $eleType"
+#   puts "\n\nEigenvalue Comparisons for eleType: $eleType"
     set tolerances {9.99e-7 9.99e-6 9.99e-5}
     set formatString {%15s%15s%15s%15s%15s}
-    puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
+#   puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
     set formatString {%15.5f%15.4f%15.4f%15.4f%15.3f}
     for {set i 0} {$i<$numEigen} {incr i 1} {
-	set lambda [lindex $eigenValues $i]
-	puts [format $formatString $lambda  [lindex [lindex $comparisonResults 0] $i] [lindex [lindex $comparisonResults 1] $i] [lindex [lindex $comparisonResults 2] $i] [lindex [lindex $comparisonResults 3] $i]]
-	set resultOther [lindex [lindex $comparisonResults 2] $i]
-	set tol [lindex $tolerances $i]
-	if {[expr abs($lambda-$resultOther)] > $tol} {
-	    set testOK -1;
-	    puts "failed-> [expr abs($lambda-$resultOther)] $tol"
-	}
-    }
-    
-    if {$testOK == 0} {
-	puts "PASSED Verification Test EigenFrame.Extra.tcl $eleType  \n\n"
-    } else {
-	puts "FAILED Verification Test EigenFrame.Extra.tcl $eleType  \n\n"
-    }
+        set lambda [lindex $eigenValues $i]
+#puts [format $formatString $lambda  [lindex [lindex $comparisonResults 0] $i] [lindex [lindex $comparisonResults 1] $i] [lindex [lindex $comparisonResults 2] $i] [lindex [lindex $comparisonResults 3] $i]]
+        set resultOther [lindex [lindex $comparisonResults 2] $i]
+        set tol [lindex $tolerances $i]
+        verify value $lambda $resultOther $tol
+    }   
 }
 
 
@@ -209,8 +198,8 @@ foreach solverType $solverTypes {
     set numFiberY 2000;  # note we only need so many to get the required accuracy on eigenvalue 1e-7!
     set numFiberZ 1;
     section Fiber 2 {
-#	patch rect 1 $numFiberY $numFiberZ 0.0 0.0 $z $y
-	patch quad 1 $numFiberY $numFiberZ [expr -$y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr $z/2.0] [expr -$y/2.0] [expr $z/2.0]
+#        patch rect 1 $numFiberY $numFiberZ 0.0 0.0 $z $y
+        patch quad 1 $numFiberY $numFiberZ [expr -$y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr -$z/2.0] [expr $y/2.0] [expr $z/2.0] [expr -$y/2.0] [expr $z/2.0]
     }
     
 
@@ -219,71 +208,71 @@ foreach solverType $solverTypes {
     set nodeTag 1
     set yLoc 0.
     for {set j 0} {$j <= $numFloor} {incr j 1} {
-	set xLoc 0.
-	for {set i 0} {$i <=$numBay} {incr i 1} {
-	    node $nodeTag $xLoc $yLoc
-	    set xLoc [expr $xLoc + $bayWidth]
-	    incr nodeTag 1
-	}
-	set yLoc [expr $yLoc + $storyHeight]
+        set xLoc 0.
+        for {set i 0} {$i <=$numBay} {incr i 1} {
+            node $nodeTag $xLoc $yLoc
+            set xLoc [expr $xLoc + $bayWidth]
+            incr nodeTag 1
+        }
+        set yLoc [expr $yLoc + $storyHeight]
     }
     
     # fix base nodes        
     for {set i 1} {$i <= [expr $numBay+1]} {incr i 1} {
-	fix $i 1 1 1
+        fix $i 1 1 1
     }
     
     # add column element    
     geomTransf $coordTransf 1
     set eleTag 1
     for {set i 0} {$i <=$numBay} {incr i 1} {
-	set end1 [expr $i+1]
-	set end2 [expr $end1 + $numBay +1]
-	for {set j 0} {$j<$numFloor} {incr j 1} {
+        set end1 [expr $i+1]
+        set end2 [expr $end1 + $numBay +1]
+        for {set j 0} {$j<$numFloor} {incr j 1} {
 
-	    if {$eleType == "elasticBeam"} {
-		element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamElasticSection"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
-	    } elseif {$eleType == "dispBeamElasticSection"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
-	    } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
-	    } else {
-		puts "BARF"
-	    }
-	    set end1 $end2
-	    set end2 [expr $end1 + $numBay +1]
-	    incr eleTag 1
-	}
+            if {$eleType == "elasticBeam"} {
+                element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamElasticSection"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
+            } elseif {$eleType == "dispBeamElasticSection"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
+            } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
+            } else {
+                puts "BARF"
+            }
+            set end1 $end2
+            set end2 [expr $end1 + $numBay +1]
+            incr eleTag 1
+        }
     }
     
 
     # add beam elements     
     for {set j 1} {$j<=$numFloor} {incr j 1} {
-	set end1 [expr ($numBay+1)*$j+1]
-	set end2 [expr $end1 + 1]
-	for {set i 0} {$i <$numBay} {incr i 1} {
-	    if {$eleType == "elasticBeam"} {
-		element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamElasticSection"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
-	    } elseif {$eleType == "dispBeamElasticSection"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
-	    } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
-		element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
-	    } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
-		element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
-	    } else {
-		puts "BARF"
-	    }
-#	    element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M
-	    set end1 $end2
-	    set end2 [expr $end1 + 1]
-	    incr eleTag 1
-	}
+        set end1 [expr ($numBay+1)*$j+1]
+        set end2 [expr $end1 + 1]
+        for {set i 0} {$i <$numBay} {incr i 1} {
+            if {$eleType == "elasticBeam"} {
+                element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamElasticSection"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M
+            } elseif {$eleType == "dispBeamElasticSection"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 1 1 -mass $M $massType
+            } elseif {$eleType == "forceBeamFiberSectionElasticMaterial"} {
+                element forceBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M
+            } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
+                element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
+            } else {
+                puts "BARF"
+            }
+#            element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M
+            set end1 $end2
+            set end2 [expr $end1 + 1]
+            incr eleTag 1
+        }
     }
     
     # calculate eigenvalues
@@ -292,32 +281,23 @@ foreach solverType $solverTypes {
     set PI [expr 2*asin(1.0)]
     
     # determine PASS/FAILURE of test
-    set testOK 0
 
     # print table of camparsion
     #                         Bathe & Wilson               Peterson                    SAP2000                  SeismoStruct
 
     set comparisonResults {{0.589541 5.52695 16.5878} {0.589541 5.52696 16.5879} {0.589541 5.52696 16.5879} {0.58955 5.527 16.588}}
-    puts "\n\nEigenvalue Comparisons for solverType: $solverType"
+#   puts "\n\nEigenvalue Comparisons for solverType: $solverType"
     set tolerances {9.99e-7 9.99e-6 9.99e-5}
     set formatString {%15s%15s%15s%15s%15s}
-    puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
+#   puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
     set formatString {%15.5f%15.4f%15.4f%15.4f%15.3f}
     for {set i 0} {$i<$numEigen} {incr i 1} {
-	set lambda [lindex $eigenValues $i]
-	puts [format $formatString $lambda  [lindex [lindex $comparisonResults 0] $i] [lindex [lindex $comparisonResults 1] $i] [lindex [lindex $comparisonResults 2] $i] [lindex [lindex $comparisonResults 3] $i]]
-	set resultOther [lindex [lindex $comparisonResults 2] $i]
-	set tol [lindex $tolerances $i]
-	if {[expr abs($lambda-$resultOther)] > $tol} {
-	    set testOK -1;
-	    puts "failed-> [expr abs($lambda-$resultOther)] $tol"
-	}
+        set lambda [lindex $eigenValues $i]
+#       puts [format $formatString $lambda  [lindex [lindex $comparisonResults 0] $i] [lindex [lindex $comparisonResults 1] $i] [lindex [lindex $comparisonResults 2] $i] [lindex [lindex $comparisonResults 3] $i]]
+        set resultOther [lindex [lindex $comparisonResults 2] $i]
+        set tol [lindex $tolerances $i]
+        verify value $lambda $resultOther $tol
     }
     
-    if {$testOK == 0} {
-	puts "PASSED Verification Test EigenFrame.Extra.tcl $eleType  \n\n"
-    } else {
-	puts "FAILED Verification Test EigenFrame.Extra.tcl $eleType  \n\n"
-    }
 }
 

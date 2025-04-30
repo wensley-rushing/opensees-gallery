@@ -107,6 +107,8 @@ For $n=3$-node elements, the results match the analytic solution up to the repor
   Test NL5.
 
 - [Abaqus NL5](http://130.149.89.49:2080/v2016/books/bmk/default.htm?startat=ch04s06anf41.html)
+- https://classes.engineering.wustl.edu/2009/spring/mase5513/abaqus/docs/v6.6/books/bmk/default.htm?startat=ch02s01ach122.html
+- https://manuals.dianafea.com/d100/FXpDia/node221.html
 
 <div id="bibliography-list"></div>
 

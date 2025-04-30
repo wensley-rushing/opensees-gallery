@@ -18,7 +18,7 @@
 
 set elem_name elasticBeamColumn
 
-puts "EigenFrame.tcl: Verification 2d Bathe & Wilson original Elastic Frame"
+verify about "EigenFrame.tcl: Verification 2d Bathe & Wilson original Elastic Frame"
 
 wipe
 
@@ -97,25 +97,14 @@ set testOK 0
 # print table of camparsion
 #                         Bathe & Wilson               Peterson                    SAP2000                  SeismoStruct
 set comparisonResults {{0.589541 5.52695 16.5878} {0.589541 5.52696 16.5879} {0.589541 5.52696 16.5879} {0.58955 5.527 16.588}}
-puts "\n\n  Eigenvalue Comparisons:"
+#puts "\n\n  Eigenvalue Comparisons:"
 set tolerances {9.99e-6 9.99e-6 9.99e-5}; # tolerances prescribed by documented precision
 set formatString {%15s%15s%15s%15s%15s}
-puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
-set formatString {%15.5f%15.4f%15.4f%15.4f%15.3f}
+#puts [format $formatString OpenSees Bathe&Wilson Peterson SAP2000 SeismoStruct]
 for {set i 0} {$i<$numEigen} {incr i 1} {
     set lambda [lindex $eigenValues $i]
-    puts [format $formatString $lambda  [lindex [lindex $comparisonResults 0] $i] [lindex [lindex $comparisonResults 1] $i] [lindex [lindex $comparisonResults 2] $i] [lindex [lindex $comparisonResults 3] $i]]
     set resultOther [lindex [lindex $comparisonResults 2] $i]
     set tol [lindex $tolerances $i]
-    if {[expr abs($lambda-$resultOther)] > $tol} {
-        set testOK -1;
-        puts "failed-> [expr abs($lambda-$resultOther)] $tol"
-    }
+    verify value $lambda $resultOther $tol
 }
 
-
-if {$testOK == 0} {
-    puts "PASSED Verification Test EigenFrame.tcl \n\n"
-} else {
-    puts "FAILED Verification Test EigenFrame.tcl \n\n"
-}

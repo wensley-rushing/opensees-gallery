@@ -9,6 +9,7 @@ description: >-
  instabilities in a shallow arch.
 downloads:
   Python: ["arch3D.py", "requirements.txt"]
+  Exercise: ["Exercise.ipynb", "requirements.txt"]
 ---
 
 

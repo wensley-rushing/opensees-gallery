@@ -44,3 +44,7 @@ After running the Python variant of the analysis, the following plot is generate
 
 ![Nodal displacements and rotations](img/plot.png)
 
+# References
+
+- https://classes.engineering.wustl.edu/2009/spring/mase5513/abaqus/docs/v6.6/books/bmk/default.htm?startat=ch02s01ach122.html
+
