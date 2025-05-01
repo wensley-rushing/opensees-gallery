@@ -8,7 +8,7 @@
 # R = Radius, t= thickness, v = 0.3
 # for R/t = 100, v = 0.3, L/R = 2 displacement under load = 164.24 * P / (E * t)
 
-puts "PinchedCylinder: Validation of Shell Elements with Elastic Sections"
+puts "Pinched Cylinder: Validation of Shell Elements with Elastic Sections"
 
 set P 1
 set R 300

@@ -1,6 +1,12 @@
+#
 # Simply supported beam with distributed loads
+#
+import xara
 from math import cos,sin,sqrt,pi
-import opensees.openseespy as ops
+
+def printRow(quantity, expected, computed):
+  print("%10s %10f %10f" % (quantity, expected, computed));
+
 #
 E =  30000.0
 A =  20.0
@@ -31,9 +37,6 @@ elements = [
         "PrismFrame",
         "ForceFrame"
 ]
-
-def printRow(quantity, expected, computed):
-  print("%10s %10f %10f" % (quantity, expected, computed));
 
 
 for element in elements :

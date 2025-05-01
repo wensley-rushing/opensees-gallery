@@ -1,5 +1,4 @@
 # unit kPa kN m s
-wipe
 
 model BasicBuilder -ndm 3 -ndf 3
 
@@ -7,7 +6,9 @@ model BasicBuilder -ndm 3 -ndf 3
 nDMaterial Simplified3DJ2    2       0.8e8       1.75e8     335000       2.1e6      0 ;     
 # nDMaterial Simplified3DJ2    2     1.2e8       1.7e9      248200       1e7       1e7
 
-#         create meshes
+#
+# Nodes
+#
 node        1      0.00000     0.0000    0.0000
 node        2      1.00000     0.0000    0.0000
 node        3      1.00000     1.0000    0.0000
@@ -18,20 +19,15 @@ node        6      1.00000     0.0000    1.0000
 node        7      1.00000     1.0000    1.0000
 node        8      0.00000     1.0000    1.0000
 
-
-
-element bbarBrick      1      1    2   3   4    5   6   7   8   2               
+#
+# Elements
+#
+element bbarBrick  1      1    2   3   4    5   6   7   8   2               
 
 fix      1      1      1      1 
 fix      2      1      1      1  
 fix      3      1      1      1   
 fix      4      1      1      1   
-
-recorder Element      -file   strain_5.out        -time          -ele   1    material  5 strain ;			   
-recorder Element      -file   stress_5.out        -time          -ele   1    material  5   stress ;
-recorder Element      -file   plasticStrainDev_5.out        -time          -ele   1    material  5   plasticStrainDev ;
-
-
 
 set N  1e3;
 
@@ -50,5 +46,5 @@ integrator LoadControl 1 1 1 1
 algorithm Newton 
 numberer RCM
 analysis Static
-analyze 200
+verify value [analyze 200] 0
 
