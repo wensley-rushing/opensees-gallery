@@ -1,5 +1,5 @@
-#from opensees import openseespy as ops
-import openseespy.opensees as ops
+from opensees import openseespy as ops
+#import openseespy.opensees as ops
 from matplotlib import pyplot as plt
 import numpy as np
 # try:
@@ -122,7 +122,7 @@ def _make_compression(E, fc, ec, Gc):
 	# Done
 	return (Ce, Cs, Cd)
 
-def make(E, ft, fc, ec, Gt, Gc):
+def make_concrete(E, ft, fc, ec, Gt, Gc):
 	lch_ref = _get_lch_ref(E, ft, Gt, fc, ec, Gc)
 	Te, Ts, Td = _make_tension(E, ft, Gt/lch_ref)
 	Ce, Cs, Cd = _make_compression(E, fc, ec, Gc/lch_ref)
@@ -152,14 +152,15 @@ def main():
         )
 
     # the plane stress
-    ops.nDMaterial('PlaneStress', 2, 1)
+#   ops.nDMaterial('PlaneStress', 2, 1)
+    ops.section("PlaneStress", 1, 1, 1.0)
 
     # a triangle with lch = 250
     lch = 250.0
     ops.node(1, 0, 0)
     ops.node(2, lch, 0)
     ops.node(3, 0, lch)
-    ops.element('tri31', 1,   1, 2, 3,   1.0, 'PlaneStress', 2)
+    ops.element('tri31', 1, (1, 2, 3), section=1) #  1.0, 'PlaneStress', 2)
 
     # fixity
     ops.fix(1,   1, 1)
@@ -186,13 +187,13 @@ def main():
     ax.set_xlabel('\N{GREEK SMALL LETTER EPSILON}\N{SUBSCRIPT ONE}\N{SUBSCRIPT ONE}')
     ax.set_ylabel('\N{GREEK SMALL LETTER SIGMA}\N{SUBSCRIPT ONE}\N{SUBSCRIPT ONE}')
     the_line, = ax.plot(SX, SY, '-k', linewidth=2.0)
-    the_tip, = ax.plot(PX, PY, 'or', fillstyle='full', markersize=8)
+    the_tip,  = ax.plot(PX, PY, 'or', fillstyle='full', markersize=8)
 
     # some default analysis settings
     ops.constraints('Transformation')
     ops.numberer('Plain')
     ops.system('FullGeneral')
-    ops.test('NormDispIncr', 1.0e-8, 10, 0)
+    ops.test('NormDispIncr', 1.0e-8, 10, 1)
     ops.algorithm('Newton')
 
     for icycle in range(1, len(cycles)):
@@ -201,13 +202,13 @@ def main():
         # impose strain
         current_strain = cycles[icycle]
         ops.pattern('Plain', 1, 1)
-        ops.sp(2, 1, -current_strain*lch)
+        ops.sp(2, 1, -current_strain*lch, pattern=1)
         # load
         # start from a percentage = ep/current_strain
         time_start = ep/current_strain
         ops.setTime(time_start)
         num_incr = max(1, int((current_strain-ep)/emax*100.0))
-        time_incr = (1.0-time_start)/float(num_incr) 
+        time_incr = (1.0-time_start)/float(num_incr)
         ops.integrator('LoadControl', time_incr)
         ops.analysis('Static')
         for i in range(num_incr):
