@@ -18,7 +18,6 @@ downloads:
 ---
 
 
-
 This example is adapted from the OpenSees documentation for the ASDConcrete material.
 
 ## Damage Surface

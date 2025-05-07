@@ -1,7 +1,7 @@
 import sys
 import xara
 import veux
-from utilities import MatrixAnalysis, create_field
+from xara.post import FrameMoments
 
 def create_plane(vertical):
     model = xara.Model(ndm=3, ndf=6)
@@ -55,9 +55,8 @@ if __name__ == "__main__":
     model = create_plane(vertical)
 
     artist = veux.create_artist(model, vertical=vertical)
-#   artist.draw_outlines()
     artist.draw_sections()
-    artist.draw_diagrams(field=create_field(model, artist), scale=1/30)
+    artist.draw_diagrams(field=MomentDiagram(model, artist), scale=1/30)
     artist.draw_axes(extrude=True)
     artist.draw_nodes()
 

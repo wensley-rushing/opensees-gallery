@@ -1,13 +1,15 @@
-import sys
+import  sys
 import xara
 import veux
-from utilities import MatrixAnalysis, create_field
+from xara.post import FrameMoments
+# from utilities import create_field
+
 
 def create_plane():
     model = xara.Model(ndm=2)
     element = "PrismFrame"
     transform = 1
-    section = 1
+    section   = 1
 
     model.node(1, ( 0,  0))
     model.node(2, ( 0,  8))
@@ -42,7 +44,7 @@ if __name__ == "__main__":
 
     artist = veux.create_artist(model, vertical=2)
     artist.draw_outlines()
-    artist.draw_diagrams(field=create_field(model, artist), scale=1/30)
+    artist.draw_diagrams(field=FrameMoments(model, artist), scale=1/30)
     artist.draw_axes(extrude=True)
     artist.draw_nodes()
 
