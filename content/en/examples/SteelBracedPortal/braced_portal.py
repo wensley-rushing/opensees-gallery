@@ -27,7 +27,7 @@ import opensees.openseespy as ops
 # --------------------------------------------------------------------------------------------------
 #       Set Up & Source Definition
 # --------------------------------------------------------------------------------------------------
-def WSection(secID, matID, d bf, tf, tw, nfdw, nftw, nfbf, nftf, model):
+def WSection(secID, matID, d, bf, tf, tw, nfdw, nftw, nfbf, nftf, model):
 
     dw = d - 2 * tf
     y1 = -d/2
@@ -40,33 +40,10 @@ def WSection(secID, matID, d bf, tf, tw, nfdw, nftw, nfbf, nftf, model):
     z3 =  tw/2
     z4 =  bf/2
 
-    model.section("Fiber", secID,  GJ=1e8)
 
-    patch.quadr(matID,  (nfbf,nftf),   y1, z4,   y1, z1,   y2, z1,   y2, z4)
-    patch.quadr(matID,  (nftw,nfdw),   y2, z3,   y2, z2,   y3, z2,   y3, z3)
-    patch.quadr(matID,  (nfbf,nftf),   y3, z4,   y3, z1,   y4, z1,   y4, z4)
-
-
-def HSSsection(secID, matID, d t, nfdy, nfty, nfdz, nftz):
+def HSSsection(secID, matID, d, t, nfdy, nfty, nfdz, nftz):
 
     dw = (d - 2 * t)
-    y1 = (-d/2)
-    y2 = (-dw/2)
-    y3 = ( dw/2)
-    y4 = ( d/2)
-
-    z1 = (-d/2)
-    z2 = (-dw/2)
-    z3 = ( dw/2)
-    z4 = ( d/2)
-
-    section.fiberSec( secID GJ=1e8, [
-
-           patch.quadr(matID  nftz nfdy   y2 z4   y2 z3   y3 z3   y3 z4),
-           patch.quadr(matID  nftz nfdy   y2 z2   y2 z1   y3 z1   y3 z2),
-           patch.quadr(matID  nfdz nfty   y1 z4   y1 z1   y2 z1   y2 z4),
-           patch.quadr(matID  nfdz nfty   y3 z4   y3 z1   y4 z1   y4 z4),
-    ])
 
 
 def braced_portal():

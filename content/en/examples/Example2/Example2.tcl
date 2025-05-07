@@ -75,3 +75,4 @@ set numIncr 100;	# Number of analysis increments
 source MomentCurvature.tcl
 MomentCurvature 1 $P [expr $Ky*$mu] $numIncr
 
+puts "[nodeDisp 2 3]"

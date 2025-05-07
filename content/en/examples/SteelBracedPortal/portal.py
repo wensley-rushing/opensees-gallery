@@ -2,11 +2,12 @@
 # 3D portal frame with concentric bracing
 #
 import numpy as np
-import math
 import opensees.openseespy as ops
 import xara.units.fps as units
-from xara.units.fps import foot, inch, kip, ksi
-from shps.shapes import from_aisc
+from xara.units.fps import inch, kip, ksi
+
+from xsection.library import from_aisc
+
 import matplotlib.pyplot as plt
 try:
     plt.style.use("veux-web")
@@ -38,10 +39,11 @@ def create_girder(model, nodes, tags):
     # Sections
     #
     tags["sections"].extend([s+1])
-    shape = from_aisc("W27x84", units=units)
+    shape = from_aisc("W27x84", units=units, mesh_scale=1/2.5)
+#   veux.serve(veux.render(shape.model))
     model.section("ShearFiber", s+1)
 
-    for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5):
+    for fiber in shape.create_fibers(origin="centroid"):
         model.fiber(**fiber, material=1, section=s+1)
 
 
@@ -64,9 +66,10 @@ def create_column(model, nodes, tags):
     # Sections
     #
     tags["sections"].extend([s+1])
-    shape = from_aisc("W14x176", units=units)
+    shape = from_aisc("W14x176", units=units, mesh_scale=1/2.5)
+
     model.section("ShearFiber", s+1)
-    for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5):
+    for fiber in shape.create_fibers(origin="centroid"):
         model.fiber(**fiber, material=1, section=s+1)
 
     #
@@ -96,7 +99,7 @@ def create_brace_fixed(model, nodes, tags):
     # Reserve a new section tag
     tags["sections"].extend([s+1])
     # Load the section geometry
-    shape = from_aisc("HSS10x10x5/8", units=units)
+    shape = from_aisc("HSS10x10x5/8", units=units, mesh_scale=1/2.5)
     # Create the section in the model
     model.section("ShearFiber", s+1)
 
@@ -104,7 +107,7 @@ def create_brace_fixed(model, nodes, tags):
     # mesh_scale parameter controls the number of generated fibers.
     # This will roughly create 2.5 fibers across the smallest dimension
     # of the section.
-    for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5):
+    for fiber in shape.create_fibers(origin="centroid"):
         model.fiber(**fiber, material=1, section=s+1)
 
     #
@@ -169,14 +172,14 @@ def create_brace_hinged(model, nodes, tags):
     # Reserve a new section tag
     tags["sections"].extend([s+1])
     # Load the section geometry
-    shape = from_aisc("HSS10x10x5/8", units=units)
+    shape = from_aisc("HSS10x10x5/8", units=units, mesh_scale=1/2.5)
     # Create the section in the model
     model.section("ShearFiber", s+1)
     # Populate the section with fibers using the shape. The 
     # mesh_scale parameter controls the number of generated fibers.
     # This will roughly create 2.5 fibers across the smallest dimension
     # of the section.
-    for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5):
+    for fiber in shape.create_fibers(origin="centroid"):
         model.fiber(**fiber, material=1, section=s+1)
 
     #
@@ -291,3 +294,4 @@ if __name__ == "__main__":
         artist.draw_axes(extrude=True)
         artist.draw_sections()
         veux.serve(artist)
+
