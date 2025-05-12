@@ -20,13 +20,13 @@ def analyze_dir(material, dX, dY, sig0):
     ops.nDMaterial(*material)
 
     # the plane stress
-    ops.section('PlaneStress', 1, 1, 1.0)
+    ops.section('PlaneStress', 2, 1, 1.0)
 
     # Create a triangle patch
     ops.node(1, 0, 0)
     ops.node(2, 1, 0)
     ops.node(3, 0, 1)
-    ops.element('tri31', 1,   (1, 2, 3),   section=1)
+    ops.element('tri31', 1,   (1, 2, 3),   section=1) #1.0, 'PlaneStress', 2)
 
     # Create fixities
     ops.fix(1,   1, 1)
@@ -38,8 +38,8 @@ def analyze_dir(material, dX, dY, sig0):
 
     # Define load pattern for imposed stresses in the given direction
     ops.pattern('Plain', 1, 1)
-    ops.load(2, ( dX, 0.0), pattern=1)
-    ops.load(3, (0.0,  dY), pattern=1)
+    ops.load(2,  dX, 0.0, pattern=1)
+    ops.load(3, 0.0,  dY, pattern=1)
 
     # analyze
     ops.constraints('Transformation')
@@ -70,7 +70,6 @@ def analyze_dir(material, dX, dY, sig0):
                 break
 
     return sX, sY
-
 
 def plot_surface(material, sig0):
     # number of subdivisions
@@ -111,12 +110,12 @@ def plot_surface(material, sig0):
     plt.ioff()
     plt.show()
 
+
 if __name__ == "__main__":
     # the isotropic material
     E    = 30e3
     v    =  0.2
     sig0 = 30.0
-    # define a perfect bilinear behavior in tension and compression to record the failure surface
     fc = sig0
     ec = fc/E
     ft = fc/10.0
@@ -124,13 +123,7 @@ if __name__ == "__main__":
 
     # Collect arguments for defining the material
     material = [
-        'ASDConcrete3D', 1, E, v,
-        '-Ce', 0.0, ec, ec+1,
-        '-Cs', 0.0, fc, fc,
-        '-Cd', 0.0, 0.0, 0.0,
-        '-Te', 0.0, et, et+1,
-        '-Ts', 0.0, ft, ft,
-        '-Td', 0.0, 0.0, 0.0
+        'PlasticDamageConcrete', 1, E, v, ft, fc
     ]
 
     plot_surface(material, sig0)

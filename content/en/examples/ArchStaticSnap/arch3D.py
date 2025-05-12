@@ -1,3 +1,10 @@
+# ===----------------------------------------------------------------------===//
+# 
+#         OpenSees - Open System for Earthquake Engineering Simulation    
+#                Structural Artificial Intelligence Laboratory
+# 
+# ===----------------------------------------------------------------------===//
+#
 import numpy as np
 import veux
 import xara
@@ -76,9 +83,9 @@ def arch_model3D():
 
 
 #   model.system("ProfileSPD")
-    model.system("FullGeneral")
-#   model.system("BandGeneral") # TODO: Broken?
-    # model.system("Umfpack", det=True)
+#   model.system("FullGeneral")
+    model.system("BandGeneral", det=True)
+#   model.system("Umfpack", det=True)
 
 #   model.test("NormUnbalance", 1e-6, 25, 0)
     model.test("NormDispIncr", 1e-8, 25, 1)
@@ -89,7 +96,7 @@ def arch_model3D():
     return model, mid
 
 def arc_control(model, dx, *args,  a=0):
-    model.integrator("ArcLength", dx, a, det=True, exp=0.0, reference="point")
+    model.integrator("ArcLength", dx, a, det=True, exp=0.5, reference="point")
 
 
 def save_state(model, states, time):
@@ -155,9 +162,8 @@ if __name__ == "__main__":
 
     (x, y), states = analyze(model, node, arc_control, 110, 45)
 
-    artist = animate(model, states)
-
-    veux.serve(artist)
+#   artist = animate(model, states)
+#   veux.serve(artist)
 #   artist.save("solution.glb")
 
     fig, ax = plt.subplots()
