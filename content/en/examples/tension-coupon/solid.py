@@ -10,6 +10,7 @@ try:
     plt.style.use("veux-web")
 except:
     pass
+
 if __name__ == "__main__":
     L = 0.084 - -0.084
     h = 0.008*2
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     face_i = [node for node in find_nodes(model, x=-0.084)]
 
     for cell in part.find_cells():
-        model.element("stdBrick", cell.id, cell.nodes, 1)
+        model.element("bbarBrick", cell.id, cell.nodes, 1)
 
     for node in face_i:
         model.fix(node, (1, 1, 1))
@@ -49,14 +50,14 @@ if __name__ == "__main__":
 
         model.load(node, (1, 0, 0), pattern=1)
 
-
-    model.integrator("LoadControl", 4/3*(60*A)/(25*len(face_j)))
+    steps = 50
+    model.integrator("LoadControl", 3/2*(60*A)/(steps*len(face_j)))
     model.test("NormDispIncr", 1e-10, 20, 2)
     model.system("Umfpack")
     model.analysis("Static")
 
     u,p = [], []
-    for i in range(25): # 15
+    for i in range(steps): # 15
         if model.analyze(1) != 0:
             print(f"Analysis failed at time = {model.getTime()}")
             break
@@ -73,11 +74,15 @@ if __name__ == "__main__":
 
     # artist.draw_surfaces(style=MeshStyle(color="gray", alpha=0.5))
     # artist.draw_nodes()
-    artist.draw_surfaces(state=model.nodeDisp,
-                         field=NodalStress(model, "J2"),
-                         style=MeshStyle(color="white")
-                        )
-    veux.serve(artist)
+    try:
+        artist.draw_surfaces(state=model.nodeDisp,
+                            field=NodalStress(model, "J2"),
+                            style=MeshStyle(color="white")
+                            )
+        veux.serve(artist)
+    except:
+        pass
 
     plt.plot(u, p)
+    plt.savefig("img/plot.png")
     plt.show()
