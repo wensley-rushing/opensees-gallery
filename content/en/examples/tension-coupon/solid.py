@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     model = xara.Model(ndm=3, ndf=3)
 
-    model.nDMaterial("J2", 1, Fy=60, E=29e3, nu=0.27, Hiso=0.01*29e3, Fsat=90, Hsat=0)
+    model.nDMaterial("J2", 1, Fy=60, E=29e3, nu=0.27, Hiso=0.005*29e3, Fsat=90, Hsat=16.93)
     # model.nDMaterial("ElasticIsotropic", 1, E=29e3, nu=0.27)
 
     part = Part(parser.load("coupon.inp"))
@@ -50,20 +50,19 @@ if __name__ == "__main__":
         model.load(node, (1, 0, 0), pattern=1)
 
 
-    model.integrator("LoadControl", (60*A)/(15*len(face_j)))
+    model.integrator("LoadControl", 4/3*(60*A)/(25*len(face_j)))
     model.test("NormDispIncr", 1e-10, 20, 2)
     model.system("Umfpack")
     model.analysis("Static")
 
     u,p = [], []
-    for i in range(20): # 15
+    for i in range(25): # 15
         if model.analyze(1) != 0:
             print(f"Analysis failed at time = {model.getTime()}")
             break
 
         u.append(model.nodeDisp(node,1))
         p.append(model.getTime())
-        print(u[-1])
 
     artist = veux.create_artist(model, ndm=3, ndf=3)
 
