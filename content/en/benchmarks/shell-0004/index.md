@@ -1,5 +1,6 @@
 ---
 title: Transient response of a shallow spherical cap
+description: Performance of continuum and shell elements for linear analysis of bending problems
 ---
 
 

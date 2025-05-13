@@ -62,7 +62,7 @@ model.nDMaterial("J2BeamFiber", 1, E, nu, fy, 0.01*E, 0.0)
 ```
 
 The portal frame is constructed from AISC wide flange sections, with braces composed of HSS members.
-Fiber sections are created using predefined shapes from the `shps` library (see, e.g., [this](https://gallery.stairlab.io/examples/framevecxz/) example), and assigned to
+Fiber sections are created using predefined shapes from the `xsection` library (see, e.g., [this](https://gallery.stairlab.io/examples/framevecxz/) example), and assigned to
 force-based frame elements.
 
 The portal frame is assembled using three helper functions:
@@ -90,10 +90,10 @@ This function defines a single beam element between two nodes. Internally, it pe
 
 1. **Creates a new fiber section** using a `W27x84` shape:
    ```python
-   from shps.shapes import from_aisc
-   shape = from_aisc("W27x84", units=units)
+   from xsection.library import from_aisc
+   shape = from_aisc("W27x84", units=units, mesh_scale=1/2.5)
    model.section("ShearFiber", tag)
-   for fiber in shape.create_fibers(origin="centroid", mesh_scale=1/2.5):
+   for fiber in shape.create_fibers(origin="centroid"):
        model.fiber(**fiber, material=1, section=tag)
    ```
 
@@ -105,7 +105,7 @@ This function defines a single beam element between two nodes. Internally, it pe
 3. **Updates tags** in the shared `tags` dictionary to maintain unique identifiers.
 
 
-Note that girders are oriented horizontally, so `transform=2` uses the Y-axis as the local element axis.
+Note that girders are oriented horizontally, so `transform=2` uses the $Y$-axis as the local element axis.
 
 
 ### `create_column`
@@ -124,7 +124,8 @@ This function defines a vertical column, again with a fiber-discretized cross se
 
 ### `create_brace_fixed`
 
-This helper is more involved. It models a brace that connects to beam-column joints through **rigid gusset elements** and **a subdivided flexible core**. It does the following:
+This helper is more involved. It models a brace that connects to beam-column joints through **rigid gusset elements** and **a subdivided flexible core**. 
+It does the following:
 
 1. **Creates a new section** from an `HSS10x10x5/8` shape.
 
@@ -183,7 +184,7 @@ plt.xlabel("Roof Displacement")
 plt.ylabel("Base Shear")
 ```
 
-![](img/pushover.png)
+![Pushover curve generated through nonlinear static analysis.](img/pushover.png)
 
 ## Visualization
 

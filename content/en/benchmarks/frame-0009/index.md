@@ -15,7 +15,7 @@ Results presented by Bathe & wilson in 1972 and again by Peterson in 1981
 # References
 
 1) Bathe, K.J and Wilson, E.L.Large Eigenvalue Problems in Synamic Analysis, ASCE,
-   Journal of Eng. Mech.. Division, 98(6), 1471-1485, 
+   Journal of Eng. Mech.. Division, 98(6), 1471-1485, DOI: [10.1061/JMCEA3.0001693](https://doi.org/10.1061/JMCEA3.0001693)
 2) Peterson, F.E. EASE2, Elastic Analysis for Structural Engineering, Example Problem Manual, 
    Engineering Analysis Corporation, Berkeley, CA 1981.
 
