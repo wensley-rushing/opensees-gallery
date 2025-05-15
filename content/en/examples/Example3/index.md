@@ -1,5 +1,5 @@
 ---
-title: "Inelastic Plane Frame"
+title: "Concrete Portal Frame"
 weight: 20
 tags: ["Frame", "Python", "Tcl", "Concrete"]
 categories: ["Basic", "Inelastic"]
