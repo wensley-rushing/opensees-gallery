@@ -10,6 +10,8 @@ $$
 u_y = P_y L^3/(3 E I_z) +  P_y L/(\kappa G A)
 $$
 
+![](img/frame-0002.png)
+
 ## End Force
 
 In this case the cantilever beam is subjected only to a transverse force

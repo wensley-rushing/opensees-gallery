@@ -12,7 +12,7 @@ try:
 except:
     pass
 
-def create_cantilever(shape, slenderness, element, section, transform="Rigid", shear=0, ne=2):
+def create_cantilever(shape, slenderness, element, section, transform="Rigid", shear=0, ne=1):
 
     E = 29e3 # ksi
     v = 0.30 #0.5*E/G - 1
@@ -87,7 +87,7 @@ def analyze(model):
 
     model.system('Umfpack')
     model.integrator("LoadControl", Mmax/nsteps)
-    model.test('NormDispIncr',1e-9, 300, 0)
+    model.test('NormDispIncr',1e-9, 80, 0)
     model.algorithm("Newton")
     model.analysis("Static")
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     ax.plot(uy, P, "-", color=color)
     ax.plot(ux, P, "-", color=color)
 
-    for transform in ["Linear", "Corotational", "Rigid"]:
+    for transform in "Linear", "Corotational", "Rigid":
         model = create_cantilever(shape, slenderness,
                                 section = os.environ.get("Section", "ShearFiber"),
                                 element = os.environ.get("Element", "PrismFrame"),
