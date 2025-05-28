@@ -1,4 +1,4 @@
-pragma openseespy
+verify about "Frame follower loading"
 
 model  -ndm 3 -ndf 6
 
@@ -17,6 +17,7 @@ node 10 100.0 0 0
 fix 0 1 1 1 1 1 1
 
 section ElasticFrame 1 -E 1 -G 1 -A 161538000.0 -Ay 161538000.0 -Az 161538000.0 -Iy 3500000000.0 -Iz 35000000.0 -J 35000000.0
+
 geomTransf Linear 1 0 0 1 
 
 element ExactFrame  1 {0  1} -section 1 -transform 1
@@ -30,17 +31,16 @@ element ExactFrame  8 {7  8} -section 1 -transform 1
 element ExactFrame  9 {8  9} -section 1 -transform 1
 element ExactFrame 10 {9 10} -section 1 -transform 1
 
-foreach i [range $ne] {
-    nodeRotation $i
-}
+foreach i [range $ne] {nodeRotation $i}
 
 pattern Plain 1 Linear 
 eleLoad Frame Dirac -force {0 1 0} -basis director -offset {1.0 0 0} -pattern 1 -elements {10}
 system FullGeneral 
 integrator LoadControl 300.0 
-test NormDispIncr 1e-12 10 1 
+#test NormDispIncr 1e-12 10 1 
+test EnergyIncr 1e-12 8 0
 algorithm Newton 
 analysis Static 
 
-analyze 500
+verify value [analyze 500] 0
 

@@ -1,11 +1,11 @@
-# Plane 3bar Truss Example
-
+# Plane 3-bar Truss Example
+#
 # REFERENCES: 
 #
 # 1) Popov, E. "Engineering Mechanics of Solids", Prentice Hall, 1990.
 #      Linear: Example 2.14 
 #      NonLinear: Example 2.23 
-
+#
 verify about "Linear Truss (Example 2.14)"
 #
 # planar 3 bar system, all bars same A & E, unit load P acing

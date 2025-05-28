@@ -1,15 +1,20 @@
 ---
-title: Transverse loading
+title: Cantilever with transverse loading
 description: >-
     In this case the cantilever beam is subjected only to a transverse force
     of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step.
 ---
 
+
+$$
+u_y = P_y L^3/(3 E I_z) +  P_y L/(\kappa G A)
+$$
+
 ## End Force
 
 In this case the cantilever beam is subjected only to a transverse force
-of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step. The
-simulation uses the following geometric and material properties from the
+of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step. 
+The simulation uses the following geometric and material properties from the
 literature: 
 
 $$

@@ -5,7 +5,7 @@ import sys
 
 import veux
 from veux.motion import Motion
-from shps.shapes import WideFlange
+from shps.shapes import WideFlange, HollowRectangle, Channel, Rectangle
 import opensees.openseespy as ops
 
 # External libraries
@@ -16,14 +16,18 @@ try:
 except:
     pass
 
-def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
+def create_cantilever(aspect,
+                      shape,
+                      case="a",
+                      element="ExactFrame",
+                      section="Elastic"):
 
     E = 29e3 # ksi
     v = 0.30 #0.5*E/G - 1
     G = 0.5*E/(1+v) # 11,200 ksi
 
-    L  = 240
-    ne =  5 # 20
+    L   = shape.d/aspect #240
+    ne  =  20 # 20
     nen = 2
     nn = ne*(nen-1)+1
 
@@ -33,13 +37,6 @@ def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
     sec = 1
     model.material('ElasticIsotropic', mat, E, v)
 
-    shape = WideFlange(
-                tf = 0.93,
-                tw = 0.58,
-                d  = 21.62,
-                b  = 8.42,
-                # saint_venant="linear"
-            ).create_shape()
 
     if section == "Elastic":
         cmm = shape.torsion.cmm()
@@ -66,9 +63,8 @@ def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
         )
     else:
         model.section("ShearFiber", 1, GJ=0)
-        for fiber in shape.fibers():
-            y, z = fiber.location
-            model.fiber(y, z, fiber.area, warp=[fiber.warp[0], [0,0,0], [0,0,0]], material=mat, section=1)
+        for fiber in shape.create_fibers():
+            model.fiber(**fiber, material=mat, section=1)
 
 
     model.geomTransf("Linear", 1, (0,0,1))
@@ -79,41 +75,84 @@ def create_cantilever(case="a", element="ExactFrame", section="Elastic"):
     for i in range(ne):
         start = i * (nen - 1)
         nodes = list(range(start, start + nen))
-        model.element(element, i+1, nodes, section=sec, transform=1)
+        model.element(element, i+1, nodes, section=sec, transform=1, shear=1)
 
     wi = int(case in "cb")
     wj = int(case in "c")
-    print(wi, wj)
+
     model.fix(0,     (1,1,1,  1,1,1, wi))
     model.fix(nn-1,  (0,0,0,  0,0,0, wj))
     return model, shape
 
 
 if __name__ == "__main__":
-    fig, ax = plt.subplots()
-    fig2, ax2 = plt.subplots()
+    slenderness = 0.1
+    th = 0.05 #0.05
+    depth = 20
+    shape = Channel(
+                tf=th*depth,
+                tw=th*depth,
+                d=depth,
+                b=depth*0.4,
+                mesh_scale=1/400 #800
+    )
+    shape = shape.translate(shape._analysis.shear_center())
 
-    speed = 1/10
-    for case in "abc":
-        model, shape = create_cantilever(case,
+    # shape = Rectangle(d=depth, b=0.4*depth, mesh_scale=1/200)
+    # # W21x93
+    # shape = WideFlange(
+    #             tf = 0.93,
+    #             tw = 0.58,
+    #             d  = 21.62,
+    #             b  = 8.42,
+    #             mesh_scale=1/200
+    #         )
+
+    print(shape.summary())
+
+#   shape = HollowRectangle(
+#               tf = 0.4,
+#               tw = 0.4,
+#               d  = 21.62,
+#               b  = 8.42,
+#               mesh_scale=1/200
+#           )
+
+    fig,  ax  = plt.subplots()
+    _,    (ax2, ax3) = plt.subplots(2, 1, sharex=True)
+    _,    (ax4, ax5) = plt.subplots(2, 1, sharex=True)
+
+
+    ax2.set_ylabel(r"$\vartheta$")
+    ax2.axvline(0, color='black', linestyle='-', linewidth=1)
+    ax2.axhline(0, color='black', linestyle='-', linewidth=1)
+
+    ax3.set_xlabel("$x/L$")
+    ax3.set_ylabel(r"$\alpha$")
+    ax3.axvline(0, color='black', linestyle='-', linewidth=1)
+    ax3.axhline(0, color='black', linestyle='-', linewidth=1)
+
+    ax4.set_ylabel(r"$w$")
+    ax4.axvline(0, color='black', linestyle='-', linewidth=1)
+    ax4.axhline(0, color='black', linestyle='-', linewidth=1)
+    ax5.set_ylabel(r"$v$")
+    ax5.axvline(0, color='black', linestyle='-', linewidth=1)
+    ax5.axhline(0, color='black', linestyle='-', linewidth=1)
+    ax5.set_xlabel("$x/L$")
+
+    ax.set_xlabel(r"Twist, $\vartheta$")
+    ax.set_ylabel("Torque, $T$")
+    # ax.set_xlim([0,    2])
+    # ax.set_ylim([0, Mmax])
+    ax.axvline(0, color='black', linestyle='-', linewidth=1)
+    ax.axhline(0, color='black', linestyle='-', linewidth=1)
+
+    for case in "acb":
+        model, shape = create_cantilever(slenderness, shape, case,
                                          section = os.environ.get("Section", "ShearFiber"),
                                          element = os.environ.get("Element", "ExactFrame"))
         end = len(model.getNodeTags()) - 1
-
-        # Render
-        if case == "b":
-            artist = veux.create_artist(model,
-                                        model_config=dict(
-                                            extrude_outline=shape,
-                                            section_warping=shape.torsion.model.create_handle(shape.torsion.solution())
-                                        )
-                                        )
-            # artist.draw_surfaces()
-            # artist.draw_sections()
-            # artist.draw_outlines()
-            motion = Motion(artist)
-        else:
-            motion = None
+        L = model.nodeCoord(end, 1)
 
         # Apply torsional moment
         nsteps =  15
@@ -124,7 +163,7 @@ if __name__ == "__main__":
 
         model.system('Umfpack')
         model.integrator("LoadControl", Mmax/nsteps)
-        model.test("NormDispIncr",1e-12,5,1)
+        model.test("NormDispIncr", 1e-12,5,1)
     #   model.test('NormUnbalance',1e-6,10,1)
         model.algorithm("Newton")
         model.analysis("Static")
@@ -136,59 +175,67 @@ if __name__ == "__main__":
             P.append(model.getTime())
             if model.analyze(1) != 0:
                 print(f"Failed at time = {model.getTime()}")
-                break
-            if motion is not None:
-                motion.advance(time=model.getTime()*speed)
-                motion.draw_sections(rotation=model.nodeRotation,
-                                     position=model.nodeDisp,
-                                     )
-                motion.set_field(lambda tag: model.nodeDisp(tag, 7))
+                break 
 
+        model.reactions()
+
+        x = np.array([model.nodeCoord(node, 1) for node in model.getNodeTags()])
         marker = "+x."["abc".index(case)]
+        color  = "rbg"["abc".index(case)]
         ax.plot(u, P, marker, label=case)
 
-        ax2.plot(
-                *zip(*[(model.nodeCoord(node,1), model.nodeDisp(node,4))
-                    for node in model.getNodeTags()]),
-                marker,
+        twist = [model.nodeDisp(node,4) for node in model.getNodeTags()]
+        ax2.plot(x/L, twist, marker+"-", color=color)
+        ax3.plot(x/L,
+                [model.nodeDisp(node,7) for node in model.getNodeTags()],
+                marker+"-",
+                color=color,
                 label=case
         )
+        rate = np.gradient(twist, x)
+        ax3.plot(x/L, rate, marker+"--", color=color)
 
-        if motion is not None:
-            motion.add_to(artist.canvas)
-            if len(sys.argv) > 1:
-                artist.save(sys.argv[1])
-            else:
-                veux.serve(artist)
 
+        xs = [(x+model.nodeCoord(model.eleNodes(tag)[0], 1))/L for tag in model.getEleTags() for x in model.eleResponse(tag, "integrationPoints")]
+        ws = [
+            model.eleResponse(tag, "section", i+1, "resultant")[6]/(Mmax*L) 
+            for tag in model.getEleTags() 
+            for i in range(len(model.eleResponse(tag, "integrationPoints")))
+        ]
+        ax4.plot(xs, ws, "-", color=color, label=case)
+        vs = [
+            model.eleResponse(tag, "section", i+1, "resultant")[9]/Mmax
+            for tag in model.getEleTags() 
+            for i in range(len(model.eleResponse(tag, "integrationPoints")))
+        ]
+        ax5.plot(xs, vs, "-", color=color)
+
+    #
+    # Plot the analytical solution
+    #
     G = 11.2e3
     E = 29e3
-    J = shape.torsion.torsion_constant()
-    Cv  = shape.torsion.cvv()[0,0]
-    Cw  = shape.torsion.cww()[0,0]
-    eta = 1+J/Cv
+    J = shape._analysis.torsion_constant()
+    Cv  = shape.cvv()[0,0]
+    Cw  = shape.cww()[0,0]
+    eta = 1 + J/Cv
     lam = np.sqrt(G*J/(eta*E*Cw))
-    L = model.nodeCoord(end,1)
+
     x = np.linspace(0,L,100)
     aL = L*Mmax/(G*J)
     a0 = L*Mmax/(G*J)*(eta - 1)/eta
     a = aL*x/L + (a0 - aL)*np.tanh(lam*L)/(lam*L)*(1 - np.sinh(lam*L*(1 - x/L))/np.sinh(lam*L))
-    ax2.plot(x, a)
-    ax2.set_xlabel("$x$")
-    ax2.set_ylabel(r"$\vartheta$")
+    ax2.plot(x/L, a)
 
-    ax.set_xlabel(r"Twist, $\vartheta$")
-    ax.set_ylabel("Torque, $T$")
-    ax.set_xlim([0,    2])
-    ax.set_ylim([0, Mmax])
-    ax.axvline(0, color='black', linestyle='-', linewidth=1)
-    ax.axhline(0, color='black', linestyle='-', linewidth=1)
-    ax.legend()
-    ax2.legend()
+
+    ax.figure.legend()
+    ax3.figure.legend()
+    ax4.figure.legend()
 
     fig.savefig("img/e0011.png")
+    ax3.figure.savefig("img/e0011-kinematics.png")
+    ax4.figure.savefig("img/e0011-resultants.png")
     plt.show()
 
-    # artist.draw_outlines(state=model.nodeDisp)
-#   veux.serve(artist)
+
 

@@ -9,10 +9,10 @@ except:
 
 
 def create_model(material):
-    ops = _ops
-    ops.wipe()
-    ops.model('basic', ndm=2, ndf=2)
-#   ops = _ops.Model(ndm=2, ndf=2)
+#   ops = _ops
+#   ops.wipe()
+#   ops.model('basic', ndm=2, ndf=2)
+    ops = _ops.Model(ndm=2, ndf=2)
 
     ops.nDMaterial(*material)
 
@@ -23,7 +23,7 @@ def create_model(material):
     ops.node(1, 0, 0)
     ops.node(2, 1, 0)
     ops.node(3, 0, 1)
-    ops.element('tri31', 1,   (1, 2, 3),   section=1) #1.0, 'PlaneStress', 2)
+    ops.element('tri31', 1,   (1, 2, 3),   section=1)
 
     # Create fixities
     ops.fix(1,   1, 1)
@@ -33,12 +33,11 @@ def create_model(material):
 
 def analyze_dir(ops, dX, dY, sig0):
     dLambda = 0.02
-    dLambdaMin = 0.0001
+    dLambdaMin = 0.00005
 
-    # info
     print("Analyze direction ({:8.3g}, {:8.3g})".format(dX, dY))
 
-    # the 2D model
+    ops.reset()
 
     # Define a simple ramp time series
     ops.timeSeries('Linear', 1, '-factor', 2.0*sig0)
@@ -49,10 +48,11 @@ def analyze_dir(ops, dX, dY, sig0):
     ops.load(3, 0.0,  dY, pattern=1)
 
     # analyze
-    ops.constraints('Transformation')
+    ops.constraints('Plain') #Transformation')
     ops.numberer('Plain')
     ops.system('FullGeneral')
-    ops.test('NormDispIncr', 1.0e-6, 10, 0)
+#   ops.test('NormDispIncr', 1.0e-8, 20, 0)
+    ops.test('NormUnbalance', 1.0e-8, 50, 0)
     ops.algorithm('Newton')
 
     Lambda = 0.0
@@ -60,6 +60,7 @@ def analyze_dir(ops, dX, dY, sig0):
     sY = 0.0
     while True:
         ops.integrator('LoadControl', dLambda)
+#       ops.test('NormUnbalance', 1.0e-10, 20, 0)
         ops.analysis('Static')
         ok = ops.analyze(1)
         if ok == 0:
@@ -67,19 +68,20 @@ def analyze_dir(ops, dX, dY, sig0):
             sX = stress[0]
             sY = stress[1]
             Lambda += dLambda
-            if Lambda > 1.4999: # 0.9999:
+            if Lambda > 1.4999 : #0.99999:
+                print("Max lambda")
                 break
         else:
             dLambda /= 2.0
             if dLambda < dLambdaMin:
-                print(Lambda)
+                print("Min dLam at ", Lambda)
                 break
 
     return sX, sY
 
-def plot_surface(material, sig0):
+def walk_surface(material, sig0):
     # number of subdivisions
-    NDiv = 80
+    NDiv = 300 #80
     NP = NDiv+1
     dAngle = 2.0*pi/NDiv
     SX = np.zeros(NP)
@@ -89,32 +91,37 @@ def plot_surface(material, sig0):
         angle = float(i)*dAngle
         dX = cos(angle)
         dY = sin(angle)
-        model = create_model(material)
-        a,b = analyze_dir(model, dX, dY, sig0)
-        SX[i] = a/sig0
-        SY[i] = b/sig0
-#       if abs(a/sig0) > 4 or abs(b/sig0) > 4:
-#           return model
 
+        model = create_model(material)
+        sX,sY = analyze_dir(model, dX, dY, sig0)
+        SX[i] = sX/(sig0*np.sqrt(3))
+        SY[i] = sY/(sig0*np.sqrt(3))
+    return SX, SY
+
+def plot_surface(material, sig0):
     #
     #
     #
     plt.ion()
 
     fig, ax = plt.subplots(1,1)
+    ax.plot(*walk_surface(["ElasticIsotropic", *material[1:4]], sig0))
+    SX, SY = walk_surface(material, sig0)
+
 #   ax.set(xlim=[-45, 10], ylim=[-45, 10])
-    ax.axhline(y=0, color='black', linestyle='--', linewidth=0.5)
-    ax.axvline(x=0, color='black', linestyle='--', linewidth=0.5)
+    ax.axhline(y=0, color='gray', linestyle='-', linewidth=0.5)
+    ax.axvline(x=0, color='gray', linestyle='-', linewidth=0.5)
     ax.set_xlabel(r"$\sigma_1 / F_c$")
     ax.set_ylabel(r"$\sigma_2 / F_c$")
     ax.grid(linestyle=':')
-    ax.set_aspect('equal', 'box')
-    ax.set(xlim=[min(1.1*SX), max(1.1*SX)],
-           ylim=[min(1.1*SY), max(1.1*SY)])
+    ax.set(xlim=[min(1.1*SX), 1.2*max(SX)],
+           ylim=[min(1.1*SY), 1.2*max(SY)])
+    ax.set_aspect('equal')#, 'box')
+    ax.axis("equal")
 
-    the_line, = ax.plot(SX, SY, '-k', linewidth=2.0)
+    the_line, = ax.plot(SX, SY, '-') #, linewidth=2.0)
 
-    for i in range(NP):
+    for i in range(len(SX)):
         the_line.set_xdata(SX[:i])
         the_line.set_ydata(SY[:i])
         fig.canvas.draw()
@@ -127,25 +134,40 @@ if __name__ == "__main__":
     #
     E    = 30e3
     v    =  0.2
-    sig0 = 30.0
+    sig0 = 15.0
     fc = sig0
-    ec = fc/E
-    ft = fc/10.0
+    ft = fc*0.14
     et = ft/E
 
     # Collect arguments for defining the material
     material = [
-        'FariaPlasticDamage', 1, E, v, ft, fc
+        'FariaPlasticDamage', 1, E, v, ft, fc, #*np.sqrt(3),
+        '-beta', 0.5, '-An', 3, '-Bn', 0.75, '-Ap', 2.5
     ]
 
-    m = plot_surface(material, sig0)
-    if not m:
-        plt.show()
+#   m = plot_surface(material, sig0)
+#   if not m:
+    fig, ax = plt.subplots(1,1)
+#   ax.plot(*walk_surface(["ElasticIsotropic", *material[1:4]], sig0))
+    SX, SY = walk_surface(material[:6], sig0)
+    ax.plot(SX, SY)
+#   ax.plot(*walk_surface(material, sig0))
+    ax.axhline(y=0, color='gray', linestyle='-', linewidth=0.5)
+    ax.axvline(x=0, color='gray', linestyle='-', linewidth=0.5)
+    ax.set_xlabel(r"$\sigma_1 / F_c$")
+    ax.set_ylabel(r"$\sigma_2 / F_c$")
+    ax.grid(linestyle=':')
+    ax.set(xlim=[1.1*min(*SX,*SY), 1.2*max(*SX, *SY)],
+           ylim=[1.1*min(*SX,*SY), 1.2*max(*SX, *SY)])
+#   ax.set_aspect('square', 'box')
+    ax.axis("square")
+    plt.show()
 
-    if True:
+
+    if False:
         material = [
             'ASDConcrete3D', 1, E, v,
-            '-Ce', 0.0, ec, ec+1,
+            '-Ce', 0.0, fc/E, fc/E+1,
             '-Cs', 0.0, fc, fc,
             '-Cd', 0.0, 0.0, 0.0,
             '-Te', 0.0, et, et+1,
