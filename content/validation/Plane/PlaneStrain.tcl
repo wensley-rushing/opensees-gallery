@@ -79,9 +79,6 @@ analyze   10
 
 recorder Node -xml Node.out -time -node $l1 -dof 2 disp
 
-# --------------------------
-# End of recorder generation
-# --------------------------
 
 
 # ---------------------------------------
