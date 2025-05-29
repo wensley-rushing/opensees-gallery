@@ -4,7 +4,7 @@ import numpy as np
 
 # import the openseespy interface which contains the "Model" class
 import opensees.openseespy as ops
-import opensees.section
+from xsection.library import from_aisc
 import quakeio
 
 
@@ -50,17 +50,13 @@ def steel_cantilever(small_mass = 1e-4, hardening=0.1, damping=None):
 
 
     # Load cross section geometry and add to Model
-    sec_tag = 1          # identifier that will be assigned to the new section
-    SecData = {}
-    SecData["nft"] = 4   # no of layers in flange
-    SecData["nwl"] = 8   # no of layers in web
-    SecData["IntTyp"] = "Midpoint";
-    SecData["FlgOpt"] = True
-    section = opensees.section.from_aisc("Fiber", "W24x131", # "W14x426", 
-                                         sec_tag, tag=mat_tag, mesh=SecData, ndm=2, units=units)
 
-    cmd = opensees.tcl.dumps(section, skip_int_refs=True)
-    model.eval(cmd)
+    shape = from_aisc("W24x131", mesh_scale=1/8, units=units)
+
+    sec_tag = 1
+    model.section("Fiber", sec_tag, GJ=1e6)
+    for fiber in shape.create_fibers(origin="centroid", warp=False):
+        model.fiber(**fiber, material=1, section=1)
 
     # Create element integration scheme
     nIP = 4
