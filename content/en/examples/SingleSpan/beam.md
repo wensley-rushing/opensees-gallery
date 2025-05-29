@@ -9,11 +9,14 @@ draft: true
 A massless cantilever beam of length $L$ supports two lumped masses $m L / 2$ and $m L / 4$ at the midpoint and free end as shown in Fig. E9.4a. The flexural rigidity of the uniform beam is $E I$. With the four DOFs chosen as shown in Fig. E9.4b and the applied forces $p_1(t)$ and $p_2(t)$, formulate the equations of motion of the system. Axial and shear deformations in the beam are neglected.
 
 
-The beam consists of two beam elements and three nodes. The left node is constrained and each of the other two nodes has two DOFs (Fig. E9.4b). Thus, the displacement vector $\mathbf{u}=\left\langle\begin{array}{llll}u_1 & u_2 & u_3 & u_4\end{array}\right\rangle^T$.
+The beam consists of two beam elements and three nodes. 
+The left node is constrained and each of the other two nodes has two DOFs (Fig. E9.4b). 
+Thus, the displacement vector $\mathbf{u}=\left\langle\begin{array}{llll}u_1 & u_2 & u_3 & u_4\end{array}\right\rangle^T$.
 
 {{< fold "single_span.py" python >}}
 
 ### Determine the mass matrix. 
+
 With the DOFs defined at the locations of the lumped masses, the diagonal mass matrix is given by Eq. (9.2.10):
 
 $$
@@ -26,13 +29,19 @@ m L / 4 & & & \\
 $$
 
 ### Determine the stiffness matrix. 
-Several methods are available to determine the stiffness matrix. Here we use the direct equilibrium method based on the definition of stiffness influence coefficients (Appendix 1).
 
-To obtain the first column of the stiffness matrix, we impose $u_1=1$ and $u_2=u_3=$ $u_4=0$. The stiffness influence coefficients are $k_{i 1}$ (Fig. E9.4c). The forces necessary at the nodes of each beam element to maintain the deflected shape are determined from the beam stiffness coefficients (Fig. E9.4d). The two sets of forces in figures (c) and (d) are one and the same. Thus $k_{11}=96 E I / L^3, k_{21}=-96 E I / L^3, k_{31}=-24 E I / L^2$, and $k_{41}=-24 E I / L^2$.
+To obtain the first column of the stiffness matrix, we impose $u_1=1$ and $u_2=u_3=$ $u_4=0$. The stiffness influence coefficients are $k_{i 1}$ (Fig. E9.4c). 
+The forces necessary at the nodes of each beam element to maintain the deflected shape are determined from the beam stiffness coefficients (Fig. E9.4d). 
+The two sets of forces in figures (c) and (d) are one and the same. 
+Thus $k_{11}=96 E I / L^3, k_{21}=-96 E I / L^3, k_{31}=-24 E I / L^2$, and $k_{41}=-24 E I / L^2$.
 
-The second column of the stiffness matrix is obtained in a similar manner by imposing $u_2=1$ with $u_1=u_3=u_4=0$. The stiffness influence coefficients are $k_{i 2}$ (Fig. E9.4e) and the forces on each beam element necessary to maintain the imposed displacements are shown in Fig. E9.4f. The two sets of forces in figures (e) and (f) are one and the same. Thus $k_{12}=-96 E I / L^3, k_{32}=24 E I / L^2, k_{22}=96 E I / L^3+96 E I / L^3=192 E I / L^3$, and $k_{42}=-24 E I / L^2+24 E I / L^2=0$.
+The second column of the stiffness matrix is obtained in a similar manner by imposing $u_2=1$ with $u_1=u_3=u_4=0$. 
+The stiffness influence coefficients are $k_{i 2}$ (Fig. E9.4e) and the forces on each beam element necessary to maintain the imposed displacements are shown in Fig. E9.4f. 
+The two sets of forces in figures (e) and (f) are one and the same. 
+Thus $k_{12}=-96 E I / L^3, k_{32}=24 E I / L^2, k_{22}=96 E I / L^3+96 E I / L^3=192 E I / L^3$, and $k_{42}=-24 E I / L^2+24 E I / L^2=0$.
 
-The third column of the stiffness matrix is obtained in a similar manner by imposing $u_3=1$ with $u_1=u_2=u_4=0$. The stiffness influence coefficients $k_{i 3}$ are shown in Fig. E9.4g and the nodal forces in Fig. E9.4h. Thus $k_{13}=-24 E I / L^2, k_{23}=24 E I / L^2$, $k_{33}=8 E I / L$, and $k_{43}=4 E I / L$.
+The third column of the stiffness matrix is obtained in a similar manner by imposing $u_3=1$ with $u_1=u_2=u_4=0$. 
+The stiffness influence coefficients $k_{i 3}$ are shown in Fig. E9.4g and the nodal forces in Fig. E9.4h. Thus $k_{13}=-24 E I / L^2, k_{23}=24 E I / L^2$, $k_{33}=8 E I / L$, and $k_{43}=4 E I / L$.
 
 The fourth column of the stiffness matrix is obtained in a similar manner by imposing
 $u_4=1$ with $u_1=u_2=u_3=0$. The stiffness influence coefficients $k_{i 4}$ are shown in Fig. E9.4i, and the nodal forces in Fig. E9.4j. Thus $k_{14}=-24 E I / L^2, k_{34}=4 E I / L, k_{24}=$ $-24 E I / L^2+24 E I / L^2=0$, and $k_{44}=8 E I / L+8 E I / L=16 E I / L$.
