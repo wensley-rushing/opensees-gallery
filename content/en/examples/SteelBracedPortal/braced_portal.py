@@ -27,22 +27,13 @@ import opensees.openseespy as ops
 # --------------------------------------------------------------------------------------------------
 #       Set Up & Source Definition
 # --------------------------------------------------------------------------------------------------
-def WSection(secID, matID, d, bf, tf, tw, nfdw, nftw, nfbf, nftf, model):
-
-    dw = d - 2 * tf
-    y1 = -d/2
-    y2 = -dw/2
-    y3 =  dw/2
-    y4 =  d/2
-
-    z1 = -bf/2
-    z2 = -tw/2
-    z3 =  tw/2
-    z4 =  bf/2
+def WSection(secID, matID, d, bf, tf, tw, n):
+    nfdw, nftw, nfbf, nftf = n
+    pass
 
 
-def HSSsection(secID, matID, d, t, nfdy, nfty, nfdz, nftz):
-
+def HSSsection(secID, matID, d, t, n):
+    nfdy, nfty, nfdz, nftz = n
     dw = (d - 2 * t)
 
 
@@ -53,11 +44,11 @@ def braced_portal():
     #       Define Building Geometry, Nodes, and Constraints
     # --------------------------------------------------------------------------------------------------
     # define structure-geometry parameters
-    NStories = 1;
-    NBays = 1;
-    WBay = 360.;
-    HStory = 180.;
-    HBuilding = NStories*HStory;
+    NStories = 1
+    NBays  = 1
+    WBay   = 360.0
+    HStory = 180.0
+    HBuilding = NStories*HStory
 
     # Calculate locations frame nodes:
     Pier1 = 0.0
@@ -68,7 +59,7 @@ def braced_portal():
 
     # Joint offdistance = for beams columns and braces 
     # (it is assumed that the the rigid brace lenght is 0.15*Lbr and the angle alpha for a gusplate = is 25 degrees)
-    jOff_col_1 = 27.18;
+    jOff_col_1  = 27.18;
     jOff_beam_2 = 29.25;
     jOff_braceX = 27.0;
     jOff_braceY = 27.0;
@@ -77,11 +68,9 @@ def braced_portal():
     g = 386.4;
 
     NodalMass2H = 1.26
-
     NodalMass2V = 0.105
 
     # Define nodes and assign masses to beam-column intersections of frame
-
 
     model.node(11, (Pier1, Floor1, 0))
     model.node(21, (Pier2, Floor1, 0))
@@ -95,16 +84,16 @@ def braced_portal():
 
     # define extra nodes in the beams
 
-    model.node(221,      Pier1, Floor2, 0)
-    model.node(222, (WBay/2.0), Floor2, 0)
-    model.node(223,      Pier2, Floor2, 0)
+    model.node(221,  (     Pier1, Floor2, 0))
+    model.node(222,  ((WBay/2.0), Floor2, 0))
+    model.node(223,  (     Pier2, Floor2, 0))
 
     # define extra nodes for rigid links in the braces:
 
-    model.node(411,            (Pier1)+jOff_braceX,  Floor1+jOff_braceY, 0)
-    model.node(412,   (Pier1)+WBay/2.0-jOff_braceX,  Floor2-jOff_braceY, 0)
-    model.node(413,              Pier2-jOff_braceX,  Floor1+jOff_braceY, 0)
-    model.node(414,   (Pier2-WBay/2.0)+jOff_braceX,  Floor2-jOff_braceY, 0)
+    model.node(411,  (          (Pier1)+jOff_braceX,  Floor1+jOff_braceY, 0))
+    model.node(412,  ( (Pier1)+WBay/2.0-jOff_braceX,  Floor2-jOff_braceY, 0))
+    model.node(413,  (            Pier2-jOff_braceX,  Floor1+jOff_braceY, 0))
+    model.node(414,  ( (Pier2-WBay/2.0)+jOff_braceX,  Floor2-jOff_braceY, 0))
 
     #
     # Boundary condidtions
@@ -115,8 +104,8 @@ def braced_portal():
 
     # define constraints for pined beam-to-column connection
 
-    model.equalDOF 12 221 1 2
-    model.equalDOF 22 223 1 2
+    model.equalDOF(12, 221, 1, 2)
+    model.equalDOF(22, 223, 1, 2)
 
     # --------------------------------------------------------------------------------------------------
     #       Define Materials and Sections
@@ -125,9 +114,9 @@ def braced_portal():
     # define material for nonlinear beams and columns
     matID_BC = 1
     matID_fatBC = 2
-    Es = 29000.0;
-    Fy = 50.0;
-    b = 0.003;
+    Es = 29000.0
+    Fy =    50.0
+    b  =   0.003
     model.uniaxialMaterial('Steel02', matID_BC, Fy, Es, b, 20, 0.925, 0.15)
     model.uniaxialMaterial('Fatigue', matID_fatBC, matID_BC)
 
@@ -142,15 +131,12 @@ def braced_portal():
 
     # define sections for columns and beams
 
+    WSection(11, matID_fatBC, d=15.22, bf=15.65, tf=1.31, tw=0.83, n=(14, 2, 14, 2))
 
-    WSection(11, matID_fatBC, 15.22, 15.65,  1.31, 0.83,  14, 2, 14, 2)
-
-
-    WSection(22, matID_fatBC, 26.71,  9.96,  0.64, 0.46,  20, 2, 10, 2)
+    WSection(22, matID_fatBC, d=26.71, bf= 9.96, tf=0.64, tw=0.46, n=(20, 2, 10, 2))
 
     # define sections for braces
-
-    HSSsection 31 matID_fatBrace 12. 0.625 12 2 12 2
+    HSSsection(31, matID_fatBrace, d=12., t=0.625, n=(12, 2, 12, 2))
 
     # --------------------------------------------------------------------------------------------------
     #       Define Geometric Transformation
@@ -158,19 +144,19 @@ def braced_portal():
 
     # Columns
 
-    model.geomTransf('PDelta',  11   0 0 1 jntOffset=0.0,  jOff_col_1 0    0.0 0.0 0)
+    model.geomTransf('PDelta',  11   0 0 1 jntOffset=(0, jOff_col_1, 0,    0, 0, 0))
 
     # Beams
 
 
-    model.geomTransf('PDelta', 221   0 0 1  jntOffset=(0.0,  0.0 0    -jOff_beam_2 0.0 0))
+    model.geomTransf('PDelta', 221   0 0 1  jntOffset=(0, 0, 0,   -jOff_beam_2, 0, 0))
     model.geomTransf('PDelta', 222   0 0 1 -jntOffjOff_beam_2 = 0.0 0   0.0 0.0 0)
 
     # Braces
-    model.geomTransf('Corotational', 31, 0, 0, 1)
+    model.geomTransf('Corotational', 31, (0, 0, 1))
 
     # Rigid links
-    model.geomTransf('Linear', 41, 0, 0, 1)
+    model.geomTransf('Linear', 41, (0, 0, 1))
 
     print("A")
 
@@ -180,18 +166,16 @@ def braced_portal():
 
     # define columns of a braced frame:
 
-
-
     model.element('ForceBeamColumn',   111      (11,  12)        5,      11,       11)
     model.element('ForceBeamColumn',   121      (21,  22)        5,      11,       11)
     print("B")
+
     # define beams of a braced frame:
 
 
     model.element('ForceBeamColumn',   221     221    222       5         22       221)
     model.element('ForceBeamColumn',   222     222    223       5         22       222)
     print("C")
-    # define braces:
 
     model.element("ForceBeamColumn",   311,    (411,  111),        5,         31,       31)
     model.element("ForceBeamColumn",   312,    (111,  412),        5,         31,       31)
@@ -245,7 +229,6 @@ def braced_portal():
     # Gravity-analysis: load-controlled static analysis
 
     model.constraints("Transformation")
-
     model.test("NormDispIncr", 1e-6, 10)
     model.algorithm("Newton")
     NstepGravity = 10

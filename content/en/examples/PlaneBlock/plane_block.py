@@ -1,4 +1,6 @@
-# import the OpenSees Python module
+#
+#
+#
 import xara
 import veux
 from xara.units.iks import kip, inch, foot, ksi
@@ -114,8 +116,8 @@ def create_beam(mesh,
     uy = lambda x: w*x**2/(24*E*I)*(L - x)**2 - w/(k*G*A)*L**2/24*(1 - 12*x/L + 12*(x/L)**2) + w*L**2/(24*G*A*k)
     ue = [uy(x) for x in xn]
 
-    model.reactions()
-    print(sum(model.nodeReaction(node, 2) for node in model.getNodeTags()))
+#   model.reactions()
+#   print(sum(model.nodeReaction(node, 2) for node in model.getNodeTags()))
 
     return model, xn, um, ue
 
@@ -123,7 +125,6 @@ def create_beam(mesh,
 
 
 if __name__ == "__main__":
-    order = 2
     fig, ax = plt.subplots()
     for order in 1,2:
         # model, xn, um, ue = create_beam((40,8), element="quad", order=order)

@@ -35,7 +35,6 @@ def test_stif(elem):
 #   model.integrator("Newmark", 1/2, 1/4)
 #   model.analyze(1, 0.01)
 
-
     print(elem)
 
     if False:

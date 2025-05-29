@@ -18,6 +18,7 @@ proc printEigenvalues {E A I L} {
 	puts "  [lindex $eigenValues [expr $i+3]]  [lindex $exact $i]"
     }
 }
+
 proc printDisplacements {E A I L P H M} {
 
     puts "  Nodal Displacements"

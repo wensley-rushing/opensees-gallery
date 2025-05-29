@@ -14,6 +14,16 @@ class MatrixAnalysis:
         return np.round(Q, 4)
 
 
+class MomentDiagram:
+    pass
+
+class Curvature:
+    pass
+
+class Resultants:
+    pass
+
+
 def create_field(model,  artist):
     ndm = artist.model.ndm
     ndf = 3 if ndm == 2 else 6

@@ -22,6 +22,10 @@ The [ElasticIsotropic](https://xara.so/user/manual/material/ndMaterials/ElasticI
 
 ```python
 model.material("ElasticIsotropic", 1, 10_000.0, 0.25, 0)
+```
+
+The material is added to a `"PlaneStress"` section, which enforces the plane stress constraint.
+```python
 model.section("PlaneStress", 1, 1, thickness)
 ```
 

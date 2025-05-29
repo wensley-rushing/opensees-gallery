@@ -1,22 +1,26 @@
+
 import xara
 import veux
 from shps.frame.extrude import ExtrudeTetrahedron
-from shps.shapes import Channel
+from xsection.library import Channel
 
 
 if __name__ == "__main__":
 
-    mesh = Channel(d=16, b=8, tf=1.0, tw=1.0).create_shape(mesh_scale=0.75).mesh
+    shape = Channel(d=16, b=8, tf=1.0, tw=1.0, mesh_scale=0.5, #0.75
+                    mesher="gmsh")
+
+#   veux.serve(veux.render(shape.model, hide={"node.marker"}))
 
 
-    ex = ExtrudeTetrahedron(mesh.nodes, mesh.cells())
+    ex = ExtrudeTetrahedron(shape.model)
 
 
     model = xara.Model(ndm=3, ndf=3)
     model.material("ElasticIsotropic", 1, 29e3, 0.23)
     model.pattern("Plain", 1, "Linear")
 
-    n = 100
+    n = 200
     for i in range(n):
 
         for tag, coords in ex.nodes():
@@ -36,8 +40,8 @@ if __name__ == "__main__":
     model.analysis("Static")
     model.analyze(1)
     print("Analysis complete")
-    artist = veux.create_artist(model, ndf=3)
-    artist.draw_outlines(state=model.nodeDisp)
-    artist.draw_surfaces(state=model.nodeDisp)
-    veux.serve(artist)
+#   artist = veux.create_artist(model, ndf=3)
+#   artist.draw_outlines(state=model.nodeDisp)
+#   artist.draw_surfaces(state=model.nodeDisp)
+#   veux.serve(artist)
 

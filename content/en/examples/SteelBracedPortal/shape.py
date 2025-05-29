@@ -3,7 +3,7 @@ from veux.config import LineStyle
 import numpy as np
 import xara.units.fps as units
 from xara.units.fps import foot, inch, kip, ksi
-from shps.shapes import from_aisc
+from xsection.library import from_aisc
 from veux.utility.alpha_shape import alpha_shape
 import matplotlib.pyplot as plt
 
