@@ -5,7 +5,7 @@ import sys
 
 import veux
 from veux.motion import Motion
-from shps.shapes import WideFlange, HollowRectangle, Channel, Rectangle
+from xsection.library import WideFlange, HollowRectangle, Channel, Rectangle, Circle
 import opensees.openseespy as ops
 
 # External libraries
@@ -31,7 +31,11 @@ def create_cantilever(aspect,
     nen = 2
     nn = ne*(nen-1)+1
 
-    model = ops.Model(ndm=3, ndf=7)
+    model = ops.Model(ndm=3, ndf=7) #, echo_file=open(f"test-{case}-{element[:5]}.tcl", "w+"))
+
+    model.eval(f"set E {E}")
+    model.eval(f"set G {G}")
+    model.eval(f"set L {L}")
 
     mat = 1
     sec = 1
@@ -86,19 +90,22 @@ def create_cantilever(aspect,
 
 
 if __name__ == "__main__":
-    slenderness = 0.1
+    slenderness = 0.5
     th = 0.05 #0.05
     depth = 20
-    shape = Channel(
-                tf=th*depth,
-                tw=th*depth,
-                d=depth,
-                b=depth*0.4,
-                mesh_scale=1/400 #800
-    )
-    shape = shape.translate(shape._analysis.shear_center())
+    # shape = Channel(
+    #             tf=th*depth,
+    #             tw=th*depth,
+    #             d=depth,
+    #             b=depth*0.4,
+    #             mesh_scale=1/400 #800
+    # )
+    # shape = shape.translate(shape._analysis.shear_center())
 
     # shape = Rectangle(d=depth, b=0.4*depth, mesh_scale=1/200)
+
+    # shape = Circle(depth/2, divisions=8, mesh_scale=1/200)
+
     # # W21x93
     # shape = WideFlange(
     #             tf = 0.93,
@@ -108,15 +115,16 @@ if __name__ == "__main__":
     #             mesh_scale=1/200
     #         )
 
-    print(shape.summary())
 
-#   shape = HollowRectangle(
-#               tf = 0.4,
-#               tw = 0.4,
-#               d  = 21.62,
-#               b  = 8.42,
-#               mesh_scale=1/200
-#           )
+    shape = HollowRectangle(
+                tf = th*depth*2,
+                tw = th*depth,
+                d  = depth,
+                b  = depth*0.4,
+                mesh_scale=1/200
+            )
+
+    print(shape.summary())
 
     fig,  ax  = plt.subplots()
     _,    (ax2, ax3) = plt.subplots(2, 1, sharex=True)
@@ -182,13 +190,13 @@ if __name__ == "__main__":
         x = np.array([model.nodeCoord(node, 1) for node in model.getNodeTags()])
         marker = "+x."["abc".index(case)]
         color  = "rbg"["abc".index(case)]
-        ax.plot(u, P, marker, label=case)
+        ax.plot(u, P, marker, color=color, label=case)
 
         twist = [model.nodeDisp(node,4) for node in model.getNodeTags()]
-        ax2.plot(x/L, twist, marker+"-", color=color)
+        ax2.plot(x/L, twist, ":", color=color)
         ax3.plot(x/L,
                 [model.nodeDisp(node,7) for node in model.getNodeTags()],
-                marker+"-",
+                ":",
                 color=color,
                 label=case
         )
