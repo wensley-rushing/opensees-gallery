@@ -1,5 +1,4 @@
 from opensees import openseespy as ops
-#import openseespy.opensees as ops
 from matplotlib import pyplot as plt
 import numpy as np
 # try:
