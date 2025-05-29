@@ -1,8 +1,8 @@
 #
 #
 #
-model  -ndm 3 -ndf 3
-material ElasticIsotropic 1 29000.0 0.23 
+model basic -ndm 3 -ndf 3
+nDMaterial ElasticIsotropic 1 29000.0 0.23 
 
 node 1 0.0 0.0 0.0 
 node 10 18.333333333333336 0.0 0.0 
@@ -20236,7 +20236,7 @@ element stdBrick 986 1481 1482 1485 1484 1601 1602 1605 1604 1
 element stdBrick 987 1483 1484 1487 1486 1603 1604 1607 1606 1 
 element stdBrick 988 1484 1485 1488 1487 1604 1605 1608 1607 1 
 element stdBrick 989 1489 1490 1493 1492 1609 1610 1613 1612 1 
-element stdBrick 99 151 152 155 154 271 272 275 274 1 
+element stdBrick  99  151 152 155 154 271 272 275 274 1 
 element stdBrick 990 1490 1491 1494 1493 1610 1611 1614 1613 1 
 element stdBrick 991 1492 1493 1496 1495 1612 1613 1616 1615 1 
 element stdBrick 992 1493 1494 1497 1496 1613 1614 1617 1616 1 
@@ -20249,128 +20249,128 @@ element stdBrick 998 1502 1503 1506 1505 1622 1623 1626 1625 1
 element stdBrick 999 1504 1505 1508 1507 1624 1625 1628 1627 1 
 
 # Loading
-pattern Plain 1 Linear 
-nodalLoad 12001 1 -1 0 -pattern 1 
-nodalLoad 12002 1 -1 0 -pattern 1 
-nodalLoad 12003 1 -1 0 -pattern 1 
-nodalLoad 12004 1 -1 0 -pattern 1 
-nodalLoad 12005 1 -1 0 -pattern 1 
-nodalLoad 12006 1 -1 0 -pattern 1 
-nodalLoad 12007 1 -1 0 -pattern 1 
-nodalLoad 12008 1 -1 0 -pattern 1 
-nodalLoad 12009 1 -1 0 -pattern 1 
-nodalLoad 12010 1 -1 0 -pattern 1 
-nodalLoad 12011 1 -1 0 -pattern 1 
-nodalLoad 12012 1 -1 0 -pattern 1 
-nodalLoad 12013 1 -1 0 -pattern 1 
-nodalLoad 12014 1 -1 0 -pattern 1 
-nodalLoad 12015 1 -1 0 -pattern 1 
-nodalLoad 12016 1 -1 0 -pattern 1 
-nodalLoad 12017 1 -1 0 -pattern 1 
-nodalLoad 12018 1 -1 0 -pattern 1 
-nodalLoad 12019 1 -1 0 -pattern 1 
-nodalLoad 12020 1 -1 0 -pattern 1 
-nodalLoad 12021 1 -1 0 -pattern 1 
-nodalLoad 12022 1 -1 0 -pattern 1 
-nodalLoad 12023 1 -1 0 -pattern 1 
-nodalLoad 12024 1 -1 0 -pattern 1 
-nodalLoad 12025 1 -1 0 -pattern 1 
-nodalLoad 12026 1 -1 0 -pattern 1 
-nodalLoad 12027 1 -1 0 -pattern 1 
-nodalLoad 12028 1 -1 0 -pattern 1 
-nodalLoad 12029 1 -1 0 -pattern 1 
-nodalLoad 12030 1 -1 0 -pattern 1 
-nodalLoad 12031 1 -1 0 -pattern 1 
-nodalLoad 12032 1 -1 0 -pattern 1 
-nodalLoad 12033 1 -1 0 -pattern 1 
-nodalLoad 12034 1 -1 0 -pattern 1 
-nodalLoad 12035 1 -1 0 -pattern 1 
-nodalLoad 12036 1 -1 0 -pattern 1 
-nodalLoad 12037 1 -1 0 -pattern 1 
-nodalLoad 12038 1 -1 0 -pattern 1 
-nodalLoad 12039 1 -1 0 -pattern 1 
-nodalLoad 12040 1 -1 0 -pattern 1 
-nodalLoad 12041 1 -1 0 -pattern 1 
-nodalLoad 12042 1 -1 0 -pattern 1 
-nodalLoad 12043 1 -1 0 -pattern 1 
-nodalLoad 12044 1 -1 0 -pattern 1 
-nodalLoad 12045 1 -1 0 -pattern 1 
-nodalLoad 12046 1 -1 0 -pattern 1 
-nodalLoad 12047 1 -1 0 -pattern 1 
-nodalLoad 12048 1 -1 0 -pattern 1 
-nodalLoad 12049 1 -1 0 -pattern 1 
-nodalLoad 12050 1 -1 0 -pattern 1 
-nodalLoad 12051 1 -1 0 -pattern 1 
-nodalLoad 12052 1 -1 0 -pattern 1 
-nodalLoad 12053 1 -1 0 -pattern 1 
-nodalLoad 12054 1 -1 0 -pattern 1 
-nodalLoad 12055 1 -1 0 -pattern 1 
-nodalLoad 12056 1 -1 0 -pattern 1 
-nodalLoad 12057 1 -1 0 -pattern 1 
-nodalLoad 12058 1 -1 0 -pattern 1 
-nodalLoad 12059 1 -1 0 -pattern 1 
-nodalLoad 12060 1 -1 0 -pattern 1 
-nodalLoad 12061 1 -1 0 -pattern 1 
-nodalLoad 12062 1 -1 0 -pattern 1 
-nodalLoad 12063 1 -1 0 -pattern 1 
-nodalLoad 12064 1 -1 0 -pattern 1 
-nodalLoad 12065 1 -1 0 -pattern 1 
-nodalLoad 12066 1 -1 0 -pattern 1 
-nodalLoad 12067 1 -1 0 -pattern 1 
-nodalLoad 12068 1 -1 0 -pattern 1 
-nodalLoad 12069 1 -1 0 -pattern 1 
-nodalLoad 12070 1 -1 0 -pattern 1 
-nodalLoad 12071 1 -1 0 -pattern 1 
-nodalLoad 12072 1 -1 0 -pattern 1 
-nodalLoad 12073 1 -1 0 -pattern 1 
-nodalLoad 12074 1 -1 0 -pattern 1 
-nodalLoad 12075 1 -1 0 -pattern 1 
-nodalLoad 12076 1 -1 0 -pattern 1 
-nodalLoad 12077 1 -1 0 -pattern 1 
-nodalLoad 12078 1 -1 0 -pattern 1 
-nodalLoad 12079 1 -1 0 -pattern 1 
-nodalLoad 12080 1 -1 0 -pattern 1 
-nodalLoad 12081 1 -1 0 -pattern 1 
-nodalLoad 12082 1 -1 0 -pattern 1 
-nodalLoad 12083 1 -1 0 -pattern 1 
-nodalLoad 12084 1 -1 0 -pattern 1 
-nodalLoad 12085 1 -1 0 -pattern 1 
-nodalLoad 12086 1 -1 0 -pattern 1 
-nodalLoad 12087 1 -1 0 -pattern 1 
-nodalLoad 12088 1 -1 0 -pattern 1 
-nodalLoad 12089 1 -1 0 -pattern 1 
-nodalLoad 12090 1 -1 0 -pattern 1 
-nodalLoad 12091 1 -1 0 -pattern 1 
-nodalLoad 12092 1 -1 0 -pattern 1 
-nodalLoad 12093 1 -1 0 -pattern 1 
-nodalLoad 12094 1 -1 0 -pattern 1 
-nodalLoad 12095 1 -1 0 -pattern 1 
-nodalLoad 12096 1 -1 0 -pattern 1 
-nodalLoad 12097 1 -1 0 -pattern 1 
-nodalLoad 12098 1 -1 0 -pattern 1 
-nodalLoad 12099 1 -1 0 -pattern 1 
-nodalLoad 12100 1 -1 0 -pattern 1 
-nodalLoad 12101 1 -1 0 -pattern 1 
-nodalLoad 12102 1 -1 0 -pattern 1 
-nodalLoad 12103 1 -1 0 -pattern 1 
-nodalLoad 12104 1 -1 0 -pattern 1 
-nodalLoad 12105 1 -1 0 -pattern 1 
-nodalLoad 12106 1 -1 0 -pattern 1 
-nodalLoad 12107 1 -1 0 -pattern 1 
-nodalLoad 12108 1 -1 0 -pattern 1 
-nodalLoad 12109 1 -1 0 -pattern 1 
-nodalLoad 12110 1 -1 0 -pattern 1 
-nodalLoad 12111 1 -1 0 -pattern 1 
-nodalLoad 12112 1 -1 0 -pattern 1 
-nodalLoad 12113 1 -1 0 -pattern 1 
-nodalLoad 12114 1 -1 0 -pattern 1 
-nodalLoad 12115 1 -1 0 -pattern 1 
-nodalLoad 12116 1 -1 0 -pattern 1 
-nodalLoad 12117 1 -1 0 -pattern 1 
-nodalLoad 12118 1 -1 0 -pattern 1 
-nodalLoad 12119 1 -1 0 -pattern 1 
-nodalLoad 12120 1 -1 0 -pattern 1 
-
+pattern Plain 1 Linear {
+  load 12001 1 -1 0  
+  load 12002 1 -1 0  
+  load 12003 1 -1 0  
+  load 12004 1 -1 0  
+  load 12005 1 -1 0  
+  load 12006 1 -1 0  
+  load 12007 1 -1 0  
+  load 12008 1 -1 0  
+  load 12009 1 -1 0  
+  load 12010 1 -1 0  
+  load 12011 1 -1 0  
+  load 12012 1 -1 0  
+  load 12013 1 -1 0  
+  load 12014 1 -1 0  
+  load 12015 1 -1 0  
+  load 12016 1 -1 0  
+  load 12017 1 -1 0  
+  load 12018 1 -1 0  
+  load 12019 1 -1 0  
+  load 12020 1 -1 0  
+  load 12021 1 -1 0  
+  load 12022 1 -1 0  
+  load 12023 1 -1 0  
+  load 12024 1 -1 0  
+  load 12025 1 -1 0  
+  load 12026 1 -1 0  
+  load 12027 1 -1 0  
+  load 12028 1 -1 0  
+  load 12029 1 -1 0  
+  load 12030 1 -1 0  
+  load 12031 1 -1 0  
+  load 12032 1 -1 0  
+  load 12033 1 -1 0  
+  load 12034 1 -1 0  
+  load 12035 1 -1 0  
+  load 12036 1 -1 0  
+  load 12037 1 -1 0  
+  load 12038 1 -1 0  
+  load 12039 1 -1 0  
+  load 12040 1 -1 0  
+  load 12041 1 -1 0  
+  load 12042 1 -1 0  
+  load 12043 1 -1 0  
+  load 12044 1 -1 0  
+  load 12045 1 -1 0  
+  load 12046 1 -1 0  
+  load 12047 1 -1 0  
+  load 12048 1 -1 0  
+  load 12049 1 -1 0  
+  load 12050 1 -1 0  
+  load 12051 1 -1 0  
+  load 12052 1 -1 0  
+  load 12053 1 -1 0  
+  load 12054 1 -1 0  
+  load 12055 1 -1 0  
+  load 12056 1 -1 0  
+  load 12057 1 -1 0  
+  load 12058 1 -1 0  
+  load 12059 1 -1 0  
+  load 12060 1 -1 0  
+  load 12061 1 -1 0  
+  load 12062 1 -1 0  
+  load 12063 1 -1 0  
+  load 12064 1 -1 0  
+  load 12065 1 -1 0  
+  load 12066 1 -1 0  
+  load 12067 1 -1 0  
+  load 12068 1 -1 0  
+  load 12069 1 -1 0  
+  load 12070 1 -1 0  
+  load 12071 1 -1 0  
+  load 12072 1 -1 0  
+  load 12073 1 -1 0  
+  load 12074 1 -1 0  
+  load 12075 1 -1 0  
+  load 12076 1 -1 0  
+  load 12077 1 -1 0  
+  load 12078 1 -1 0  
+  load 12079 1 -1 0  
+  load 12080 1 -1 0  
+  load 12081 1 -1 0  
+  load 12082 1 -1 0  
+  load 12083 1 -1 0  
+  load 12084 1 -1 0  
+  load 12085 1 -1 0  
+  load 12086 1 -1 0  
+  load 12087 1 -1 0  
+  load 12088 1 -1 0  
+  load 12089 1 -1 0  
+  load 12090 1 -1 0  
+  load 12091 1 -1 0  
+  load 12092 1 -1 0  
+  load 12093 1 -1 0  
+  load 12094 1 -1 0  
+  load 12095 1 -1 0  
+  load 12096 1 -1 0  
+  load 12097 1 -1 0  
+  load 12098 1 -1 0  
+  load 12099 1 -1 0  
+  load 12100 1 -1 0  
+  load 12101 1 -1 0  
+  load 12102 1 -1 0  
+  load 12103 1 -1 0  
+  load 12104 1 -1 0  
+  load 12105 1 -1 0  
+  load 12106 1 -1 0  
+  load 12107 1 -1 0  
+  load 12108 1 -1 0  
+  load 12109 1 -1 0  
+  load 12110 1 -1 0  
+  load 12111 1 -1 0  
+  load 12112 1 -1 0  
+  load 12113 1 -1 0  
+  load 12114 1 -1 0  
+  load 12115 1 -1 0  
+  load 12116 1 -1 0  
+  load 12117 1 -1 0  
+  load 12118 1 -1 0  
+  load 12119 1 -1 0  
+  load 12120 1 -1 0  
+}
 
 integrator LoadControl 200 
 system Umfpack 
