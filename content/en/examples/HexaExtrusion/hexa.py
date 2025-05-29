@@ -118,11 +118,12 @@ if __name__ == "__main__":
         for tag, cell in ex.cells():
             model.element("stdBrick", tag, tuple(cell), 1)
 
-        ex.advance([0, 0, 10])
+        ex.advance([0, 0, 1])
 
 
     model.integrator("LoadControl", 200)
     model.system("Umfpack")
+    model.test("NormDispIncr", 1e-10, 2, 1)
     model.analysis("Static")
     model.analyze(1)
     print("Analysis complete")
