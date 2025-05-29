@@ -2,7 +2,7 @@
 #
 import veux
 from veux.motion import Motion
-from shps.shapes import Channel, Rectangle
+from xsection.library import Channel, Rectangle
 import opensees.openseespy as ops
 
 # External libraries
@@ -28,7 +28,7 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
     sec = 1
     model.material('ElasticIsotropic', mat, E, v) #G=G)
 
-    shape = Channel(d=30, b=10, tf=1.6, tw=1.0).create_shape()
+    shape = Channel(d=30, b=10, tf=1.6, tw=1.0)
 
     shape = shape.translate(offset)
 
@@ -40,8 +40,7 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
         model.section("ShearFiber", sec, GJ=0)
 
         for fiber in shape.fibers(center=center):
-            y, z = fiber.location
-            model.fiber(y, z, fiber.area, mat, warp=[fiber.warp[0]], section=sec)
+            model.fiber(**fiber, section=sec)
 
     else:
         shape.torsion._solution = shape.translate(center).torsion.solution()
