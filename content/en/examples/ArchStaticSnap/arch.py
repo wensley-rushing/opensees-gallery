@@ -1,3 +1,10 @@
+# ===----------------------------------------------------------------------===//
+# 
+#         OpenSees - Open System for Earthquake Engineering Simulation    
+#                Structural Artificial Intelligence Laboratory
+# 
+# ===----------------------------------------------------------------------===//
+#
 import numpy as np
 import opensees.openseespy
 
@@ -67,8 +74,8 @@ def arch_model():
     # computed and stored.
     # model.system("ProfileSPD")
     # model.system("FullGeneral")
-    # model.system("BandGeneral")
-    model.system("Umfpack", det=True)
+    # model.system("BandGeneral", det=True)
+    # model.system("Umfpack", det=True)
 
     model.test("NormUnbalance", 1e-6, 25, 9)
     model.algorithm("Newton")
