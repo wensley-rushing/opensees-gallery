@@ -1,4 +1,4 @@
-# Define a procedure which will generate nodes and elements for a plane frame having absolute column line locations in the list
+# Procedure which will generate nodes and elements for a plane frame having absolute column line locations in the list
 #'columnLine', absolute girder line locations in the list 'girderLine',
 # section IDs for the columns and girders, 'columnID' and 'girderID', and
 # 'nIntPt' integration points along every member.
@@ -9,7 +9,7 @@
 # does not add nodal masses or loads, but can be extended to do so
 # starts node numbering at 1
 #
-# Formal arguments
+# Arguments
 # columnLine - a list of column line locations
 # The actual argument would be defined as so, set columns {0 120 240 360}
 # girderLine - a list of grider line locations
@@ -36,7 +36,8 @@ proc genPlaneFrame {columnLine girderLine columnID girderID nIntPt} {
      
     }
   }
-  # Useful variables
+
+
   set numCol [llength $columnLine]
   set numGir [llength $girderLine]
   set e 1; # Element number counter
@@ -53,22 +54,21 @@ proc genPlaneFrame {columnLine girderLine columnID girderID nIntPt} {
       incr e 1 
     }
   }
+
   # Difference in node numbers I and J for any girder in the frame
   set delta [expr $numGir+1]
   # For each girder line
   for {set j 1} {$j <= $numGir} {incr j 1} {
-   
-  # Node number at the left end of this girder line
-  set left [expr $j+1]
-  # Node number at the right end of this girder line
-  set right [expr ($numCol-1)*$numGir + $numCol + $j]
-  # Travel across this girder line creating elements
-  for {set k $left} {$k < $right} {incr k $delta} {
-   
-   
-  element nonlinearBeamColumn $e $k [expr $k+$delta] $nIntPt $columnID 1
-  incr e 1
-   
-  }
+    # Node number at the left end of this girder line
+    set left [expr $j+1]
+    # Node number at the right end of this girder line
+    set right [expr ($numCol-1)*$numGir + $numCol + $j]
+    # Travel across this girder line creating elements
+    for {set k $left} {$k < $right} {incr k $delta} {
+
+      element nonlinearBeamColumn $e $k [expr $k+$delta] $nIntPt $columnID 1
+      incr e 1
+    
+    }
   }
 }; #end proc
