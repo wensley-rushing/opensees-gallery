@@ -1,5 +1,5 @@
 import veux
-from veux.stress import node_average
+from xara.post import node_average
 from opensees.helpers import find_node, find_nodes
 from pathlib import Path
 
