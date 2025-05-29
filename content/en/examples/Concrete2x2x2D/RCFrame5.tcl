@@ -1,6 +1,7 @@
 # RCFrame4.tcl: R/C two story, two bay frame subject to sinusoidal pulse GMotion
 # Units: kip, in
 # MHS, Sept 1999
+#
 #   email: mhscott@ce.berkeley.edu
 #
 # Linear and Non-linear EQ analysis
