@@ -1,7 +1,7 @@
 import opensees.openseespy as xara
 from opensees.units.fps import foot, inch
 import veux
-from shps.shapes import WideFlange
+from xsection.library import WideFlange
 
 def create_portal(vertical = 2):
 
@@ -51,4 +51,4 @@ def create_portal(vertical = 2):
     veux.serve(artist)
 
 if __name__ == "__main__":
-    create_portal(vertical=3)
+    create_portal(vertical=2)
