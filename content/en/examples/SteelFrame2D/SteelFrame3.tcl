@@ -2,10 +2,10 @@
 # Units: kip, in
 #
 #
-# @__________@_@__________@ _
-# |           |           |
-# |           |           | 54"
-# |           |           |
+# @___________@_@___________@ _
+# |            |            |
+# |            |            | 54"
+# |            |            |
 # |@__________@|@__________@| _
 # |            |            |
 # |            |            |
@@ -15,26 +15,25 @@
 # | 108"       |    108"    |
 #
 # comment out one of lines if wish to see graphics or not
-#set displayMode "displayON"
-set displayMode "displayOFF"
+
 model BasicBuilder -ndm 2 -ndf 3
 # tag X Y
-node 1 0 0
-node 2 0 54
-node 3 0 108
-node 4 108 0
-node 5 108 54
+node 1   0   0
+node 2   0  54
+node 3   0 108
+node 4 108   0
+node 5 108  54
 node 6 108 108
-node 7 216 0
-node 8 216 54
+node 7 216   0
+node 8 216  54
 node 9 216 108
 # node DX DY RZ
 fix 1 1 1 1
 fix 4 1 1 1
 fix 7 1 1 1
 # Define beam and column property variables
-set E 29000.0
-set fy 60.0
+set E  29000.0
+set fy    60.0
 # tag E fy Hiso Hkin
 uniaxialMaterial Hardening 1 $E $fy 0 1000
 # Columns W6x12:
@@ -43,6 +42,7 @@ set Icol 22.1
 # Beams S4x7.7:
 set Agir 2.26
 set Igir 6.08
+
 source Wsection.tcl
 # Beam hinge section ... S4x7.7
 # tag matID d tw bf tf nfdw nftw nfbf nftf
@@ -74,9 +74,9 @@ load 9 0.0 -2.0 0.0
 # Lateral load
 set H 0.2
 pattern Plain 2 Linear {
-# node FX FY MZ
-load 2 $H 0.0 0.0
-load 3 $H 0.0 0.0
+    # node FX FY MZ
+    load 2 $H 0.0 0.0
+    load 3 $H 0.0 0.0
 }
 # Record displacements at 1st floor and roof
 recorder Node StFrPZL3.out disp -time -node 2 3 5 6 -dof 1
