@@ -4,6 +4,7 @@ weight: 15
 tags: ["Fiber", "Concrete", "Python", "Tcl"]
 categories: ["Basic", "Inelastic"]
 thumbnail:  img/Section.png
+# render: ""
 description: >-
   A reinforced concrete cross-section is modeled using a fiber section, 
   and a moment-curvature analysis is performed.
@@ -18,6 +19,9 @@ concrete section which is represented by a fiber discretization.
 Because we are only interested in the response quantities of the
 cross section, a zero-length element is used to wrap the cross
 section. 
+
+
+{{< ipynb "sections.ipynb" >}}
 
 ## Modeling
 
@@ -120,7 +124,7 @@ and deformations, stored in the file section1.out. In addition, an
 estimate of the section yield curvature is printed to the screen.
 
 In the `moment_curvature` procedure, the nodes are defined to be at the same geometric
-location and the ZeroLengthSection element is used. 
+location and the *ZeroLengthSection* element is used. 
 A single load step
 is performed for the axial load, then the integrator is changed to
 DisplacementControl to impose nodal displacements, which map directly to
@@ -141,4 +145,6 @@ The file `section1.out` contains for each committed state a line with the
 load factor and the rotation at node `3`. 
 This can be used to plot the moment-curvature relationships shown below.
 
+
+![](img/mk.png)
 ![](img/limits.png) 

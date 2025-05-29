@@ -14,15 +14,10 @@
 # ------------------
 #  Moment-Curvature Analysis in OpenSees
 
-# import the OpenSees Python module
 import opensees.openseespy as ops
 
-def moment_curvature(model, secTag, axialLoad, maxK, numIncr):
+def moment_curvature(model, tag, axialLoad, maxK, numIncr):
     """
-    A procedure for performing section analysis (only does
-    moment-curvature, but can be easily modified to do any mode
-    of section response.
-
     Arguments
        secTag -- tag identifying section to be analyzed
        axialLoad -- axial load applied to section (negative is compression)
@@ -36,24 +31,26 @@ def moment_curvature(model, secTag, axialLoad, maxK, numIncr):
     """
 
     # Define two nodes at (0,0)
-    model.node(1, (0.0, 0.0))
-    model.node(2, (0.0, 0.0))
+    model.node(1, (0.0, 0.0, 0))
+    model.node(2, (0.0, 0.0, 0))
 
     # Fix all degrees of freedom except axial and bending
-    model.fix(1, (1, 1, 1))
-    model.fix(2, (0, 1, 0))
+    model.fix(1, (1, 1, 1, 1, 1, 1))
+    model.fix(2, (0, 1, 1, 1, 1, 0))
 
     # Define element
-    #                               tag ndI ndJ secTag
-    model.element("zeroLengthSection", 1, 1, 2, secTag)
+    model.element("zeroLengthSection", 1, (1, 2), tag)
 
     # Create recorder
-    model.recorder("Node", "disp", file="section"+str(secTag)+".out", time=True, node=2, dof=3)
+    model.recorder("Node", "disp",
+                   file="section"+str(tag)+".out", time=True, node=2, dof=6)
 
     # Define constant axial load
-    model.pattern("Plain", 1, "Constant", loads={2: [axialLoad, 0.0, 0.0]})
+    model.pattern("Plain", 1, "Constant", loads={2: [axialLoad, 0.0, 0.0, 0, 0, 0]})
 
-    # Define analysis parameters
+    #
+    # Define analysis
+    #
     model.system("BandGeneral")
     model.numberer("Plain")
     model.constraints("Plain")
@@ -67,16 +64,18 @@ def moment_curvature(model, secTag, axialLoad, maxK, numIncr):
 
     # Define reference moment
     model.pattern("Plain", 2, "Linear")
-    model.load(2, (0.0, 0.0, 1.0), pattern=2)
+    model.load(2, (0, 0, 0, 0.0, 0.0, 1.0), pattern=2)
 
     # Compute curvature increment
     dK = maxK/numIncr
 
     # Use displacement control at node 2 for section analysis
-    model.integrator("DisplacementControl", 2, 3, dK, 1, dK, dK)
+    model.integrator("DisplacementControl", 2, 6, dK, 1, dK, dK)
 
     # Do the section analysis
-    model.analyze(numIncr)
+    status = model.analyze(numIncr)
+
+    return status
 
 
 def create_section():
@@ -85,7 +84,7 @@ def create_section():
     # ------------------------------
 
     # Create a model (with two-dimensions and 3 DOF/node)
-    model = ops.Model(ndm=2, ndf=3)
+    model = ops.Model(ndm=3, ndf=6)
 
     # Define materials for nonlinear columns
     # ------------------------------------------
@@ -114,7 +113,7 @@ def create_section():
     y1 = depth/2.0
     z1 = width/2.0
 
-    model.section("Fiber", 1)
+    model.section("Fiber", 1, GJ=1e3)
     # Create the concrete core fibers
     model.patch("rect", 1, 10, 1, cover-y1, cover-z1, y1-cover, z1-cover, section=1)
     # Create the concrete cover fibers (top, bottom, left, right, section=1)
@@ -149,10 +148,18 @@ if __name__ == "__main__":
     # Call the section analysis procedure
     moment_curvature(model, 1, P, Ky*mu, numIncr)
 
-    u = model.nodeDisp(2,3)
+    u = model.nodeDisp(2,6)
     if abs(u-0.00190476190476190541) < 1e-12:
         print("Passed!")
     else:
-        print("Failed!")
+        print(f"Failed!, {u} != 0.00190476190476190541")
+
+    for section in model.asdict()["StructuralAnalysisModel"]["properties"]["sections"]:
+        if int(section["name"]) == 1:
+            import veux.model
+            artist = veux.create_artist(veux.model.FiberModel(section["fibers"]), section=section)
+
+    artist.draw_samples()
+    veux.serve(artist)
 
 

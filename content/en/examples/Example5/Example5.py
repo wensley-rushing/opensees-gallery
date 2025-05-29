@@ -16,10 +16,10 @@
 #  - Nonlinear beam-column elements
 #  - Gravity load analysis followed by transient analysis
 #
+
 import opensees.openseespy as ops
 import opensees.units.iks as units
 import math
-import sys
 #
 
 def ReinforcedRectangle(model, id, h, b, cover, coreID, coverID, steelID, numBars, barArea, nfCoreY, nfCoreZ, nfCoverY, nfCoverZ, GJ):
@@ -111,6 +111,10 @@ def ReinforcedRectangle(model, id, h, b, cover, coreID, coverID, steelID, numBar
 
 
 def create_model(eleType=None):
+
+    if eleType is None:
+        eleType = "forceBeamColumn"
+
     # create Model in three-dimensions with 6 DOF/node
     model = ops.Model(ndm=3, ndf=6)
 
@@ -123,7 +127,7 @@ def create_model(eleType=None):
     bx = 240.0;      # Bay width in X-direction
 
     # Create nodes
-    #       tag    X        Y          Z 
+    #            tag    X        Y       Z 
     model.node( 1, (-bx/2.0,  by/2.0,   0.0))
     model.node( 2, ( bx/2.0,  by/2.0,   0.0))
     model.node( 3, ( bx/2.0, -by/2.0,   0.0))
@@ -173,7 +177,7 @@ def create_model(eleType=None):
     # --------------------------------------
     # CONCRETE
     fc = 4.0
-    Ec = 57000.0*math.sqrt(fc*1000.0)/1000.0;
+    Ec = 57000.0*math.sqrt(fc*1000.0)/1000.0
 
     # Core concrete (confined)
     #                                 tag  f'c   epsc0  f'cu  epscu
@@ -187,7 +191,7 @@ def create_model(eleType=None):
     fy = 60.0;       # Yield stress
     Es = 30000.0;    # Young's modulus
     # Reinforcing steel 
-    #                              tag fy  E0  b
+    #                                tag fy  E0  b
     model.uniaxialMaterial("Steel01", 3, fy, Es, 0.02)
 
     # Column parameters
@@ -227,9 +231,6 @@ def create_model(eleType=None):
     itg = 1
     model.beamIntegration("Lobatto", itg, colSec, np)
 
-    # Create the nonlinear column elements
-    if eleType is None:
-        eleType = "forceBeamColumn"
 
     #                   tag ndI ndJ transfTag integrationTag
     model.element(eleType,  1, ( 1,  5), 1, itg)
@@ -288,7 +289,7 @@ def create_model(eleType=None):
     i = m*(bx*bx + by*by)/12.0
 
     # Set mass at the retained nodes
-    #         tag MX MY MZ   RX   RY   RZ
+    #         tag   MX MY MZ   RX   RY   RZ
     model.mass( 9, (m, m, 0.0, 0.0, 0.0, i))
     model.mass(14, (m, m, 0.0, 0.0, 0.0, i))
     model.mass(19, (m, m, 0.0, 0.0, 0.0, i))
@@ -320,7 +321,7 @@ def create_model(eleType=None):
 
 def analyze(model):
     # ----------------------------
-    # Start of analysis generation
+    # 1. Configure the analysis
     # ----------------------------
 
     # create the system of equation
@@ -332,10 +333,12 @@ def analyze(model):
     # create the constraint handler
     model.constraints("Transformation")
 
-    # create the convergence test
+    # Configure the analysis such that iterations are performed until either:
+    # 1. the energy increment is less than 1.0e-8 (success)
+    # 2. the number of iterations surpasses 20 (failure)
     model.test("EnergyIncr", 1.0e-8, 20)
 
-    # define the solution algorithm, a Newton-Raphson algorithm
+    # Perform iterations with the Newton-Raphson algorithm
     model.algorithm("Newton")
 
     # define the integration scheme, the Newmark with gamma=0.5 and beta=0.25
@@ -344,16 +347,17 @@ def analyze(model):
     # Define the analysis
     model.analysis("Transient")
 
-    # ----------------------------
-    # Start of recorder generation
-    # ----------------------------
+    # ------------------------------
+    # 2. Define quantities to record
+    # ------------------------------
 
     # Record DOF 1 and 2 displacements at nodes 9, 14, and 19
     model.recorder("Node", "disp", "-file", "Node51.out", "-time", "-node", 9, 14, 19, "-dof", 1, 2)
 
 
-    # Perform the analysis
-    # --------------------
+    # -----------------------
+    # 3. Perform the analysis
+    # -----------------------
 
     # record once at time 0
     displacements = {
