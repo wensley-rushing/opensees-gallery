@@ -25,7 +25,7 @@ def cantilever(element, small_mass = 1e-4, hardening=0.1, damping=None):
     model = ops.Model(ndm=3, ndf=6)
 
     # Length of cantilever column
-    L = 8*ft;
+    L = 8*ft
     # specify node coordinates
     model.node(1,  0,   0 , 0);  # first node
     model.node(2,  0,   L , 0);  # second node
@@ -68,7 +68,8 @@ def cantilever(element, small_mass = 1e-4, hardening=0.1, damping=None):
     # Create element geometric transformation
     model.geomTransf("Linear", 1, (0, 0, 1))
 
-    # Finally, create the element
+    # Elements
+
     #                          CONN   Geom    Int
     model.element(element, 1, (1, 2),  1,   int_tag)
 
