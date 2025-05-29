@@ -7,6 +7,15 @@
 #  |A        B
 #  |@--------@------------
 #  |    4          6      ^
+#
+proc rotSpring2D {eleID nodeR nodeC matID} {
+  # Create the zero length element
+  element zeroLength $eleID $nodeR $nodeC -mat $matID -dir 6
+  # Constrain the translational DOF with a multi-point constraint
+  # retained constrained DOF_1 DOF_2 ... DOF_n
+  equalDOF $nodeR $nodeC 1 2
+}
+
 
 # Define the model builder
 model BasicBuilder -ndm 2 -ndf 3
@@ -36,8 +45,6 @@ geomTransf Linear 1
 # Define beam elements
 element elasticBeamColumn 3 2 3 100 1000 1000 1
 element elasticBeamColumn 4 4 5 100 1000 1000 1
-
-source rotSpring2D.tcl
 
 #           eleID nodeR nodeC matID
 rotSpring2D   1     1     2     1
