@@ -11,14 +11,14 @@ downloads:
 
 This investigation begins with a plane triangle mesh of a channel cross section. 
 ```python
-from shps.shapes import Channel
-mesh = Channel(d=16, b=8, tf=1.0, tw=1.0).create_shape(mesh_scale=0.75).mesh
+from xsection.library import Channel
+shape = Channel(d=16, b=8, tf=1.0, tw=1.0)
 ```
 Next we use the `ExtrudeTetrahedron` class which will generate node locations and connectivity for a tetrahedron mesh:
 ```python
 from shps.frame.extrude import ExtrudeTetrahedron
 
-ex = ExtrudeTetrahedron(mesh.nodes, mesh.cells())
+ex = ExtrudeTetrahedron(shape.model)
 ```
 
 Next we setup a `Model` instance for the 3D simulation:
