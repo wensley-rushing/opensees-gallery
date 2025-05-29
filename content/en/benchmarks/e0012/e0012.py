@@ -1,3 +1,4 @@
+#
 # Cantilever with channel section and eccentric loading
 #
 import veux
@@ -12,6 +13,7 @@ try:
     plt.style.use("veux-web")
 except:
     pass
+
 
 def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center=None):
     model = ops.Model(ndm=3, ndf=6 if warp_base in "mn" else 7)
@@ -28,7 +30,7 @@ def create_cantilever(ne, offset, element, section, nen=2, warp_base="n", center
     sec = 1
     model.material('ElasticIsotropic', mat, E, v) #G=G)
 
-    shape = Channel(d=30, b=10, tf=1.6, tw=1.0).create_shape()
+    shape = Channel(d=30, b=10, tf=1.6, tw=1.0)
 
     shape = shape.translate(offset)
 
