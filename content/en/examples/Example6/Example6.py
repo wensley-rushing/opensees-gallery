@@ -23,7 +23,7 @@ def create_model(element: str = "quad"):
 
     # Define the material
     # -------------------
-    thick = 2.0;
+    thick = 2.0
     #                                 tag  E      nu      rho
     model.material("ElasticIsotropic", 1, 1000.0, 0.25, 6.75/g)
     model.section("PlaneStrain", 1, material=1, thickness=thick)
