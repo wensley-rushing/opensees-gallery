@@ -8,25 +8,23 @@ def create_plane(vertical):
     element = "ForceFrame"
     section = 1
 
-    width = 10
-
     if vertical == 2:
-        model.node(1, (    0,     0, 0))
-        model.node(2, (    0,   8.0, 0))
-        model.node(3, ( 10.0,   8.0, 0))
-        model.node(4, ( 20.0,   8.0, 0))
-        model.node(5, ( 20.0,  -2.0, 0))
+        model.node(1, (    0,     0,  0))
+        model.node(2, (    0,   8.0,  0))
+        model.node(3, ( 10.0,   8.0,  0))
+        model.node(4, ( 20.0,   8.0,  0))
+        model.node(5, ( 20.0,  -2.0,  0))
 
         model.geomTransf("Linear", 1, (0, 0, 1))
 
         model.fix(1, (1,1,1,  1,1,0))
         model.fix(5, (1,1,1,  1,1,1))
     else:
-        model.node(1, (    0, 0,    0))
-        model.node(2, (    0, 0,  8.0))
-        model.node(3, ( 10.0, 0,  8.0))
-        model.node(4, ( 20.0, 0,  8.0))
-        model.node(5, ( 20.0, 0, -2.0))
+        model.node(1, (    0,  0,    0))
+        model.node(2, (    0,  0,  8.0))
+        model.node(3, ( 10.0,  0,  8.0))
+        model.node(4, ( 20.0,  0,  8.0))
+        model.node(5, ( 20.0,  0, -2.0))
 
         model.geomTransf("Linear", 1, (0,-1, 0))
 
