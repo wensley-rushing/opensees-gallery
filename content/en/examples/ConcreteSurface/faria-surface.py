@@ -10,17 +10,13 @@ except:
 
 def analyze_dir(material, dX, dY, sig0):
 
-    # info
-    print("Analyze direction ({:8.3g}, {:8.3g})".format(dX, dY))
-
-    # the 2D model
     ops.wipe()
     ops.model('basic', '-ndm', 2, '-ndf', 2)
 
     ops.nDMaterial(*material)
 
     # the plane stress
-    ops.section('PlaneStress', 2, 1, 1.0)
+    ops.section('PlaneStress', 1, 1, 1.0)
 
     # Create a triangle patch
     ops.node(1, 0, 0)
@@ -63,6 +59,9 @@ def analyze_dir(material, dX, dY, sig0):
             sY = stress[1]
             Lambda += dLambda
             if Lambda > 0.9999:
+                break
+            if max(abs(sX/sig0) , abs(sY/sig0)) > 3:
+                print("BREAK")
                 break
         else:
             dLambda /= 2.0
