@@ -102,7 +102,7 @@ coreZ  = coverZ-coverB;
 nfY    = 16;
 nfZ    = 4;
 numBarsInt = numBarsIntTot/2;
-section.FiberSection(SecTag -GJ, 1e8 , [
+section.FiberSection(SecTag, GJ=1e8 , [
        patch.quadr(IDconcCore nfZ nfY -coreY coreZ -coreY -coreZ coreY -coreZ coreY coreZ),
        patch.quadr(IDconcCover 1 nfY -coverY coverZ -coreY coreZ coreY coreZ coverY coverZ),
        patch.quadr(IDconcCover 1 nfY coreY=True, coreZ=coverY, =True, coverZ=coverY,  coverZ=coreY,  coreZ=True),
