@@ -69,6 +69,7 @@ domain</li>
 <p>load 3 $H 0.0 0.0 load 4 $H 0.0 0.0 } </pre></p>
 
 <h4 id="recorder">Recorder</h4>
+
 <p>After the model as been created, but before the analysis is performed
 we will create two recorder objects. The first will record and write the
 nodal displacements and nodes 3 and 4 to a file named node34.out. The
