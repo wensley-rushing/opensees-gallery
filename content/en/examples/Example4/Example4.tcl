@@ -19,7 +19,7 @@
 #
 # Written: GLF/MHS/fmk
 # Date: January 2001
-
+#
 set pid [getPID]
 
 # Parameter identifying the number of bays
@@ -109,7 +109,7 @@ section Fiber 2 {
 
 # Girder section
 section Fiber 3 {
-   patch quadr 1 1 12 -12 9 -12 -9 12 -9 12 9
+   patch quadr    1 1 12 -12 9 -12 -9 12 -9 12 9
    layer straight 3 4 1.00 -9 9 -9 -9
    layer straight 3 4 1.00  9 9  9 -9
 }
@@ -276,11 +276,6 @@ recorder Node -file out/Node41.$pid.out -time -node 2 3 -dof 1 disp
 
 
 # ------------------------------
-# End of recorder generation
-# ------------------------------
-
-
-# ------------------------------
 # Start of lateral load analysis
 # ------------------------------
 
@@ -295,7 +290,7 @@ eigen 2
 
 # Perform the pushover analysis
 # Set some parameters
-set maxU 10.0;                # Max displacement
+set maxU 10.0;      # Max displacement
 set controlDisp 0.0;
 set ok 0;
 analyze 1
@@ -316,6 +311,7 @@ while {$controlDisp < $maxU && $ok == 0} {
         algorithm Newton
     }
 }
+
 
 if {$ok != 0} {
     puts "Pushover analysis FAILED"

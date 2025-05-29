@@ -111,17 +111,10 @@ proc create_model elem_name {
 
   # Define column elements
   # ----------------------
-  #set PDelta "OFF"
-  set PDelta "ON"
+  set Transform "Corotational"; # "PDelta"; # "Linear";
 
   # Geometric transformation for columns
-  if {$PDelta == "OFF"} {
-     #                           tag  vecxz
-     geomTransf Linear  1   1 0 0
-  } else {
-     geomTransf Corotational  1   1 0 0
-  #  geomTransf PDelta  1   1 0 0
-  }
+  geomTransf $Transform  1   1 0 0
 
   # Number of column integration points (sections)
   set np 4
@@ -162,7 +155,7 @@ proc create_model elem_name {
   #                tag  vecxz
   geomTransf Linear 2   1 1 0
 
-  # Number of beam integration points (sections)
+  # Number of beam integration points
   set np 3
 
   # Create the beam elements
@@ -243,11 +236,6 @@ proc create_analysis {} {
   pattern UniformExcitation  3   2  -accel      $tabasFP
 
 
-  # ----------------------- 
-  # End of model generation
-  # -----------------------
-
-
   # ----------------------------
   # Start of analysis generation
   # ----------------------------
@@ -303,7 +291,7 @@ create_analysis
 set ok [analyze   2000   0.01]
 
 if {$ok != 0} {
-    puts "analysis FAILED at time [getTime]"
+    puts "analysis FAILED at time [getTime], [numIter] iterations"
 } else {
     puts "analysis SUCCESSFUL"
 }

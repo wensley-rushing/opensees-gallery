@@ -1,6 +1,6 @@
 ---
-title: e0021
-draft: true
+title: "021 - Concrete columns with shear"
+draft: false
 ---
 
-![alt text](image.png)
+![alt text](img/image.png)
