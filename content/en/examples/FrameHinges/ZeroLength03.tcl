@@ -3,6 +3,14 @@
 # Written: MHS
 # Date: Feb 2000
 # Units: kip, in
+proc rotSpring2D {eleID nodeR nodeC matID} {
+  # Create the zero length element
+  element zeroLength $eleID $nodeR $nodeC -mat $matID -dir 6
+  # Constrain the translational DOF with a multi-point constraint
+  # retained constrained DOF_1 DOF_2 ... DOF_n
+  equalDOF $nodeR $nodeC 1 2
+}
+
 # Define the model builder
 model BasicBuilder -ndm 2 -ndf 3
 # Set some variables
@@ -13,15 +21,15 @@ set I 1400
 # Define nodes
 node 1 0.0 0.0
 node 2 0.0 0.0
-node 3 $L 0.0
+node 3 $L  0.0
 # Define single point constraints
 fix 1 1 1 1
 fix 3 1 1 1
 # Define moment-rotation relationship for spring
 uniaxialMaterial ElasticPP 2 5100000 0.0005
-uniaxialMaterial Elastic 3 -100000
-uniaxialMaterial Parallel 1 2 3
-source rotSpring2D.tcl
+uniaxialMaterial Elastic   3 -100000
+uniaxialMaterial Parallel  1 2 3
+
 # id ndR ndC matID
 rotSpring2D 1 1 2 1
 # Geometric transformation
