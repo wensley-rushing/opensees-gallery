@@ -163,15 +163,6 @@ recorder Node -file out/Node.out -time -node 2 3 -dof 1 disp
 # the section deformations at the base of the columns  (elements 1,3,5)
 recorder Element -ele 1 3 5 -file Element.out section 1 deformations
 
-# Source in some g3 commands to display the model
-if {$displayMode == "displayON"} {
-    # a window to plot the nodal displacements versus load for node 3
-    recorder plot Node.out Node3_Xdisp 10 340 300 300 -columns 3 1
-	
-    # a window to show the displayed shape
-    source Library/RCFrameDisplay.tcl 
-}
-
 # Create an analysis object
 analysis Static
 

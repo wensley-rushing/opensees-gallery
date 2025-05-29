@@ -4,10 +4,12 @@
 
 # REFERENCES
 #   as per EigenFrame.tcl
+#    units kip, ft                                                                                                                              
 
 verify about "EigenFrame.Extra.tcl: Verification 2d Bathe & Wilson original Elastic Frame - with other options"
 
 set eleTypes {
+    ForceFrame
     elasticBeam 
     forceBeamElasticSection 
     forceBeamFiberSectionElasticMaterial 
@@ -22,7 +24,6 @@ foreach eleType $eleTypes {
 
     model Basic -ndm 2
     
-    #    units kip, ft                                                                                                                              
 
     # properties  
     set bayWidth 20.0;
@@ -121,7 +122,7 @@ foreach eleType $eleTypes {
             } elseif {$eleType == "dispBeamFiberSectionElasticMaterial"} {
                 element dispBeamColumn $eleTag $end1 $end2 $nPts 2 1 -mass $M $massType
             } else {
-                puts "BARF"
+                element $eleType $eleTag $end1 $end2 $nPts -section 2 -transform 1 -mass $M $massType
             }
 #            element elasticBeamColumn $eleTag $end1 $end2 $A $E $I 1 -mass $M
             set end1 $end2

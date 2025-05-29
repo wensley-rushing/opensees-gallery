@@ -1,5 +1,6 @@
-
+#
 # Cantilever
+#
 import os
 from shps.shapes import WideFlange
 import opensees.openseespy as ops
@@ -7,15 +8,18 @@ import opensees.openseespy as ops
 # External libraries
 import numpy as np
 import matplotlib.pyplot as plt
-try:
-    plt.style.use("veux-web")
-except:
-    pass
 
-def create_cantilever(shape, slenderness, element, section, transform="Rigid", shear=0, ne=1):
+
+def create_cantilever(shape,
+                      slenderness,
+                      element,
+                      section, 
+                      transform="Rigid", 
+                      shear=0, 
+                      ne=8):
 
     E = 29e3 # ksi
-    v = 0.30 #0.5*E/G - 1
+    v = 0.30 # 0.5*E/G - 1
     G = 0.5*E/(1+v) # 11,200 ksi
 
     L  = shape.d/slenderness
@@ -46,7 +50,7 @@ def create_cantilever(shape, slenderness, element, section, transform="Rigid", s
                         Qz=cnm[2,0],
                         Iy=cmm[1,1],
                         Iz=cmm[2,2],
-                        J =shape.torsion.torsion_constant(),
+                        J =shape.torsion_constant(),
                         Ry= cnv[1,0],
                         Rz=-cnv[2,0],
                         Sy= cmw[1,0],
@@ -80,21 +84,21 @@ def analyze(model):
     #
     # Apply loading
     #
-    nsteps =  1000
+    nsteps =  200
     Mmax   =  1e3/3
     model.pattern("Plain", 1, "Linear")
-    model.load(end, (0,1,0,  0,0,0,  0), pattern=1)
+    model.load(end, (0,1,0,  0,0,0), pattern=1)
 
     model.system('Umfpack')
     model.integrator("LoadControl", Mmax/nsteps)
-    model.test('NormDispIncr',1e-9, 80, 0)
+    model.test('NormDispIncr',1e-9, 500, 0) #50 #20
     model.algorithm("Newton")
     model.analysis("Static")
 
     ux = []
     uy = []
-    P = []
-    L = shape.d/slenderness
+    P  = []
+    L  = shape.d/slenderness
     while model.getTime() < Mmax:
         ux.append(1+model.nodeDisp(end, 1)/L)
         uy.append(  model.nodeDisp(end, 2)/L)
@@ -103,7 +107,7 @@ def analyze(model):
             print(f"Failed at time = {model.getTime()/Mmax}")
             break
 
-        # break
+
     return ux, uy, P
 
 if __name__ == "__main__":
@@ -120,7 +124,7 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
 
 
-    color = "k"
+    color = "#9E9E9E"
     ux,uy,P = analyze(create_cantilever(shape, slenderness,
                                 ne=20,
                                 shear=1,
@@ -131,8 +135,10 @@ if __name__ == "__main__":
     ax.plot(uy, P, "-", color=color)
     ax.plot(ux, P, "-", color=color)
 
-    for transform in "Linear", "Corotational", "Rigid":
-        model = create_cantilever(shape, slenderness,
+    for transform in "Linear", "Corotational", "Rigid": #
+        print(f"Transform: {transform}")
+        model = create_cantilever(shape,
+                                slenderness,
                                 section = os.environ.get("Section", "ShearFiber"),
                                 element = os.environ.get("Element", "PrismFrame"),
                                 transform=transform)
@@ -151,8 +157,8 @@ if __name__ == "__main__":
 
     ax.set_xlabel(r"Drift, $u_y/L$")
     ax.set_ylabel("Load, $P$")
-    # ax.set_xlim([0,    2])
-    # ax.set_ylim([0, Mmax])
+    ax.set_xlim([0, 1.25])
+    ax.set_ylim([0, None])
     ax.axvline(0, color='black', linestyle='-', linewidth=1)
     ax.axhline(0, color='black', linestyle='-', linewidth=1)
     ax.legend()

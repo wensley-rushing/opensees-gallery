@@ -3,18 +3,11 @@
 # Pacific Earthquake Engineering Research Center
 # http://opensees.berkeley.edu/
 #
-# Basic Elastic Frame
-# ----------------------
-#  2d Elastic Beam Column Elements
-#  Distributed Load & Pushover Analysis
-# 
-# Example Objectives
-# -----------------
-#  Simple Introduction to OpenSees
 # 
 # Units: kips, in, sec
 # Written: fmk
 # Date: January 2011
+#
 from math import asin, sqrt
 import opensees.openseespy as ops
 
@@ -43,17 +36,13 @@ def test_ElasticFrame():
     # Start of model generation
     # ------------------------------
 
-    # Remove existing model
-    ops.wipe()
-
     # Create ModelBuilder (with two-dimensions and 2 DOF/node)
-    ops.model( 'BasicBuilder', '-ndm', 2, '-ndf', 3)
+    ops.model('BasicBuilder', '-ndm', 2, '-ndf', 3)
 
     # Create nodes
     # ------------
 
     # Create nodes & add to Domain - command: node nodeId xCrd yCrd <-mass massX massY massRz>
-    # NOTE: mass in optional
     ops.node( 1,     0.0,   0.0)
     ops.node( 2,   360.0,   0.0)
     ops.node( 3,   720.0,   0.0)
@@ -164,9 +153,9 @@ def test_ElasticFrame():
     ops.reactions()
 
     node1Rxn = ops.nodeReaction( 1) # nodeReaction command returns nodal reactions for specified node in a list
-    node2Rxn =ops.nodeReaction( 2)
-    node3Rxn =ops.nodeReaction( 3)
-    node4Rxn =ops.nodeReaction( 4)
+    node2Rxn = ops.nodeReaction( 2)
+    node3Rxn = ops.nodeReaction( 3)
+    node4Rxn = ops.nodeReaction( 4)
 
     inputedFy =  -Load1 - Load2 - Load3 # loads added negative Fy diren to ele
     computedFx = node1Rxn[0] + node2Rxn[0] + node3Rxn[0] + node4Rxn[0]

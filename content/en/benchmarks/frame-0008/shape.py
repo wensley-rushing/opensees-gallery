@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     shape = from_aisc("W14x48", units=units)
-    print(shape.create_shape().summary())
+    print(shape.summary())
 
 
     points = np.array([
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     plt.show()
 
 
-    mesh = shape.create_shape().mesh
+    mesh = shape.mesh
     artist = veux.create_artist((mesh.nodes, mesh.cells()), ndf=1)
     artist.draw_surfaces()
     d = 8*inch

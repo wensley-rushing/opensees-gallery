@@ -3,7 +3,6 @@ title: Concrete
 meta:
   title: "Cyclic compression test using ASDConcrete3D with automatic regularization"
 tags: ["Solid"]
-weight: 100
 description: >-
   This example demonstrates how to construct and test the ASDConcrete3D
   material model under cyclic uniaxial compression. The simulation

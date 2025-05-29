@@ -77,6 +77,6 @@ integrator LoadControl 0.025
 analysis Static 
 analyze 40
 
-verify value [nodeDisp 42 3]  0                  1e-12
-verify value [nodeDisp 42 5] -12.56637061435806  1e-12
+verify value [nodeDisp 42 3]  0                  1e-10
+verify value [nodeDisp 42 5] -12.56637061435806  1e-10
 

@@ -1,5 +1,5 @@
 #
-# Simply supported beam with distributed loads
+# Simply supported beam with distributed loads. Euler-bernoulli theory
 #
 
 verify about "3D Frame with distributed loads"
@@ -40,7 +40,7 @@ wipe
 foreach element $elements {
 
     model basic -ndm 3 -ndf 6
-	
+
     node 1 0.0 0.0 0.0
     node 2  $L 0.0 0.0
 
@@ -71,7 +71,7 @@ foreach element $elements {
 	}
 	5 {
 	    puts "   PrismFrame"
-	    element PrismFrame 1 1 2 $sec 1
+	    element PrismFrame 1 1 2 $sec 1 ; # -shear 0
 	}
 	6 {
 	    puts "   CubicFrame"
@@ -79,7 +79,7 @@ foreach element $elements {
 	}
 	7 {
 	    puts "   ForceFrame"
-	    element ForceFrame 1 1 2 $nIP 1 1
+	    element ForceFrame 1 1 2 $nIP 1 1 ; # -shear 0
 	}
     }
     

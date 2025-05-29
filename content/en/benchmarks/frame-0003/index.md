@@ -1,5 +1,5 @@
 ---
-title: Rigid Offsets
+title: 003 - Rigid Offsets
 meta:
   title: "A verification example for frame element offset handling in OpenSees"
 tags: ["Frame", "Offset"]

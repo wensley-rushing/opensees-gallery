@@ -1,19 +1,24 @@
 ---
-title: Cantilever with transverse loading
+title: 002 - Cantilever with transverse loading
 thumbnail: img/benchmarks/frame-0002.png
 description: >-
     In this case the cantilever beam is subjected only to a transverse force
     of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step.
+bibliography: references.json
+downloads:
+  Python: ["column.py"]
 ---
 
+## Linear Geometry
 
 $$
 u_y = P_y L^3/(3 E I_z) +  P_y L/(\kappa G A)
 $$
 
-![](img/frame-0002.png)
 
-## End Force
+## Nonlinear Geometry
+
+![](img/frame-0002.png)
 
 In this case the cantilever beam is subjected only to a transverse force
 of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step. 
@@ -45,3 +50,7 @@ analysis uses both 2-node and 4-node elements. For the sake of brevity,
 the results are reported only for the variants using the same
 parameterization as the wrapped element's interpolation.
 
+
+## References
+
+<div id="bibliography-list"></div>

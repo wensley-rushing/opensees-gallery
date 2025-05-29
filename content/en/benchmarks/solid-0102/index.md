@@ -11,7 +11,6 @@ description: >-
 downloads:
   Python: ["drucker.py"]
   Tcl: ["drucker.tcl"]
-weight: 200
 ---
 
 

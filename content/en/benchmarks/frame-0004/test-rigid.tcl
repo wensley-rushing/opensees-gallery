@@ -4,7 +4,7 @@
 
 verify about "3D Frame with distributed loads"
 
-set E  30000.0
+set E  3000.0
 set A  20.0
 set Iz 1400.0
 set Iy 1200.0
@@ -34,7 +34,8 @@ proc printRow {quantity expected computed} {
 # puts [format "%10s %10f %10f" $quantity $expected $computed];
 }
 
-wipe
+foreach element {ForceFrame PrismFrame} {
+    verify about $element
 
     model basic -ndm 3 -ndf 6
 
@@ -49,7 +50,7 @@ wipe
     
     geomTransf Rigid 1 0 0 1
     
-    element PrismFrame 1 1 2 $sec 1 ; # -shear 0
+    element $element 1 1 2 -section $sec -transform 1 -shear 0
     
     pattern Plain 1 "Constant" {
 	set Py2 [expr $Py/2]
@@ -68,8 +69,8 @@ wipe
     }
 
 
-    set niter 400
-    test NormUnbalance 1.0e-10 $niter ; #4
+    set niter 40
+    test NormUnbalance 1.0e-10 $niter 0; #4
     algorithm Newton
     integrator LoadControl 1.0
     constraints Plain
@@ -108,4 +109,5 @@ wipe
 
     printRow "theta_yj" [expr (-1*$d1)-($d2)] [nodeDisp 2 5]
 
-
+    wipe
+}

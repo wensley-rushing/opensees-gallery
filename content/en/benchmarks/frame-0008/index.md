@@ -1,5 +1,5 @@
 ---
-title: Columns with Nonlinear Geometry and Shear
+title: "008 - Nonlinear elastic columns with shear"
 description: This example investigates P-Delta effects in columns with and without shear.
 tags: ["Frame", "Steel"]
 thumbnail: img/aisc-column.png
@@ -12,7 +12,8 @@ TODO: Verify
 
 ![A column with a distributed load.](img/ai.png)
 
-This example implements the benchmarks presented in Chapter C2 of the AISC steel manual commentary. The benchmarks consist of two cases:
+This example implements the benchmarks presented in Chapter C2 of the AISC steel manual commentary. 
+The benchmarks consist of two cases:
 - *Case 1* involves a simply supported column with a constant uniformly distributed transverse load, and a monotonically increasing axial force. This case only involves $P-\delta$ effects.
 - *Case 2* involves a cantilever column with a constant transverse load at the tip and an increasing axial force. This problem involves both $P-\Delta$ and $P-\delta$ effects.
 
