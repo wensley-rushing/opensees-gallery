@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     artist = veux.create_artist(model, vertical=vertical)
     artist.draw_sections()
-    artist.draw_diagrams(field=MomentDiagram(model, artist), scale=1/30)
+    artist.draw_diagrams(field=FrameMoments(model, artist), scale=1/30)
     artist.draw_axes(extrude=True)
     artist.draw_nodes()
 
