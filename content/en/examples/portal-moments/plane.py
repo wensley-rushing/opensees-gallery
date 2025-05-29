@@ -2,7 +2,6 @@ import  sys
 import xara
 import veux
 from xara.post import FrameMoments
-# from utilities import create_field
 
 
 def create_plane():
