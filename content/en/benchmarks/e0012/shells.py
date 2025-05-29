@@ -3,7 +3,7 @@
 #
 import veux
 import opensees.openseespy as ops
-from opensees.helpers import find_nodes, find_node
+from xara.helpers import find_nodes, find_node
 
 
 def create_model(L, d, b, tw, tf, linear=True):
