@@ -1,5 +1,5 @@
 ---
-title: "015 - Nonlinear torsion"
+title: "0015 - Nonlinear torsion"
 draft: false
 description: Test of the Wagner strain term with standard 6-DOF frame elements.
 render: e0010.glb
@@ -30,10 +30,10 @@ Nonuniform constrained warping was considered by <cite keys="zhang2011formulatio
 
 - Wen Yi Lin; Kuo Mo Hsiao. (2001). Co-rotational formulation for geometric nonlinear analysis of doubly symmetric thin-walled beams. , 190(45), 6023–6052. doi:10.1016/s0045-7825(01)00212-2
 
-- @trahair2005nonlinear
+- <cite key="trahair2005nonlinear">trahair2005nonlinear</cite>
 - Battini et al. (2002a), example 7.4
 - <cite key="du2021threedimensional"></cite>
-- rong2020geometrically, <cite key="rong2020geometrically"></cite>
+- <cite key="rong2020geometrically">rong2020geometrically</cite>
 
 {{< fold e0010.py python >}}
 

@@ -1,4 +1,3 @@
-pragma openseespy
 model  -ndm 3 -ndf 7
 set E 29000.0
 set G 11153.846153846154
@@ -21311,7 +21310,7 @@ pattern Plain 1 Linear
 nodalLoad 20 0 0 0 1 0 0 0 -pattern 1 
 system Umfpack 
 integrator LoadControl 80.0 
-test NormDispIncr 1e-12 5 1 
+test NormDispIncr 1e-12 5 0
 algorithm Newton 
 analysis Static 
 
@@ -21327,3 +21326,4 @@ nodeDisp 20 7
 
 
 eleResponse 20 section 5 resultant 
+

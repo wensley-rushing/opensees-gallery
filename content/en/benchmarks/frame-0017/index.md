@@ -1,5 +1,5 @@
 ---
-title: "017 - Axial-torsional buckling under axial force."
+title: "0017 - Axial-torsional buckling under axial force."
 description: A simply supported column with symmetric section (+ and I) buckles in torsion under the action of an axial load.
 draft: false
 bibliography: references.json

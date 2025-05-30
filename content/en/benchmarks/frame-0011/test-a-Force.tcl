@@ -21303,15 +21303,17 @@ element ForceFrame 17 {16 17} -section 1 -transform 1 -shear 0
 element ForceFrame 18 {17 18} -section 1 -transform 1 -shear 0
 element ForceFrame 19 {18 19} -section 1 -transform 1 -shear 0
 element ForceFrame 20 {19 20} -section 1 -transform 1 -shear 0
+
 fix  0 1 1 1 1 1 1 0 
 fix 20 0 0 0 0 0 0 0 
-getNodeTags  
+
+
 nodeCoord 20 1 
 pattern Plain 1 Linear 
 nodalLoad 20 0 0 0 1 0 0 0 -pattern 1 
 system Umfpack 
 integrator LoadControl 80.0 
-test NormDispIncr 1e-12 5 1 
+test NormDispIncr 1e-12 5 0
 algorithm Newton 
 analysis Static 
 

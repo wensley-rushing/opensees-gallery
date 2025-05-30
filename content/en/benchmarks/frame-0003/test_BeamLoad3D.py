@@ -2,7 +2,6 @@
 # Simply supported beam with distributed loads
 #
 import xara
-from math import cos,sin,sqrt,pi
 
 def printRow(quantity, expected, computed):
   print("%10s %10f %10f" % (quantity, expected, computed));
@@ -39,9 +38,9 @@ elements = [
 ]
 
 
-for element in elements :
+for element in elements:
 
-    model = ops.Model('basic', ndm=3,  ndf=6)
+    model = xara.Model('basic', ndm=3,  ndf=6)
 
     model.node(1, (0.0, 0.0, 0.0))
     model.node(2, ( L , 0.0, 0.0))

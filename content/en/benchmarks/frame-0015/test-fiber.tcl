@@ -1,4 +1,3 @@
-pragma openseespy
 model  -ndm 3 -ndf 6
 material ElasticIsotropic 1 2100000.0 0.33 
 section ShearFiber 1 -GJ 0
@@ -7793,7 +7792,7 @@ pattern Plain 1 Linear
 nodalLoad 20 0 0 0 1 0 0 -pattern 1 
 system Umfpack 
 integrator LoadControl 600.0 
-test NormDispIncr 1e-08 100 1 
+test NormDispIncr 1e-08 100 0
 algorithm Newton 
 analysis Static 
 getTime  

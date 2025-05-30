@@ -77,16 +77,15 @@ proc euler_buckling {
       set eig  [eigen 1]
       
       if { $eig <= 0.0 } {
-          
           set lam_i [expr $lam_0+($lam-$lam_0)*$eig_0/($eig_0-$eig)]
           
-          puts "Limit Point Found"
-          puts "Number Of Elements:               $elem_count"
-          puts "Element Type:                     $ElementType"
-          puts "Geometric Transformation Type:    $GeomTransfType"
-          puts "Exact Euler Load:                 [format "%.2f" $euler_load]"
-          puts "Computed Euler Load:              [format "%.2f" [expr $lam_i*$euler_load]]"
-          puts "Percent Error:                    [format "%.2f%%" [expr 100*($lam_i-1)]]"
+          puts "    Limit Point Found"
+          puts "    Element Type:                     $ElementType"
+          puts "    Geometric Transformation Type:    $GeomTransfType"
+          puts "    Percent Error:                    [format "%.2f%%" [expr 100*($lam_i-1)]]"
+
+          verify error $lam_i 1 0.01
+
           return [expr $lam_i*$euler_load]
       }
       
