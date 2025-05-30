@@ -1,98 +1,75 @@
 ---
-title: 003 - Rigid Offsets
-meta:
-  title: "A verification example for frame element offset handling in OpenSees"
-tags: ["Frame", "Offset"]
-weight: 30
-draft: false
-description: >-
-  This example tests the effect of rigid joint offsets in a diamond-shaped frame.
-  The analytical solution is known, and the test is used to verify the correct
-  treatment of offset geometry in a 3D frame element.
-downloads:
-  Tcl: ["test-linear.tcl"]
+title: 0003 - Beam with element loading
+Downloads:
+  2D:
+  - test-legacy-2d.tcl
+  3D:
+  - test-legacy-3d.tcl
+description: Simply supported beam with distributed loads
 ---
 
 
-This test case consists of a simple two-node frame element arranged in a diamond pattern.
-Rigid offsets at both ends rotate the element relative to the applied force direction.
-This configuration is highly sensitive to geometric assumptions, making it ideal
-for verifying the implementation of joint offsets in 3D frame elements.
-
-
-A vertical unit load is applied at the free end, and a single analysis step is performed:
-
-{{< tabs tabTotal="2" >}}
-{{% tab name="Python" %}}
-```python
-    m.pattern("Plain", 1, "Linear", loads={2: (0, 1, 0, 0, 0, 0)})
-
-    P = -4 * L**2 / (E * I)
-    m.integrator("LoadControl", P)
-    m.analysis("Static")
-    m.test("NormDispIncr", 1e-8, 2)
-    m.analyze(1)
-
-    print(P / diamond_solution(E*I, E*A, L, off=off) / L)
-    print(m.nodeDisp(1))
-    print(m.nodeDisp(2))
-    print(m.nodeDisp(2, 2) / L)
-    return m
-```
-{{% /tab %}}
-{{< /tabs >}}
-
-## Validation
-
-Recall the stiffness $\boldsymbol{K}_e$ of a linear 2D Euler-Bernoulli beam:
-
 $$
-\boldsymbol{K}_e = \begin{bmatrix}
-EA/L_e &       0 &       0 \\
-    0 & 4 EI/L_e & 2 EI/L_e \\
-    0 & 2 EI/L_e & 4 EI/L_e \\
-\end{bmatrix}
+\theta_{yj} = -d_1 - d_2
 $$
 
-This is transformed into the angled configuration using the transformation:
-
 $$
-\boldsymbol{A}_v = \begin{bmatrix}
--dX/L_e   &  dY/L_e   & 0 &  dX/L_e   \\
--dY/L_e^2 & -dX/L_e^2 & 0 &  dY/L_e^2 \\
--dY/L_e^2 & -dX/L_e^2 & 1 &  dY/L_e^2 \\
-\end{bmatrix}
+d_1 =  a L  N L / (EA)
+\qquad
+d_2 =  w_x  L^2 /(2EA)
 $$
 
-and joint offsets are similarly applied with:
-
 $$
-\boldsymbol{A}_o = 
-\begin{bmatrix}
-0 & 1 &               0 \\
-1 & 0 & -L_o/\sqrt{2}   \\
-0 & 0 &               1 \\
-0 & 0 &  L_o/\sqrt{2}   \\
-\end{bmatrix}
+u^{(i)}_x = a L  N L / (EA) + w_x  L^2 /(2EA)
 $$
 
-```python
-import numpy as np
-def diamond_solution(EI, EA, L, off=0):
-    Le = L - 2*off
-    dX = dY = Le/np.sqrt(2)
-    Ag = np.array([[-dX/Le   ,  dY/Le   , 0,  dX/Le   ],
-                   [-dY/Le**2, -dX/Le**2, 0,  dY/Le**2],
-                   [-dY/Le**2, -dX/Le**2, 1,  dY/Le**2]])
-    Ao = np.array([[0, 1,              0],
-                   [1, 0,-off/np.sqrt(2)],
-                   [0, 0,              1],
-                   [0, 0, off/np.sqrt(2)]])
-    A  = Ag @ Ao
-    Ke = np.array([[EA/Le,       0,       0],
-                   [    0, 4*EI/Le, 2*EI/Le],
-                   [    0, 2*EI/Le, 4*EI/Le]])
-    K = A.T @ Ke @ A
-    return 1 / np.linalg.solve(K, [1, 0, 0])
+----
+
+$$
+V_y = P_y (1-a/L)
+$$
+
+$$
+d_1 =  \frac{-V_y}{6 EI_z L} (a^2 L - 2 a L^2)
+\qquad\text{and}\qquad
+d_2 = \frac{w_y L^3}{24 EI_z}
+$$
+
+
+```tcl
+\theta_zi  =   d_1 + d_2  [nodeDisp 1 6]
 ```
 
+
+$$
+d_1  =  \frac{-V_y}{6 EI_z L} (a^2 L + a L^2)
+$$
+
+
+$$
+\theta_z^{(j)}  =   d_1 - d_2 
+\qquad
+[nodeDisp\; 2\; 6]
+$$
+
+$$
+d_1  =  V_z/(6 EI_y L) (a^2 L - 2 a L^2)
+\qquad
+d_2  =  -w_z L^3/(24 EI_y)
+$$
+
+$$
+\theta_{y}^{(i)}  =  d_1 -w_z L^3/(24 EI_y)
+\qquad
+[nodeDisp \; 1 \;  5]
+$$
+
+$$
+d_1  =  \frac{-V_z}{6 EI_y L} (a^2 L + a L^2)
+$$
+
+$$
+\theta_y^{(j)}  =  -d_1 - d_2 
+\qquad
+[nodeDisp\; 2\; 5]
+$$

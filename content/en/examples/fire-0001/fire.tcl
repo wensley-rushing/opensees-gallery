@@ -1,7 +1,7 @@
 # set T_end 600;
 # set force 100;
 
-# model BasicBuilder -ndm 3 -ndf 7;
+model BasicBuilder -ndm 3 -ndf 7;
 
 # NODAL DEFINITIONS
 node 1    0 0 0;

@@ -1,5 +1,3 @@
 ---
-title: Elastic Frame
+title: 0006 - tapers
 ---
-
-![Frame rendering](img/frame.png)
