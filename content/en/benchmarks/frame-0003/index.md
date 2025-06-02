@@ -1,5 +1,5 @@
 ---
-title: 0003 - Beam with element loading
+title: "0003 - Simple span with distributed loading"
 Downloads:
   2D:
   - test-legacy-2d.tcl

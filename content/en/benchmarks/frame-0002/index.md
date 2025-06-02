@@ -1,6 +1,6 @@
 ---
-title: 0002 - Cantilever with transverse loading
-thumbnail: img/benchmarks/frame-0002.png
+title: "0002 - Cantilever with transverse loading"
+thumbnail: img/benchmarks/cantilever.png
 description: >-
     A cantilever is subjected to a transverse force
 bibliography: references.json

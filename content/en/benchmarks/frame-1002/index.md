@@ -1,6 +1,6 @@
 ---
 title: 0102 - Cantilever with transverse loading (Postbuckling)
-thumbnail: img/benchmarks/frame-0002.png
+thumbnail: img/benchmarks/frame-1002.png
 description: >-
     In this case the cantilever beam is subjected only to a transverse force
     of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step.
@@ -13,7 +13,7 @@ downloads:
 
 ## Exact Geometry
 
-![](img/frame-0002.png)
+![](img/frame-1002.png)
 
 In this case the cantilever beam is subjected only to a transverse force
 of $\boldsymbol{F} = 10 \, \mathbf{E}_2$ in a single step. 

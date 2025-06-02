@@ -1,4 +1,3 @@
-pragma openseespy
 model  -ndm 3 -ndf 7
 set E 29000.0
 set G 11153.846153846154
@@ -21305,78 +21304,46 @@ element ForceFrame 19 {18 19} -section 1 -transform 1 -shear 0
 element ForceFrame 20 {19 20} -section 1 -transform 1 -shear 0
 fix 0 1 1 1 1 1 1 1 
 fix 20 0 0 0 0 0 0 1 
-getNodeTags  
 nodeCoord 20 1 
 pattern Plain 1 Linear 
 nodalLoad 20 0 0 0 1 0 0 0 -pattern 1 
 system Umfpack 
-integrator LoadControl 80.0 
-test NormDispIncr 1e-12 5 1 
+integrator LoadControl 80.0
+test NormDispIncr 1e-12 5 0
 algorithm Newton 
 analysis Static 
-getTime  
+
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 nodeDisp 20 4 
-getTime  
 analyze 1 
-getTime  
 reactions  
-getNodeTags  
 nodeCoord 0 1 
 nodeCoord 1 1 
 nodeCoord 2 1 
@@ -21398,7 +21365,6 @@ nodeCoord 17 1
 nodeCoord 18 1 
 nodeCoord 19 1 
 nodeCoord 20 1 
-getNodeTags  
 nodeDisp 0 4 
 nodeDisp 1 4 
 nodeDisp 2 4 
@@ -21420,7 +21386,6 @@ nodeDisp 17 4
 nodeDisp 18 4 
 nodeDisp 19 4 
 nodeDisp 20 4 
-getNodeTags  
 nodeDisp 0 7 
 nodeDisp 1 7 
 nodeDisp 2 7 

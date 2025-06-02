@@ -110,6 +110,8 @@ def analyze(model):
 
     return ux, uy, P
 
+
+
 if __name__ == "__main__":
     slenderness = 1/10
     shape = WideFlange(
@@ -134,6 +136,8 @@ if __name__ == "__main__":
 
     ax.plot(uy, P, "-", color=color)
     ax.plot(ux, P, "-", color=color)
+
+
 
     for transform in "Linear", "Corotational", "Rigid": #
         print(f"Transform: {transform}")

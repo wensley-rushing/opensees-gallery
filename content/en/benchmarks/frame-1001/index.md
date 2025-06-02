@@ -16,7 +16,7 @@ The reference curve of the reference configuration is given by $\boldsymbol{x}_0
 In order to simulate this problem with OpenSees the [`ExactFrame`](https://xara.so/user/manual/model/elements/frame/ExactFrame.html) element
 formulation is used. This element requires a shear-deformable section, like [`ShearFiber`](https://xara.so/user/manual/section/ShearFiber.html).
 
-## End Moment
+## Solution
 
 When $F = 0$ the configuration is expected to remain in the $\mathbf{E}_1 - \mathbf{E}_2$ plane. 
 Consequently, the out-of-plane director $\mathbf{D}_3$ does not change during deformation so that
@@ -99,6 +99,11 @@ For $n=3$-node elements, the results match the analytic solution up to the repor
 <figcaption>Deformed configuration of cantilever beam under two moment magnitudes.</figcaption>
 
 ![Tip displacements](img/displacement.png)
+
+
+## See also
+
+- CSI Example 1-029
 
 ## References
 
