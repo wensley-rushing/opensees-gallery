@@ -6368,7 +6368,7 @@ fiber  -area 0.002950168214821034 -y 0.15003586933665916 -z 0.14675651429944747 
 geomTransf Linear 1 0 0 1 
 node 0 0.0 0 0 
 node 1 55.2 0 0 
-element PrismFrame 1 0 1 -section 1 -transform 1 -shear 1
+element EulerFrame 1 0 1 -section 1 -transform 1 -shear 0
 fix 0 1 1 1 1 1 1 
 getNodeTags  
 pattern Plain 1 Linear {load 1 0 0 1 0 0 0 ;
@@ -6379,4 +6379,4 @@ test Residual 1e-10 3
 analyze 1 
 getNodeTags  
 nodeDisp 1 3 
-verify value [nodeDisp 1 3] 0.044376733692 1e-6
+verify value [nodeDisp 1 3] 0.040816424636 1e-6
